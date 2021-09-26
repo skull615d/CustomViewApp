@@ -82,17 +82,20 @@ public class MLinkedList<E> implements List<E> {
 
     @Override
     public String toString() {
-        int max = size - 1;
+        int max = size;
         if (max == -1)
             return "[]";
         StringBuilder result = new StringBuilder();
         result.append("[");
-        for (int i = 0; ; i++) {
+        int i = 0;
+        while (true) {
             result.append(node(i).item);
+            i++;
             if (i == max)
                 return result.append("]").toString();
             result.append(", ");
         }
+//        return result.toString(); // unreachable
     }
 
     @Override

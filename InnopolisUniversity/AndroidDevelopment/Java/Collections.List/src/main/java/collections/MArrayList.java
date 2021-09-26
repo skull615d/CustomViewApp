@@ -31,13 +31,15 @@ public class MArrayList<E> implements List<E> {
 
     @Override
     public String toString() {
-        int max = size - 1;
+        int max = size;
         if (max == -1)
             return "[]";
         StringBuilder result = new StringBuilder();
         result.append("[");
-        for (int i = 0; ; i++) {
+        int i = 0;
+        while (true) {
             result.append(items[i]);
+            i++;
             if (i == max)
                 return result.append("]").toString();
             result.append(", ");
@@ -71,14 +73,12 @@ public class MArrayList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        boolean result = false;
         for (E item : items) {
             if (item.equals(o)) {
-                result = true;
-                break;
+                return true;
             }
         }
-        return result;
+        return false;
     }
 
     @Override
@@ -111,30 +111,31 @@ public class MArrayList<E> implements List<E> {
     @Override
     public boolean remove(Object o) {
         final Object[] es = items;
+        int i = found(o, es);
+        fastRemove(es, i);
+        return i != -1;
+    }
+
+    private int found(Object o, Object[] es) {
         final int size = this.size;
         int i = 0;
-        found:
-        {
-            if (o == null) {
-                for (; i < size; i++) {
-                    if (es[i] == null)
-                        break found;
-                }
-            } else {
-                for (; i < size; i++) {
-                    if (o.equals(es[i]))
-                        break found;
-                }
+        if (o == null) {
+            for (; i < size; i++) {
+                if (es[i] == null)
+                    return i;
             }
-            return false;
+        } else {
+            for (; i < size; i++) {
+                if (o.equals(es[i]))
+                    return i;
+            }
         }
-        fastRemove(es, i);
-        return true;
+        return -1;
     }
 
     private void fastRemove(Object[] es, int i) {
-        final int newSize;
-        if ((newSize = size - 1) > i)
+        final int newSize = size - 1;
+        if ((newSize) > i)
             System.arraycopy(es, i + 1, es, i, newSize - i);
         es[size = newSize] = null;
     }

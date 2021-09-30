@@ -1,11 +1,11 @@
 package producer_consumer;
 
+import other.Constants;
 import parser.Parser;
 import parser.ParserScanner;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.concurrent.BlockingQueue;
 
 public class Producer implements Runnable {
@@ -24,7 +24,7 @@ public class Producer implements Runnable {
         for (String s : list) {
             String[] words = s.split(" ");
             for (String word : words) {
-                if (word.toLowerCase(Locale.ROOT).contains("страдани".toLowerCase(Locale.ROOT))) {
+                if (word.matches(Constants.SUFFERING)) {
                     try {
                         queue.put(word);
                     } catch (InterruptedException e) {

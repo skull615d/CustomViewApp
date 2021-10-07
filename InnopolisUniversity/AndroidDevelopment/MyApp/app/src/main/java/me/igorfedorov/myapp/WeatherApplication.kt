@@ -5,6 +5,7 @@ import me.igorfedorov.myapp.feature.weather_screen.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import timber.log.Timber
 
 class WeatherApplication : Application() {
 
@@ -16,6 +17,8 @@ class WeatherApplication : Application() {
             androidContext(this@WeatherApplication)
             modules(appModule)
         }
+        // Plant Timber
+        Timber.plant(Timber.DebugTree())
     }
 
 }

@@ -1,7 +1,10 @@
 package me.igorfedorov.myapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import me.igorfedorov.myapp.feature.weather_screen.ui.WeatherScreenActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -10,20 +13,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        val text = mainPresenter.getTemperature()
-//        val textView = findViewById<TextView>(R.id.textView)
-//        textView.text = text
-//
-//        val list = listOf(1, 2, 3, 4, 5)
-//
-//        val filteredList: List<Int>? = null
-//
-//        Log.d("TAG", "$filteredList")
-//
-//        filteredList?.let { list ->
-//            textView.text = list.toString()
-//        }
 
+
+        val weatherButton = findViewById<Button>(R.id.weatherButton)
+
+        weatherButton.setOnClickListener {
+            startActivity(Intent(this, WeatherScreenActivity::class.java))
+        }
 
     }
 }

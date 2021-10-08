@@ -1,6 +1,6 @@
 package me.igorfedorov.myapp.feature.weather_screen.data.api
 
-import me.igorfedorov.myapp.feature.weather_screen.data.model.WeatherFromApi
+import me.igorfedorov.myapp.feature.weather_screen.data.api.model.WeatherMainModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,7 +13,7 @@ interface WeatherApi {
     suspend fun getWeatherByCityName(
         @Query("q") cityName: String,
         @Query("units") units: String = "metric"
-    ): WeatherFromApi
+    ): WeatherMainModel
 
 
 }

@@ -1,29 +1,22 @@
-package me.igorfedorov.myapp.feature.weather_screen.data
+package me.igorfedorov.myapp.feature.weather_screen.data.api
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import me.igorfedorov.myapp.common.Resource
-import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherApi
-import me.igorfedorov.myapp.feature.weather_screen.data.model.WeatherFromApi
+import me.igorfedorov.myapp.feature.weather_screen.data.api.model.toWeatherMain
+import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
 import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
 
-interface WeatherRepository {
+class WeatherRemoteSource(val api: WeatherApi) {
 
-    fun getWeatherByCityName(cityName: String): Flow<Resource<WeatherFromApi>>
-
-}
-
-class WeatherRepositoryImpl(
-    private val api: WeatherApi
-) : WeatherRepository {
-    override fun getWeatherByCityName(cityName: String): Flow<Resource<WeatherFromApi>> {
+    fun getWeatherByCityName(cityName: String): Flow<Resource<WeatherMain>> {
         Timber.d("getWeatherByCityName Called in Repo")
         return flow {
             try {
                 emit(Resource.Loading())
-                val weather = api.getWeatherByCityName(cityName)
+                val weather = api.getWeatherByCityName(cityName).toWeatherMain()
                 emit(Resource.Success(data = weather))
             } catch (e: HttpException) {
                 emit(Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred"))

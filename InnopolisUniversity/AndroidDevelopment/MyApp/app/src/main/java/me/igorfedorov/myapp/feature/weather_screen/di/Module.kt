@@ -1,8 +1,9 @@
 package me.igorfedorov.myapp.feature.weather_screen.di
 
-import me.igorfedorov.myapp.feature.weather_screen.data.WeatherRepository
-import me.igorfedorov.myapp.feature.weather_screen.data.WeatherRepositoryImpl
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherApi
+import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRemoteSource
+import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRepository
+import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRepositoryImpl
 import me.igorfedorov.myapp.feature.weather_screen.ui.WeatherScreenViewModel
 import me.igorfedorov.myapp.feature.weather_screen.util.ApiKeyInterceptor
 import okhttp3.OkHttpClient
@@ -40,8 +41,12 @@ val appModule = module {
         get<Retrofit>().create(WeatherApi::class.java)
     }
 
+    single<WeatherRemoteSource> {
+        WeatherRemoteSource(get<WeatherApi>())
+    }
+
     single<WeatherRepository> {
-        WeatherRepositoryImpl(get<WeatherApi>())
+        WeatherRepositoryImpl(get<WeatherRemoteSource>())
     }
 
     viewModel {

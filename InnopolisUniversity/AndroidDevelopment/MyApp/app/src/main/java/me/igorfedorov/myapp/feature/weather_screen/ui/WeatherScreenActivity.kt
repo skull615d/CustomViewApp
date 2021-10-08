@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
-import me.igorfedorov.myapp.feature.weather_screen.data.model.WeatherFromApi
+import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeatherScreenActivity : AppCompatActivity() {
@@ -23,15 +23,14 @@ class WeatherScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_screen)
 
-        val weatherButton = findViewById<Button>(R.id.getWeatherButton)
-        weatherButton.setOnClickListener {
-            weatherViewModel.getWeatherByCityName("London")
-        }
+        initWeatherButton()
 
+        observeViewModel()
+    }
 
+    private fun observeViewModel() {
         val weatherText = findViewById<TextView>(R.id.weatherTextView)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-
         CoroutineScope(Dispatchers.IO).launch {
             weatherViewModel.weather.collect {
                 updateProgressBar(it, progressBar)
@@ -52,7 +51,14 @@ class WeatherScreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateProgressBar(resource: Resource<WeatherFromApi>, progressBar: ProgressBar) {
+    private fun initWeatherButton() {
+        val weatherButton = findViewById<Button>(R.id.getWeatherButton)
+        weatherButton.setOnClickListener {
+            weatherViewModel.getWeatherByCityName("London")
+        }
+    }
+
+    private fun updateProgressBar(resource: Resource<WeatherMain>, progressBar: ProgressBar) {
         CoroutineScope(Dispatchers.Main).launch {
             progressBar.isVisible = resource is Resource.Loading
         }

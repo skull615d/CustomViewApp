@@ -11,7 +11,9 @@ data class WeatherMainModel(
     @SerializedName("base")
     val base: String,
     @SerializedName("main")
-    val mainModel: MainModel
+    val mainModel: MainModel,
+    @SerializedName("name")
+    val name: String
 )
 
 fun WeatherMainModel.toWeatherMain() =
@@ -19,5 +21,6 @@ fun WeatherMainModel.toWeatherMain() =
         coordinates = coordinatesModel.toCoordinates(),
         weather = weatherModel.map { it.toWeather() },
         base = base,
-        main = mainModel.toMain()
+        main = mainModel.toMain(),
+        name = name
     )

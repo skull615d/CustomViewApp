@@ -50,12 +50,12 @@ val weatherModule = module {
         WeatherRepositoryImpl(get<WeatherRemoteSource>())
     }
 
-    factory {
-        GetWeatherByCityUseCase(get())
+    factory<GetWeatherByCityUseCase> {
+        GetWeatherByCityUseCase(get<WeatherRepository>())
     }
 
-    viewModel {
-        WeatherScreenViewModel(get())
+    viewModel<WeatherScreenViewModel> {
+        WeatherScreenViewModel(get<GetWeatherByCityUseCase>())
     }
 
 }

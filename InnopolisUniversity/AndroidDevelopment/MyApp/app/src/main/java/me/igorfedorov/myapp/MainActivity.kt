@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val weatherButton = findViewById<Button>(R.id.weatherButton)
+        val settingsButton = findViewById<Button>(R.id.settingsButton)
 
         weatherButton.setOnClickListener {
             startActivity(Intent(this, WeatherScreenActivity::class.java))

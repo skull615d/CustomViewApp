@@ -47,7 +47,7 @@ class WeatherScreenActivity : AppCompatActivity() {
                         LocationServices.getFusedLocationProviderClient(this@WeatherScreenActivity)
                             .lastLocation
                             .addOnSuccessListener {
-                                weatherViewModel.getWeatherByCityName(getCityNameFromLocation(it))
+                                weatherViewModel.getWeatherByCity(getCityNameFromLocation(it))
                             }
                     }
                 }
@@ -67,7 +67,6 @@ class WeatherScreenActivity : AppCompatActivity() {
         } ?: ""
     }
 
-    @SuppressLint("SetTextI18n")
     private fun observeViewModel() {
         val weatherText = findViewById<TextView>(R.id.weatherTextView)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
@@ -97,7 +96,7 @@ class WeatherScreenActivity : AppCompatActivity() {
     private fun initWeatherButton() {
         val weatherButton = findViewById<Button>(R.id.getWeatherButton)
         weatherButton.setOnClickListener {
-            weatherViewModel.getWeatherByCityName("London")
+            weatherViewModel.getWeatherByCity("London")
         }
     }
 

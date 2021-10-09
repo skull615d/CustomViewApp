@@ -9,14 +9,14 @@ import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
 
-class WeatherRemoteSource(val api: WeatherApi) {
+class WeatherRemoteSource(private val api: WeatherApi) {
 
-    fun getWeatherByCityName(cityName: String): Flow<Resource<WeatherMain>> {
+    fun getWeatherByCity(cityName: String): Flow<Resource<WeatherMain>> {
         Timber.d("getWeatherByCityName Called in Repo")
         return flow {
             try {
                 emit(Resource.Loading())
-                val weather = api.getWeatherByCityName(cityName).toWeatherMain()
+                val weather = api.getWeatherByCity(cityName).toWeatherMain()
                 emit(Resource.Success(data = weather))
             } catch (e: HttpException) {
                 emit(Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred"))

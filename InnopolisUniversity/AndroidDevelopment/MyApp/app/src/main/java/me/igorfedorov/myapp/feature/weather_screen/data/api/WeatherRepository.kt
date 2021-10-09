@@ -6,7 +6,7 @@ import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
 
 interface WeatherRepository {
 
-    fun getWeatherByCityName(cityName: String): Flow<Resource<WeatherMain>>
+    fun getWeatherByCity(cityName: String): Flow<Resource<WeatherMain>>
 
 }
 

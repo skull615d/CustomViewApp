@@ -4,6 +4,7 @@ import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherApi
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRemoteSource
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRepository
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRepositoryImpl
+import me.igorfedorov.myapp.feature.weather_screen.domain.use_case.get_weather_by_city_use_case.GetWeatherByCityUseCase
 import me.igorfedorov.myapp.feature.weather_screen.ui.WeatherScreenViewModel
 import me.igorfedorov.myapp.feature.weather_screen.util.ApiKeyInterceptor
 import okhttp3.OkHttpClient
@@ -17,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val BASE_URL = "https://api.openweathermap.org/"
 private const val API_KEY = "33ae2570581f89ec8a89d91abbcbc508"
 
-val appModule = module {
+val weatherModule = module {
 
     single<OkHttpClient> {
         OkHttpClient.Builder()
@@ -49,8 +50,12 @@ val appModule = module {
         WeatherRepositoryImpl(get<WeatherRemoteSource>())
     }
 
+    factory {
+        GetWeatherByCityUseCase(get())
+    }
+
     viewModel {
-        WeatherScreenViewModel(get<WeatherRepository>())
+        WeatherScreenViewModel(get())
     }
 
 }

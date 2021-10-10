@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.coroutineScope
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -101,7 +102,7 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
 
                 }
             }
-        }.launchIn(CoroutineScope(Dispatchers.Main))
+        }.launchIn(viewLifecycleOwner.lifecycle.coroutineScope)
     }
 
     private fun initWeatherButton() {

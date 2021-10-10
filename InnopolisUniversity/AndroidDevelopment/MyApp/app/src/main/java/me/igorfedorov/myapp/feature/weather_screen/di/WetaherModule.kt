@@ -1,5 +1,6 @@
 package me.igorfedorov.myapp.feature.weather_screen.di
 
+import me.igorfedorov.myapp.BuildConfig
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherApi
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRemoteSource
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRepository
@@ -16,7 +17,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://api.openweathermap.org/"
-private const val API_KEY = "33ae2570581f89ec8a89d91abbcbc508"
 private const val OKHTTP_WEATHER = "OKHTTP_WEATHER"
 private const val RETROFIT_WEATHER = "RETROFIT_WEATHER"
 
@@ -24,7 +24,7 @@ val weatherModule = module {
 
     single<OkHttpClient>(named(OKHTTP_WEATHER)) {
         OkHttpClient.Builder()
-            .addInterceptor(ApiKeyInterceptor(API_KEY))
+            .addInterceptor(ApiKeyInterceptor(BuildConfig.WEATHER_API_TOKEN))
             .addNetworkInterceptor(
                 HttpLoggingInterceptor()
                     .setLevel(HttpLoggingInterceptor.Level.BODY)

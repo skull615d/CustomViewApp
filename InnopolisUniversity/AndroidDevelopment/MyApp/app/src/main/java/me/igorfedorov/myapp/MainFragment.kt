@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import me.igorfedorov.myapp.common.setThrottledClickListener
 import me.igorfedorov.myapp.databinding.FragmentMainBinding
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -26,7 +27,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.weatherButton.setOnClickListener {
+        binding.weatherButton.setThrottledClickListener {
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToWeatherScreenFragment(
                     null

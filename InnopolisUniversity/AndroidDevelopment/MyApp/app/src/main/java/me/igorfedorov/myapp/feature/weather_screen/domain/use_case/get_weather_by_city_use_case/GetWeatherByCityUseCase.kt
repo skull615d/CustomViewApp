@@ -6,6 +6,6 @@ class GetWeatherByCityUseCase(
     private val repository: WeatherRepository
 ) {
 
-    operator fun invoke(cityName: String) = repository.getWeatherByCity(cityName)
+    suspend operator fun invoke(cityName: String) = repository.getWeatherByCity(cityName)
 
 }

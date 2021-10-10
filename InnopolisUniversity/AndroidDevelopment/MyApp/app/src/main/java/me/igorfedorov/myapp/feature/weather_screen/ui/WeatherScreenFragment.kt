@@ -13,7 +13,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
@@ -82,27 +83,25 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
     }
 
     private fun observeViewModel() {
-        CoroutineScope(Dispatchers.Main).launch {
-            weatherViewModel.weather.collect {
-                updateProgressBar(it, binding.progressBar)
-                when (it) {
-                    is Resource.Success -> {
-                        binding.weatherTextView.text = """
+        weatherViewModel.weather.onEach {
+            updateProgressBar(it, binding.progressBar)
+            when (it) {
+                is Resource.Success -> {
+                    binding.weatherTextView.text = """
                             temp = ${it.data?.main?.temp?.toString()}
                             city = ${it.data?.name}
                         """.trimMargin()
-                    }
-                    is Resource.Error -> {
-                        binding.weatherTextView.text = it.message
-                    }
-                    is Resource.Loading -> {
-                    }
-                    is Resource.Initialized -> {
+                }
+                is Resource.Error -> {
+                    binding.weatherTextView.text = it.message
+                }
+                is Resource.Loading -> {
+                }
+                is Resource.Initialized -> {
 
-                    }
                 }
             }
-        }
+        }.launchIn(CoroutineScope(Dispatchers.Main))
     }
 
     private fun initWeatherButton() {

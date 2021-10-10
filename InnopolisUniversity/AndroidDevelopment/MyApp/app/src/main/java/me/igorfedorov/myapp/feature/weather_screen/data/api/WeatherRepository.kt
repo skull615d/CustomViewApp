@@ -1,12 +1,10 @@
 package me.igorfedorov.myapp.feature.weather_screen.data.api
 
-import kotlinx.coroutines.flow.Flow
-import me.igorfedorov.myapp.common.Resource
-import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
+import me.igorfedorov.myapp.feature.weather_screen.data.api.model.WeatherMainModel
 
 interface WeatherRepository {
 
-    fun getWeatherByCity(cityName: String): Flow<Resource<WeatherMain>>
+    suspend fun getWeatherByCity(cityName: String): WeatherMainModel
 
 }
 

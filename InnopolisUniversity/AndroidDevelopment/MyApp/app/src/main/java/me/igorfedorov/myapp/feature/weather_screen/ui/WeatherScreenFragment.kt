@@ -4,11 +4,12 @@ import android.annotation.SuppressLint
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,25 +17,37 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
+import me.igorfedorov.myapp.databinding.FragmentWeatherScreenBinding
 import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import permissions.dispatcher.ktx.LocationPermission
 import permissions.dispatcher.ktx.constructLocationPermissionRequest
 
-class WeatherScreenActivity : AppCompatActivity() {
+class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
 
     private val weatherViewModel: WeatherScreenViewModel by viewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_weather_screen)
+    private var _binding: FragmentWeatherScreenBinding? = null
+    private val binding
+        get() = _binding ?: throw IllegalStateException("Cannot access binding")
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentWeatherScreenBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initWeatherButton()
 
         observeViewModel()
 
         getWeatherForCurrentLocation()
-
     }
 
     @SuppressLint("MissingPermission")
@@ -44,7 +57,7 @@ class WeatherScreenActivity : AppCompatActivity() {
                 permissions = arrayOf(LocationPermission.FINE, LocationPermission.COARSE),
                 requiresPermission = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        LocationServices.getFusedLocationProviderClient(this@WeatherScreenActivity)
+                        LocationServices.getFusedLocationProviderClient(requireContext())
                             .lastLocation
                             .addOnSuccessListener {
                                 weatherViewModel.getWeatherByCity(getCityNameFromLocation(it))
@@ -57,31 +70,30 @@ class WeatherScreenActivity : AppCompatActivity() {
 
     private fun getCityNameFromLocation(location: Location?): String {
         return location?.let {
-            Geocoder(this).getFromLocation(
+            Geocoder(requireContext()).getFromLocation(
                 it.latitude,
                 it.longitude,
                 1
             )
                 .first()
                 .locality
-        } ?: ""
+        }
+            ?: ""
     }
 
     private fun observeViewModel() {
-        val weatherText = findViewById<TextView>(R.id.weatherTextView)
-        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         CoroutineScope(Dispatchers.Main).launch {
             weatherViewModel.weather.collect {
-                updateProgressBar(it, progressBar)
+                updateProgressBar(it, binding.progressBar)
                 when (it) {
                     is Resource.Success -> {
-                        weatherText.text = """
+                        binding.weatherTextView.text = """
                             temp = ${it.data?.main?.temp?.toString()}
                             city = ${it.data?.name}
                         """.trimMargin()
                     }
                     is Resource.Error -> {
-                        weatherText.text = it.message
+                        binding.weatherTextView.text = it.message
                     }
                     is Resource.Loading -> {
                     }
@@ -94,8 +106,7 @@ class WeatherScreenActivity : AppCompatActivity() {
     }
 
     private fun initWeatherButton() {
-        val weatherButton = findViewById<Button>(R.id.getWeatherButton)
-        weatherButton.setOnClickListener {
+        binding.getWeatherButton.setOnClickListener {
             weatherViewModel.getWeatherByCity("London")
         }
     }
@@ -105,4 +116,10 @@ class WeatherScreenActivity : AppCompatActivity() {
             progressBar.isVisible = resource is Resource.Loading
         }
     }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
+
 }

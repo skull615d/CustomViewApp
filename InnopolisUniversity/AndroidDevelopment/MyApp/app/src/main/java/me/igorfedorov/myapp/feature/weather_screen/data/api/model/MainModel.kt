@@ -1,7 +1,6 @@
 package me.igorfedorov.myapp.feature.weather_screen.data.api.model
 
 import com.google.gson.annotations.SerializedName
-import me.igorfedorov.myapp.feature.weather_screen.domain.model.Main
 
 data class MainModel(
     @SerializedName("temp")
@@ -15,12 +14,3 @@ data class MainModel(
     @SerializedName("temp_max")
     val tempMax: Double
 )
-
-fun MainModel.toMain() =
-    Main(
-        temp = temp,
-        pressure = pressure,
-        humidity = humidity,
-        tempMax = tempMax,
-        tempMin = tempMin
-    )

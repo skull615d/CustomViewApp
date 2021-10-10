@@ -1,7 +1,6 @@
 package me.igorfedorov.myapp.feature.settings_dialog.data.api.model
 
 import com.google.gson.annotations.SerializedName
-import me.igorfedorov.myapp.feature.settings_dialog.domain.model.CitiesData
 
 data class CitiesDataModel(
     @SerializedName("city")
@@ -28,10 +27,4 @@ data class CitiesDataModel(
     val type: String,
     @SerializedName("wikiDataId")
     val wikiDataId: String
-)
-
-fun CitiesDataModel.toCitiesData() = CitiesData(
-    city = city,
-    country = country,
-    name = name
 )

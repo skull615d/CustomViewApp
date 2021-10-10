@@ -1,7 +1,6 @@
 package me.igorfedorov.myapp.feature.weather_screen.data.api.model
 
 import com.google.gson.annotations.SerializedName
-import me.igorfedorov.myapp.feature.weather_screen.domain.model.Weather
 
 data class WeatherModel(
     @SerializedName("id")
@@ -13,10 +12,3 @@ data class WeatherModel(
     @SerializedName("icon")
     val icon: String
 )
-
-fun WeatherModel.toWeather() =
-    Weather(
-        id = id,
-        main = main,
-        description = description
-    )

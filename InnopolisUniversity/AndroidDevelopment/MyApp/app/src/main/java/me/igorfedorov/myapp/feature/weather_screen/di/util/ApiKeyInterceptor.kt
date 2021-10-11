@@ -1,4 +1,4 @@
-package me.igorfedorov.myapp.feature.weather_screen.util
+package me.igorfedorov.myapp.feature.weather_screen.di.util
 
 import okhttp3.Interceptor
 import okhttp3.Response

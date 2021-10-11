@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.coroutineScope
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,14 +21,20 @@ import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
 import me.igorfedorov.myapp.databinding.FragmentWeatherScreenBinding
+import me.igorfedorov.myapp.feature.weather_screen.di.VIEW_MODEL_WEATHER
 import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 import permissions.dispatcher.ktx.LocationPermission
 import permissions.dispatcher.ktx.constructLocationPermissionRequest
 
 class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
 
-    private val weatherViewModel: WeatherScreenViewModel by viewModel()
+    private val weatherViewModel: WeatherScreenViewModel by viewModel(
+        qualifier = named(
+            VIEW_MODEL_WEATHER
+        )
+    )
 
     private var _binding: FragmentWeatherScreenBinding? = null
     private val binding
@@ -62,7 +69,10 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
                         LocationServices.getFusedLocationProviderClient(requireContext())
                             .lastLocation
                             .addOnSuccessListener {
-                                weatherViewModel.getWeatherByCity(getCityNameFromLocation(it))
+                                weatherViewModel.getWeatherByCity(
+                                    navArgs<WeatherScreenFragmentArgs>().value.cityName
+                                        ?: getCityNameFromLocation(it)
+                                )
                             }
                     }
                 }
@@ -85,7 +95,7 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
 
     private fun observeViewModel() {
         weatherViewModel.weather.onEach {
-            updateProgressBar(it, binding.progressBar)
+            updateProgressBar(it, binding.progressBarWeather)
             when (it) {
                 is Resource.Success -> {
                     binding.weatherTextView.text = """

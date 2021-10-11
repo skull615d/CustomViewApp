@@ -1,11 +1,11 @@
-package me.igorfedorov.myapp.feature.settings_dialog.di
+package me.igorfedorov.myapp.feature.settings_screen.di
 
-import me.igorfedorov.myapp.feature.settings_dialog.data.api.CitiesApi
-import me.igorfedorov.myapp.feature.settings_dialog.data.api.CitiesRemoteSource
-import me.igorfedorov.myapp.feature.settings_dialog.data.api.CitiesRepository
-import me.igorfedorov.myapp.feature.settings_dialog.data.api.CitiesRepositoryImpl
-import me.igorfedorov.myapp.feature.settings_dialog.domain.use_case.get_cities_data.GetCitiesDataUseCase
-import me.igorfedorov.myapp.feature.settings_dialog.ui.SettingsDialogViewModel
+import me.igorfedorov.myapp.feature.settings_screen.data.api.CitiesApi
+import me.igorfedorov.myapp.feature.settings_screen.data.api.CitiesRemoteSource
+import me.igorfedorov.myapp.feature.settings_screen.data.api.CitiesRepository
+import me.igorfedorov.myapp.feature.settings_screen.data.api.CitiesRepositoryImpl
+import me.igorfedorov.myapp.feature.settings_screen.domain.use_case.get_cities_data.GetCitiesDataUseCase
+import me.igorfedorov.myapp.feature.settings_screen.ui.SettingsScreenViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -17,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val BASE_URL = "http://geodb-free-service.wirefreethought.com/"
 private const val OKHTTP_SETTINGS = "OKHTTP_SETTINGS"
 private const val RETROFIT_SETTINGS = "RETROFIT_SETTINGS"
+const val VIEW_MODEL_SETTINGS = "VIEW_MODEL_SETTINGS"
 
 val settingsModule = module {
 
@@ -53,8 +54,8 @@ val settingsModule = module {
         GetCitiesDataUseCase(get<CitiesRepository>())
     }
 
-    viewModel<SettingsDialogViewModel> {
-        SettingsDialogViewModel(get<GetCitiesDataUseCase>())
+    viewModel<SettingsScreenViewModel>(named(VIEW_MODEL_SETTINGS)) {
+        SettingsScreenViewModel(get<GetCitiesDataUseCase>())
     }
 
 }

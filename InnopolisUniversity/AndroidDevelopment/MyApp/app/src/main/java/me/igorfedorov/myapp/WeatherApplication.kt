@@ -1,7 +1,7 @@
 package me.igorfedorov.myapp
 
 import android.app.Application
-import me.igorfedorov.myapp.feature.settings_dialog.di.settingsModule
+import me.igorfedorov.myapp.feature.settings_screen.di.settingsModule
 import me.igorfedorov.myapp.feature.weather_screen.di.weatherModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger

@@ -1,6 +1,6 @@
-package me.igorfedorov.myapp.feature.settings_dialog.data.api
+package me.igorfedorov.myapp.feature.settings_screen.data.api
 
-import me.igorfedorov.myapp.feature.settings_dialog.data.api.model.CitiesModel
+import me.igorfedorov.myapp.feature.settings_screen.data.api.model.CitiesModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 

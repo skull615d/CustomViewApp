@@ -1,8 +1,8 @@
-package me.igorfedorov.myapp.feature.settings_dialog.data.api.model
+package me.igorfedorov.myapp.feature.settings_screen.data.api.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CitiesDataModel(
+data class CityDataModel(
     @SerializedName("city")
     val city: String,
     @SerializedName("country")

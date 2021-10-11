@@ -19,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val BASE_URL = "https://api.openweathermap.org/"
 private const val OKHTTP_WEATHER = "OKHTTP_WEATHER"
 private const val RETROFIT_WEATHER = "RETROFIT_WEATHER"
+const val VIEW_MODEL_WEATHER = "VIEW_MODEL_WEATHER"
 
 val weatherModule = module {
 
@@ -56,7 +57,7 @@ val weatherModule = module {
         GetWeatherByCityUseCase(get<WeatherRepository>())
     }
 
-    viewModel<WeatherScreenViewModel> {
+    viewModel<WeatherScreenViewModel>(named(VIEW_MODEL_WEATHER)) {
         WeatherScreenViewModel(get<GetWeatherByCityUseCase>())
     }
 

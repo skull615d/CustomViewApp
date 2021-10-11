@@ -34,6 +34,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 )
             )
         }
+
+        binding.settingsButton.setThrottledClickListener {
+            findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToSettingsScreenFragment()
+            )
+        }
     }
 
     override fun onDestroyView() {

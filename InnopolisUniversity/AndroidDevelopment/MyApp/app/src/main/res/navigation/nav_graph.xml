@@ -14,8 +14,8 @@
             android:id="@+id/action_mainFragment_to_weatherScreenFragment"
             app:destination="@id/weatherScreenFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_settingsDialogFragment"
-            app:destination="@id/settingsDialogFragment" />
+            android:id="@+id/action_mainFragment_to_settingsScreenFragment"
+            app:destination="@id/settingsScreenFragment" />
     </fragment>
 
     <fragment
@@ -28,13 +28,15 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
-    <dialog
-        android:id="@+id/settingsDialogFragment"
-        android:name="me.igorfedorov.myapp.feature.settings_dialog.ui.SettingsDialogFragment"
-        android:label="SettingsDialogFragment">
+    <fragment
+        android:id="@+id/settingsScreenFragment"
+        android:name="me.igorfedorov.myapp.feature.settings_screen.ui.SettingsScreenFragment"
+        android:label="SettingsScreenFragment"
+        tools:layout="@layout/fragment_settings_screen">
         <action
-            android:id="@+id/action_settingsDialogFragment_to_weatherScreenFragment"
+            android:id="@+id/action_settingsScreenFragment_to_weatherScreenFragment"
             app:destination="@id/weatherScreenFragment" />
-    </dialog>
+    </fragment>
+
 
 </navigation>

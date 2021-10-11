@@ -1,30 +1,63 @@
 package me.igorfedorov.myapp.feature.weather_screen.di
 
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherApi
+import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRemoteSource
+import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRepository
+import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRepositoryImpl
+import me.igorfedorov.myapp.feature.weather_screen.domain.WeatherInteractor
+import me.igorfedorov.myapp.feature.weather_screen.ui.WeatherScreenViewModel
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-// api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-const val BASE_URL = "api.openweathermap.org/data/2.5/"
-val appModule = module {
+private const val BASE_URL = "https://api.openweathermap.org/"
+private const val OKHTTP_WEATHER = "OKHTTP_WEATHER"
+private const val RETROFIT_WEATHER = "RETROFIT_WEATHER"
+const val VIEW_MODEL_WEATHER = "VIEW_MODEL_WEATHER"
 
-    single<OkHttpClient> {
+val weatherModule = module {
+
+    single<OkHttpClient>(named(OKHTTP_WEATHER)) {
         OkHttpClient.Builder()
+            .addNetworkInterceptor(
+                HttpLoggingInterceptor()
+                    .setLevel(HttpLoggingInterceptor.Level.BODY)
+            )
             .build()
     }
 
-    single {
+    single<Retrofit>(named(RETROFIT_WEATHER)) {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(get())
+            .client(get<OkHttpClient>(qualifier = named(OKHTTP_WEATHER)))
             .build()
     }
 
     single<WeatherApi> {
-        get<Retrofit>().create(WeatherApi::class.java)
+        get<Retrofit>(qualifier = named(RETROFIT_WEATHER)).create(WeatherApi::class.java)
+    }
+
+    single<WeatherRemoteSource> {
+        WeatherRemoteSource(get<WeatherApi>())
+    }
+
+    single<WeatherRepository> {
+        WeatherRepositoryImpl(get<WeatherRemoteSource>())
+    }
+
+    factory<WeatherInteractor> {
+        WeatherInteractor(get<WeatherRepository>())
+    }
+
+    viewModel<WeatherScreenViewModel>(named(VIEW_MODEL_WEATHER)) {
+        WeatherScreenViewModel(
+            get<WeatherInteractor>()
+        )
     }
 
 }

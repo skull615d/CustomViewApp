@@ -5,6 +5,7 @@ import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherApi
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRemoteSource
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRepository
 import me.igorfedorov.myapp.feature.weather_screen.data.api.WeatherRepositoryImpl
+import me.igorfedorov.myapp.feature.weather_screen.domain.WeatherInteractor
 import me.igorfedorov.myapp.feature.weather_screen.domain.use_case.get_weather_by_city_use_case.GetWeatherByCityUseCase
 import me.igorfedorov.myapp.feature.weather_screen.ui.WeatherScreenViewModel
 import me.igorfedorov.myapp.feature.weather_screen.util.ApiKeyInterceptor
@@ -53,12 +54,19 @@ val weatherModule = module {
         WeatherRepositoryImpl(get<WeatherRemoteSource>())
     }
 
+    single<WeatherInteractor> {
+        WeatherInteractor(get<WeatherRepository>())
+    }
+
     factory<GetWeatherByCityUseCase> {
         GetWeatherByCityUseCase(get<WeatherRepository>())
     }
 
     viewModel<WeatherScreenViewModel>(named(VIEW_MODEL_WEATHER)) {
-        WeatherScreenViewModel(get<GetWeatherByCityUseCase>())
+        WeatherScreenViewModel(
+            get<WeatherInteractor>(),
+            get<GetWeatherByCityUseCase>()
+        )
     }
 
 }

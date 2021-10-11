@@ -1,28 +1,20 @@
 package me.igorfedorov.myapp.feature.weather_screen.ui
 
 import android.annotation.SuppressLint
-import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.navArgs
-import com.google.android.gms.location.LocationServices
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
 import me.igorfedorov.myapp.databinding.FragmentWeatherScreenBinding
 import me.igorfedorov.myapp.feature.weather_screen.di.VIEW_MODEL_WEATHER
-import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 import permissions.dispatcher.ktx.LocationPermission
@@ -56,46 +48,28 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
 
         observeViewModel()
 
+        observeProgressBarVisibility()
+
         getWeatherForCurrentLocation()
     }
 
     @SuppressLint("MissingPermission")
     private fun getWeatherForCurrentLocation() {
-        CoroutineScope(Dispatchers.Main).launch {
-            constructLocationPermissionRequest(
-                permissions = arrayOf(LocationPermission.FINE, LocationPermission.COARSE),
-                requiresPermission = {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        LocationServices.getFusedLocationProviderClient(requireContext())
-                            .lastLocation
-                            .addOnSuccessListener {
-                                weatherViewModel.getWeatherByCity(
-                                    navArgs<WeatherScreenFragmentArgs>().value.cityName
-                                        ?: getCityNameFromLocation(it)
-                                )
-                            }
-                    }
-                }
-            ).launch()
-        }
-    }
-
-    private fun getCityNameFromLocation(location: Location?): String {
-        return location?.let {
-            Geocoder(requireContext()).getFromLocation(
-                it.latitude,
-                it.longitude,
-                1
-            )
-                .first()
-                .locality
-        }
-            ?: ""
+//        viewLifecycleOwner.lifecycleScope.launch {
+        constructLocationPermissionRequest(
+            permissions = arrayOf(LocationPermission.FINE, LocationPermission.COARSE),
+            requiresPermission = {
+                weatherViewModel.getCurrentLocation(
+                    requireContext(),
+                    navArgs<WeatherScreenFragmentArgs>().value.cityName
+                )
+            }
+        ).launch()
+//        }
     }
 
     private fun observeViewModel() {
         weatherViewModel.weather.onEach {
-            updateProgressBar(it, binding.progressBarWeather)
             when (it) {
                 is Resource.Success -> {
                     binding.weatherTextView.text = """
@@ -117,15 +91,16 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
 
     private fun initWeatherButton() {
         binding.getWeatherButton.setOnClickListener {
-            weatherViewModel.getWeatherByCity("London")
+            weatherViewModel.requestWeatherByCity("London")
         }
     }
 
-    private fun updateProgressBar(resource: Resource<WeatherMain>, progressBar: ProgressBar) {
-        CoroutineScope(Dispatchers.Main).launch {
-            progressBar.isVisible = resource is Resource.Loading
+    private fun observeProgressBarVisibility() {
+        weatherViewModel.weather.onEach {
+            binding.progressBarWeather.isVisible = it is Resource.Loading
         }
     }
+
 
     override fun onDestroyView() {
         _binding = null

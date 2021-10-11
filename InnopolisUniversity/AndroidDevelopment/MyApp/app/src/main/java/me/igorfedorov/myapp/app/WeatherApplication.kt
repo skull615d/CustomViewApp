@@ -1,4 +1,4 @@
-package me.igorfedorov.myapp
+package me.igorfedorov.myapp.app
 
 import android.app.Application
 import me.igorfedorov.myapp.feature.settings_screen.di.settingsModule

@@ -15,6 +15,7 @@ import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
 import me.igorfedorov.myapp.databinding.FragmentWeatherScreenBinding
 import me.igorfedorov.myapp.feature.weather_screen.di.VIEW_MODEL_WEATHER
+import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 import permissions.dispatcher.ktx.LocationPermission
@@ -48,8 +49,6 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
 
         observeViewModel()
 
-        observeProgressBarVisibility()
-
         getWeatherForCurrentLocation()
     }
 
@@ -70,10 +69,11 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
 
     private fun observeViewModel() {
         weatherViewModel.weather.onEach {
+            observeProgressBarVisibility(it)
             when (it) {
                 is Resource.Success -> {
                     binding.weatherTextView.text = """
-                            temp = ${it.data?.main?.temp?.toString()}
+                            temp = ${it.data?.main?.temp?.toString()} ${"\u2103"}
                             city = ${it.data?.name}
                         """.trimMargin()
                 }
@@ -95,10 +95,8 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
         }
     }
 
-    private fun observeProgressBarVisibility() {
-        weatherViewModel.weather.onEach {
-            binding.progressBarWeather.isVisible = it is Resource.Loading
-        }
+    private fun observeProgressBarVisibility(resource: Resource<WeatherMain>) {
+        binding.progressBarWeather.isVisible = resource is Resource.Loading
     }
 
 

@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
@@ -49,8 +50,8 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         return binding.root
     }
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
+    //    @ExperimentalCoroutinesApi
+//    @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,29 +63,27 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
     }
 
     private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            screenViewModel.citiesData.collect {
-                updateProgressBarVisibility(it)
-                updateErrorTextViewVisibility(it)
-                when (it) {
-                    is Resource.Success -> {
-                        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                            cityDataAdapter.items = it.data
-                        }
-                    }
-                    is Resource.Error -> {
-                        cityDataAdapter.items = emptyList()
-                        binding.errorTextView.text = it.message
-                    }
-                    is Resource.Loading -> {
-
-                    }
-                    is Resource.Initialized -> {
-
+        screenViewModel.citiesData.onEach {
+            updateProgressBarVisibility(it)
+            updateErrorTextViewVisibility(it)
+            when (it) {
+                is Resource.Success -> {
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                        cityDataAdapter.items = it.data
                     }
                 }
+                is Resource.Error -> {
+                    cityDataAdapter.items = emptyList()
+                    binding.errorTextView.text = it.message
+                }
+                is Resource.Loading -> {
+
+                }
+                is Resource.Initialized -> {
+
+                }
             }
-        }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun updateErrorTextViewVisibility(resource: Resource<List<CityData>>) {

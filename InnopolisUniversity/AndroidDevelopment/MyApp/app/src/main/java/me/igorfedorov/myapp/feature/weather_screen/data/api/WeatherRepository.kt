@@ -7,4 +7,3 @@ interface WeatherRepository {
     suspend fun getWeatherByCity(cityName: String): WeatherMain
 
 }
-

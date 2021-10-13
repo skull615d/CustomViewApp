@@ -6,7 +6,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import me.igorfedorov.myapp.common.Resource
-import me.igorfedorov.myapp.feature.settings_screen.data.api.model.toCitiesData
 import me.igorfedorov.myapp.feature.settings_screen.domain.model.CityData
 import me.igorfedorov.myapp.feature.settings_screen.domain.use_case.get_cities_data.GetCitiesDataUseCase
 import retrofit2.HttpException
@@ -31,7 +30,7 @@ class SettingsScreenViewModel(
             .mapLatest { cityName ->
                 try {
                     _citiesData.emit(Resource.Loading())
-                    val citiesData = getCitiesDataUseCase(cityName).map { it.toCitiesData() }
+                    val citiesData = getCitiesDataUseCase(cityName)
                     _citiesData.emit(Resource.Success(data = citiesData))
                 } catch (e: HttpException) {
                     _citiesData.emit(

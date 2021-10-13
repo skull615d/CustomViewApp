@@ -75,6 +75,7 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
                     binding.weatherTextView.text = """
                             temp = ${it.data?.main?.temp?.toString()} ${"\u2103"}
                             city = ${it.data?.name}
+                            
                         """.trimMargin()
                 }
                 is Resource.Error -> {

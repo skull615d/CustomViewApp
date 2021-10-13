@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.common.Resource
-import me.igorfedorov.myapp.feature.weather_screen.data.api.model.toWeatherMain
 import me.igorfedorov.myapp.feature.weather_screen.domain.WeatherInteractor
 import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
 import me.igorfedorov.myapp.feature.weather_screen.domain.use_case.get_weather_by_city_use_case.GetWeatherByCityUseCase
@@ -37,7 +36,7 @@ class WeatherScreenViewModel(
         viewModelScope.launch {
             try {
                 _weather.emit(Resource.Loading())
-                val weather = getWeatherByCityUseCase(cityName).toWeatherMain()
+                val weather = getWeatherByCityUseCase(cityName)
                 _weather.emit(Resource.Success(data = weather))
             } catch (e: HttpException) {
                 _weather.emit(

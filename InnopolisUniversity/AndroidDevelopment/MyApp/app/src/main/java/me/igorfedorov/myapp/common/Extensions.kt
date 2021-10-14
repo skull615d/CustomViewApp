@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import me.igorfedorov.myapp.common.Constants.DEFAULT_THROTTLE_DELAY
 import timber.log.Timber
+import java.util.*
 
 fun View.setThrottledClickListener(delay: Long = 200L, onClick: (View) -> Unit) {
     setOnClickListener {
@@ -50,4 +51,36 @@ fun EditText.textChangeFlow(): Flow<String> {
             this@textChangeFlow.removeTextChangedListener(watcher)
         }
     }
+}
+
+fun EditText.setDebouncingTextListener(
+    debouncePeriod: Long = 300,
+    onTextChange: (String) -> Unit
+) {
+
+    addTextChangedListener(object : TextWatcher {
+
+        private var timer = Timer()
+
+        override fun onTextChanged(newText: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            timer.cancel()
+            timer = Timer()
+            timer.schedule(
+                object : TimerTask() {
+                    override fun run() {
+                        post {
+                            onTextChange(newText.toString())
+                        }
+                    }
+                },
+                debouncePeriod
+            )
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        }
+
+        override fun afterTextChanged(p0: Editable?) {
+        }
+    })
 }

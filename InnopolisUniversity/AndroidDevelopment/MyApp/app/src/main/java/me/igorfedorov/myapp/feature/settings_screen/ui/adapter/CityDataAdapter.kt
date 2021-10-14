@@ -1,4 +1,4 @@
-package me.igorfedorov.myapp.feature.settings_screen.ui.adapters
+package me.igorfedorov.myapp.feature.settings_screen.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import coil.load
@@ -25,7 +25,7 @@ class CityDataAdapter(onItemClick: (cityData: CityData) -> Unit) :
                     cityTextView.text = item.city
                     countryTextView.text = item.city
                     nameTextView.text = item.name
-                    cityImageView.load(R.drawable.ic_city)
+                    cityImageViewCity.load(R.drawable.ic_city)
                 }
             }
         }
@@ -37,12 +37,11 @@ class CityDataAdapter(onItemClick: (cityData: CityData) -> Unit) :
 
     class CitiesDataDiffUtilCallback : DiffUtil.ItemCallback<CityData>() {
         override fun areItemsTheSame(oldItem: CityData, newItem: CityData): Boolean {
-            return oldItem.name == newItem.name
+            return false
         }
 
         override fun areContentsTheSame(oldItem: CityData, newItem: CityData): Boolean {
             return oldItem == newItem
         }
     }
-
 }

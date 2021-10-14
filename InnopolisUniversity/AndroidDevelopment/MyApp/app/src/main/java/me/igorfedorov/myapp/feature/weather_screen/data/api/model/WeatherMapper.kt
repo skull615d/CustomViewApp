@@ -1,9 +1,16 @@
 package me.igorfedorov.myapp.feature.weather_screen.data.api.model
 
-import me.igorfedorov.myapp.feature.weather_screen.domain.model.Coordinates
-import me.igorfedorov.myapp.feature.weather_screen.domain.model.Main
-import me.igorfedorov.myapp.feature.weather_screen.domain.model.Weather
-import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
+import me.igorfedorov.myapp.feature.weather_screen.domain.model.*
+
+fun WeatherMainModel.toWeatherMain() = WeatherMain(
+    coordinates = coordinatesModel.toCoordinates(),
+    weather = weatherModel.map { it.toWeather() },
+    base = baseModel,
+    main = mainModel.toMain(),
+    name = nameModel,
+    weatherWind = weatherWindModel.toWind(),
+    weatherSystem = weatherSystemModel.toWeatherSystem()
+)
 
 fun CoordinatesModel.toCoordinates() = Coordinates(
     lon = lon,
@@ -18,17 +25,22 @@ fun MainModel.toMain() = Main(
     tempMin = tempMin
 )
 
-
 fun WeatherModel.toWeather() = Weather(
     id = id,
     main = main,
     description = description
 )
 
-fun WeatherMainModel.toWeatherMain() = WeatherMain(
-    coordinates = coordinatesModel.toCoordinates(),
-    weather = weatherModel.map { it.toWeather() },
-    base = base,
-    main = mainModel.toMain(),
-    name = name
+fun WeatherWindModel.toWind() = WeatherWind(
+    speed = speed,
+    deg = deg
+)
+
+fun WeatherSystemModel.toWeatherSystem() = WeatherSystem(
+    type = type,
+    id = id,
+    message = message,
+    country = country,
+    sunrise = sunrise,
+    sunset = sunset
 )

@@ -5,5 +5,7 @@ data class WeatherMain(
     val weather: List<Weather>,
     val base: String,
     val main: Main,
-    val name: String
+    val name: String,
+    val weatherWind: WeatherWind,
+    val weatherSystem: WeatherSystem
 )

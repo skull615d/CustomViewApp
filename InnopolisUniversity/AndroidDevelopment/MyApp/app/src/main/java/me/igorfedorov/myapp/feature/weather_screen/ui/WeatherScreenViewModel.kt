@@ -11,33 +11,37 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.common.Resource
-import me.igorfedorov.myapp.feature.weather_screen.domain.WeatherInteractor
 import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
 import me.igorfedorov.myapp.feature.weather_screen.domain.use_case.get_weather_by_city_use_case.GetWeatherByCityUseCase
 import retrofit2.HttpException
 import java.io.IOException
 
 class WeatherScreenViewModel(
-    private val interactor: WeatherInteractor,
     private val getWeatherByCityUseCase: GetWeatherByCityUseCase
 ) : ViewModel() {
 
-    private val _weather = MutableStateFlow<Resource<WeatherMain>>(Resource.Initialized())
-    val weather: StateFlow<Resource<WeatherMain>>
+    private val _weather = MutableStateFlow<Resource<List<WeatherMain>>>(Resource.Initialized())
+    val weather: StateFlow<Resource<List<WeatherMain>>>
         get() = _weather
 
-    suspend fun requestWeather(cityName: String) {
-        viewModelScope.launch {
-            interactor.getWeatherByCity(cityName)
-        }
-    }
+    /*
+    Just a synthetic implementation
+    Proper way is to use DataStore for storing cityNames
+    Or even DataBase,
+    And to request weather on init block for each cityName stored
+    Putting them to weatherList, then emitting it to _weather
+    As data of Resource.Success()
+    * */
+    private val weatherList = mutableListOf<WeatherMain>()
 
     fun requestWeatherByCity(cityName: String) {
+        if (cityIsInList(cityName)) return
         viewModelScope.launch {
             try {
                 _weather.emit(Resource.Loading())
                 val weather = getWeatherByCityUseCase(cityName)
-                _weather.emit(Resource.Success(data = weather))
+                weatherList.add(weather)
+                _weather.emit(Resource.Success(data = weatherList))
             } catch (e: HttpException) {
                 _weather.emit(
                     Resource.Error(
@@ -52,6 +56,22 @@ class WeatherScreenViewModel(
                     )
                 )
             }
+        }
+    }
+
+    private fun cityIsInList(cityName: String): Boolean {
+        for (weather in weatherList) {
+            if (weather.name == cityName) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun deleteFromWeatherList(weatherMain: WeatherMain) {
+        viewModelScope.launch {
+            val weatherList = _weather.value.data?.minus(weatherMain) ?: emptyList()
+            _weather.emit(Resource.Success(data = weatherList))
         }
     }
 

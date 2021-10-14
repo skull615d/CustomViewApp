@@ -23,7 +23,7 @@ import me.igorfedorov.myapp.common.textChangeFlow
 import me.igorfedorov.myapp.databinding.FragmentSettingsScreenBinding
 import me.igorfedorov.myapp.feature.settings_screen.di.VIEW_MODEL_SETTINGS
 import me.igorfedorov.myapp.feature.settings_screen.domain.model.CityData
-import me.igorfedorov.myapp.feature.settings_screen.ui.adapters.CityDataAdapter
+import me.igorfedorov.myapp.feature.settings_screen.ui.adapter.CityDataAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 

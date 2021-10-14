@@ -9,7 +9,8 @@ interface WeatherApi {
     @GET("/data/2.5/weather")
     suspend fun getWeatherByCity(
         @Query("q") cityName: String,
-        @Query("units") units: String = "metric"
+        @Query("units") units: String = "metric",
+        @Query("lang") language: String = "ru"
     ): WeatherMainModel
 
 

@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toTopOf="@+id/countryTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cityImageView"
+        app:layout_constraintStart_toEndOf="@+id/cityImageViewCity"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="London" />
@@ -46,12 +46,13 @@
         tools:text="name ?" />
 
     <ImageView
-        android:id="@+id/cityImageView"
+        android:id="@+id/cityImageViewCity"
         android:layout_width="104dp"
         android:layout_height="104dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="@string/image_of_the_city"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -70,6 +70,7 @@ class WeatherScreenViewModel(
 
     fun deleteFromWeatherList(weatherMain: WeatherMain) {
         viewModelScope.launch {
+            weatherList.remove(weatherMain)
             val weatherList = _weather.value.data?.minus(weatherMain) ?: emptyList()
             _weather.emit(Resource.Success(data = weatherList))
         }

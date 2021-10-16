@@ -1,5 +1,6 @@
 package me.igorfedorov.newsfeedapp.feature.main_screen.di
 
+import me.igorfedorov.newsfeedapp.common.utils.InternetAvailability
 import me.igorfedorov.newsfeedapp.di.APP_MODULE_RETROFIT
 import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.MainScreenNewsApi
 import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.NewsRemoteSource
@@ -25,7 +26,10 @@ val mainScreenModule = module {
     }
 
     single<NewsRepository> {
-        NewsRepositoryImpl(get<NewsRemoteSource>())
+        NewsRepositoryImpl(
+            get<NewsRemoteSource>(),
+            get<InternetAvailability>()
+        )
     }
 
     single<GetLastHourNewsUseCase> {

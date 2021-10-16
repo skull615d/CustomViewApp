@@ -1,9 +1,11 @@
 package me.igorfedorov.newsfeedapp.di
 
 import me.igorfedorov.newsfeedapp.BuildConfig
+import me.igorfedorov.newsfeedapp.common.utils.InternetAvailability
 import me.igorfedorov.newsfeedapp.di.util.ApiKeyInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -27,5 +29,9 @@ val appModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .client(get<OkHttpClient>(qualifier = named(APP_MODULE_OKHTTP)))
             .build()
+    }
+
+    single<InternetAvailability> {
+        InternetAvailability(androidContext())
     }
 }

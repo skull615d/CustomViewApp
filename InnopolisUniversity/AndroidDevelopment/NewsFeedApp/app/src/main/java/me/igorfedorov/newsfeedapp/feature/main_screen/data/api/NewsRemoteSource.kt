@@ -6,6 +6,6 @@ class NewsRemoteSource(
     private val api: MainScreenNewsApi
 ) {
 
-    suspend fun getLastHourNews(): NewsDTO = api.getAllLastHourNews()
+    suspend fun getLastHourNews(): NewsDTO = api.getEverythingNews()
 
 }

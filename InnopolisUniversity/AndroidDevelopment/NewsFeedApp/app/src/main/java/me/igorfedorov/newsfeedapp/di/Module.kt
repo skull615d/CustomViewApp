@@ -28,6 +28,4 @@ val appModule = module {
             .client(get<OkHttpClient>(qualifier = named(APP_MODULE_OKHTTP)))
             .build()
     }
-
-
 }

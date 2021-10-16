@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.common.autoCleared
-import me.igorfedorov.newsfeedapp.common.exception.Failure
+import me.igorfedorov.newsfeedapp.common.exception.CustomError
 import me.igorfedorov.newsfeedapp.databinding.FragmentMainScreenBinding
 import me.igorfedorov.newsfeedapp.feature.main_screen.di.MAIN_SCREEN_VIEW_MODEL
 import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
@@ -60,6 +61,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
     private fun observeViewModel() {
         observeSuccess()
         observeFailure()
+        observeIsFetching()
     }
 
     private fun observeSuccess() {
@@ -70,23 +72,30 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         viewModel.failure.observe(viewLifecycleOwner, ::updateFailureText)
     }
 
-    private fun updateFailureText(failure: Failure?) {
-        when (failure) {
-            is Failure.ServerError -> {
+    private fun observeIsFetching() {
+        viewModel.isFetching.observe(viewLifecycleOwner, ::updateProgressBar)
+    }
+
+    private fun updateAdapter(articles: List<Article>?) {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+            articleAdapter.items = articles
+            articleAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun updateFailureText(customError: CustomError?) {
+        when (customError) {
+            is CustomError.ServerError -> {
             }
-            is Failure.NetworkConnection -> {
+            is CustomError.NetworkConnection -> {
             }
             else -> {
             }
         }
     }
 
-    //    @SuppressLint("NotifyDataSetChanged")
-    private fun updateAdapter(articles: List<Article>?) {
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-            articleAdapter.items = articles
-            articleAdapter.notifyDataSetChanged()
-        }
+    private fun updateProgressBar(isFetching: Boolean) {
+        binding.progressBar.isVisible = isFetching
     }
 
     override fun onDestroyView() {

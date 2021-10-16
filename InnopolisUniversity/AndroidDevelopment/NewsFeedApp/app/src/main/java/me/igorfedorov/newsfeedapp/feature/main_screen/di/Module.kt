@@ -11,13 +11,13 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
+import retrofit2.create
 
 const val MAIN_SCREEN_VIEW_MODEL = "MAIN_SCREEN_VIEW_MODEL"
 val mainScreenModule = module {
 
     single<MainScreenNewsApi> {
-        get<Retrofit>(qualifier = named(APP_MODULE_RETROFIT))
-            .create(MainScreenNewsApi::class.java)
+        get<Retrofit>(qualifier = named(APP_MODULE_RETROFIT)).create()
     }
 
     single<NewsRemoteSource> {

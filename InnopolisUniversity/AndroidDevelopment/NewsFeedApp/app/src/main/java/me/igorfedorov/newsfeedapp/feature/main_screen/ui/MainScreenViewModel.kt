@@ -5,8 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import me.igorfedorov.newsfeedapp.common.Either
-import me.igorfedorov.newsfeedapp.common.exception.Failure
+import me.igorfedorov.newsfeedapp.common.exception.CustomError
 import me.igorfedorov.newsfeedapp.common.onFailure
 import me.igorfedorov.newsfeedapp.common.onSuccess
 import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
@@ -20,8 +19,12 @@ class MainScreenViewModel(
     val articles: LiveData<List<Article>>
         get() = _articles
 
-    private val _failure: MutableLiveData<Failure> = MutableLiveData()
-    val failure: LiveData<Failure> = _failure
+    private val _failure: MutableLiveData<CustomError> = MutableLiveData()
+    val failure: LiveData<CustomError> = _failure
+
+    private val _isFetching: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isFetching: LiveData<Boolean>
+        get() = _isFetching
 
     init {
         loadNews()
@@ -29,11 +32,8 @@ class MainScreenViewModel(
 
     fun loadNews() =
         viewModelScope.launch {
-            try {
-                Either.Right(getLastHourNewsUseCase())
-            } catch (t: Throwable) {
-                Either.Left(Failure.ServerError)
-            }.apply {
+            _isFetching.postValue(true)
+            getLastHourNewsUseCase().apply {
                 onFailure(::handleFailure)
                 onSuccess(::handleArticleList)
             }
@@ -41,10 +41,12 @@ class MainScreenViewModel(
 
     private fun handleArticleList(articles: List<Article>) {
         _articles.postValue(articles)
+        _isFetching.postValue(false)
     }
 
-    private fun handleFailure(failure: Failure) {
-        _failure.value = failure
+    private fun handleFailure(customError: CustomError) {
+        _failure.value = customError
+        _isFetching.postValue(false)
     }
 
 }

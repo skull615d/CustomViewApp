@@ -2,27 +2,27 @@ package me.igorfedorov.newsfeedapp.common
 
 sealed class Either<out L, out R> {
 
-    data class Left<out L>(val failure: L) : Either<L, Nothing>()
+    data class Failure<out L>(val failure: L) : Either<L, Nothing>()
 
-    data class Right<out R>(val success: R) : Either<Nothing, R>()
+    data class Success<out R>(val success: R) : Either<Nothing, R>()
 
-    val isRight get() = this is Right<R>
+    val isRight get() = this is Success<R>
 
-    val isLeft get() = this is Left<L>
+    val isLeft get() = this is Failure<L>
 
-    fun <L> left(a: L) = Either.Left(a)
+    fun <L> failure(failure: L) = Failure(failure)
 
-    fun <R> right(b: R) = Either.Right(b)
+    fun <R> success(success: R) = Success(success)
 
-    fun fold(fnL: (L) -> Any, fnR: (R) -> Any): Any =
+    fun fold(fnFailure: (L) -> Any, fnSuccess: (R) -> Any): Any =
         when (this) {
-            is Left -> fnL(failure)
-            is Right -> fnR(success)
+            is Failure -> fnFailure(failure)
+            is Success -> fnSuccess(success)
         }
 }
 
 fun <L, R> Either<L, R>.onFailure(action: (failure: L) -> Unit): Either<L, R> =
-    this.apply { if (this is Either.Left) action(failure) }
+    this.apply { if (this is Either.Failure) action(failure) }
 
 fun <L, R> Either<L, R>.onSuccess(action: (success: R) -> Unit): Either<L, R> =
-    this.apply { if (this is Either.Right) action(success) }
+    this.apply { if (this is Either.Success) action(success) }

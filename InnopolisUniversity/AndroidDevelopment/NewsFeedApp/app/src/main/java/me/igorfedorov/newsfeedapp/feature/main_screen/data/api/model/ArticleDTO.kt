@@ -1,12 +1,22 @@
 package me.igorfedorov.newsfeedapp.feature.main_screen.data.api.model
 
+import com.google.gson.annotations.SerializedName
+
 data class ArticleDTO(
-    val author: String,
-    val content: String,
-    val description: String,
-    val publishedAt: String,
+    @SerializedName("author")
+    val author: String? = "",
+    @SerializedName("content")
+    val content: String? = "",
+    @SerializedName("description")
+    val description: String? = "",
+    @SerializedName("publishedAt")
+    val publishedAt: String? = "",
+    @SerializedName("source")
     val sourceDTO: SourceDTO,
-    val title: String,
-    val url: String,
-    val urlToImage: String
+    @SerializedName("title")
+    val title: String? = "",
+    @SerializedName("url")
+    val url: String? = "",
+    @SerializedName("urlToImage")
+    val urlToImage: String? = ""
 )

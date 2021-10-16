@@ -8,8 +8,9 @@ interface MainScreenNewsApi {
 
     @GET("v2/everything")
     suspend fun getAllLastHourNews(
+        @Query("q") query: String = "bitcoin"
         // 3_600_000 = 1 Hour :)
-        @Query("from") from: String = "${System.currentTimeMillis() - 3_600_000L}"
-    ): List<NewsDTO>
+//        @Query("from") from: String = "${System.currentTimeMillis() - 3_600_000L}"
+    ): NewsDTO
 
 }

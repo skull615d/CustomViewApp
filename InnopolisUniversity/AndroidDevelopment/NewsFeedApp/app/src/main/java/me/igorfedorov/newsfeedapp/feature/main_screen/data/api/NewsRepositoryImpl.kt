@@ -1,14 +1,14 @@
 package me.igorfedorov.newsfeedapp.feature.main_screen.data.api
 
-import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.model.toNews
-import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.News
+import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.model.toArticle
+import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
 
 class NewsRepositoryImpl(
     private val newsRemoteSource: NewsRemoteSource
 ) : NewsRepository {
 
-    override suspend fun getLastHourNews(): List<News> {
-        return newsRemoteSource.getLastHourNews().map { it.toNews() }
+    override suspend fun getLastHourNews(): List<Article> {
+        return newsRemoteSource.getLastHourNews().articlesDTO.map { it.toArticle() }
     }
 
 }

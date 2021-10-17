@@ -50,8 +50,6 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         return binding.root
     }
 
-    //    @ExperimentalCoroutinesApi
-//    @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

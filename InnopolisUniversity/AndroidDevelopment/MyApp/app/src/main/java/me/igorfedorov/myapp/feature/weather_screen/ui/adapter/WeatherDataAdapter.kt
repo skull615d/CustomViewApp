@@ -15,6 +15,10 @@ class WeatherDataAdapter(
 ) :
     AsyncListDifferDelegationAdapter<WeatherMain>(WeatherDataDiffUtilCallback()) {
 
+    init {
+        delegatesManager.addDelegate(weatherDataAdapterDelegate(onItemClick, onItemLongClick))
+    }
+
     private fun weatherDataAdapterDelegate(
         onItemClick: (weatherData: WeatherMain) -> Unit,
         onItemLongClick: (weatherData: WeatherMain) -> Unit
@@ -44,10 +48,6 @@ class WeatherDataAdapter(
                 }
             }
         }
-
-    init {
-        delegatesManager.addDelegate(weatherDataAdapterDelegate(onItemClick, onItemLongClick))
-    }
 
     class WeatherDataDiffUtilCallback : DiffUtil.ItemCallback<WeatherMain>() {
         override fun areItemsTheSame(oldItem: WeatherMain, newItem: WeatherMain): Boolean {

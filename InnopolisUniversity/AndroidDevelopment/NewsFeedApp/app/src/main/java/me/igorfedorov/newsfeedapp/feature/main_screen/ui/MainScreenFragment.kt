@@ -29,7 +29,6 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
     private var articlesAdapter: ArticlesAdapter? = null
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

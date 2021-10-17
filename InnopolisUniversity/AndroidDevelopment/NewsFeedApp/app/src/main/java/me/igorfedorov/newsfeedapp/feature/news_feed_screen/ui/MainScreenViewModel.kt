@@ -1,4 +1,4 @@
-package me.igorfedorov.newsfeedapp.feature.main_screen.ui
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import me.igorfedorov.newsfeedapp.common.exception.CustomError
 import me.igorfedorov.newsfeedapp.common.onFailure
 import me.igorfedorov.newsfeedapp.common.onSuccess
-import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
-import me.igorfedorov.newsfeedapp.feature.main_screen.domain.use_case.get_last_hour_news_use_case.GetLastHourNewsUseCase
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.use_case.get_last_hour_news_use_case.GetLastHourNewsUseCase
 
 class MainScreenViewModel(
     private val getLastHourNewsUseCase: GetLastHourNewsUseCase

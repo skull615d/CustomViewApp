@@ -1,4 +1,4 @@
-package me.igorfedorov.newsfeedapp.feature.main_screen.data.api.model
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.model
 
 import com.google.gson.annotations.SerializedName
 

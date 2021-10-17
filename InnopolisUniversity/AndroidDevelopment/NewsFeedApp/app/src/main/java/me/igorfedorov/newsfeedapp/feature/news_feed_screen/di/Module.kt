@@ -1,13 +1,13 @@
-package me.igorfedorov.newsfeedapp.feature.main_screen.di
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.di
 
 import me.igorfedorov.newsfeedapp.common.utils.InternetAvailability
 import me.igorfedorov.newsfeedapp.di.APP_MODULE_RETROFIT
-import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.MainScreenNewsApi
-import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.NewsRemoteSource
-import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.NewsRepository
-import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.NewsRepositoryImpl
-import me.igorfedorov.newsfeedapp.feature.main_screen.domain.use_case.get_last_hour_news_use_case.GetLastHourNewsUseCase
-import me.igorfedorov.newsfeedapp.feature.main_screen.ui.MainScreenViewModel
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.MainScreenNewsApi
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRemoteSource
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRepository
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRepositoryImpl
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.use_case.get_last_hour_news_use_case.GetLastHourNewsUseCase
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.MainScreenViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module

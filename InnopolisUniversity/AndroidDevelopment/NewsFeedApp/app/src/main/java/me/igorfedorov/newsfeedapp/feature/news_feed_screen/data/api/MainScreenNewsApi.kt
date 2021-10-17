@@ -1,6 +1,6 @@
-package me.igorfedorov.newsfeedapp.feature.main_screen.data.api
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api
 
-import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.model.NewsDTO
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.model.NewsDTO
 import retrofit2.http.GET
 import retrofit2.http.Query
 

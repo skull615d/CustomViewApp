@@ -1,8 +1,8 @@
-package me.igorfedorov.newsfeedapp.feature.main_screen.data.api.model
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.model
 
-import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
-import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.News
-import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Source
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.News
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Source
 
 fun NewsDTO.toNews(): News =
     News(

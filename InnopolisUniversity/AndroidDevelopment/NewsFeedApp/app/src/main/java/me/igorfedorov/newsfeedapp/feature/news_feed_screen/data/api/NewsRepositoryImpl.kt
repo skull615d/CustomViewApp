@@ -1,10 +1,10 @@
-package me.igorfedorov.newsfeedapp.feature.main_screen.data.api
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api
 
 import me.igorfedorov.newsfeedapp.common.Either
 import me.igorfedorov.newsfeedapp.common.exception.CustomError
 import me.igorfedorov.newsfeedapp.common.utils.InternetAvailability
-import me.igorfedorov.newsfeedapp.feature.main_screen.data.api.model.toArticle
-import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.model.toArticle
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 class NewsRepositoryImpl(
     private val newsRemoteSource: NewsRemoteSource,

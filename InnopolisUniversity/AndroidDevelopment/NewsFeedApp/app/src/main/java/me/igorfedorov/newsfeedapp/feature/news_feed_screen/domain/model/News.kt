@@ -1,4 +1,4 @@
-package me.igorfedorov.newsfeedapp.feature.main_screen.domain.model
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model
 
 data class News(
     val articles: List<Article>,

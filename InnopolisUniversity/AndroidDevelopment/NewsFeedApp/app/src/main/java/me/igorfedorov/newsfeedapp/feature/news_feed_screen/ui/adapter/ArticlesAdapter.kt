@@ -1,10 +1,10 @@
-package me.igorfedorov.newsfeedapp.feature.main_screen.ui.adapter
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import me.igorfedorov.newsfeedapp.databinding.ItemArticleBinding
-import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 class ArticlesAdapter : AsyncListDifferDelegationAdapter<Article>(ArticleDiffUtilCallback()) {
 

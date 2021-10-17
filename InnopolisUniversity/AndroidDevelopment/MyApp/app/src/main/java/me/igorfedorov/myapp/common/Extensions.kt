@@ -14,7 +14,7 @@ import me.igorfedorov.myapp.common.Constants.DEFAULT_THROTTLE_DELAY
 import timber.log.Timber
 import java.util.*
 
-fun View.setThrottledClickListener(delay: Long = 200L, onClick: (View) -> Unit) {
+fun View.setThrottledClickListener(delay: Long = DEFAULT_THROTTLE_DELAY, onClick: (View) -> Unit) {
     setOnClickListener {
         throttle(delay) {
             onClick(it)

@@ -1,13 +1,13 @@
 package me.igorfedorov.newsfeedapp.feature.main_screen.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.CreateMethod
+import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.igorfedorov.newsfeedapp.R
@@ -24,21 +24,10 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
     private val viewModel: MainScreenViewModel by viewModel(qualifier = named(MAIN_SCREEN_VIEW_MODEL))
 
-    private var _binding: FragmentMainScreenBinding? = null
-    private val binding
-        get() = _binding ?: throw IllegalStateException("Cannot access binding")
+    private val binding: FragmentMainScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
     private var articleAdapter: ArticleAdapter by autoCleared()
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMainScreenBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -96,11 +85,6 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
     private fun updateProgressBar(isFetching: Boolean) {
         binding.progressBar.isVisible = isFetching
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 }

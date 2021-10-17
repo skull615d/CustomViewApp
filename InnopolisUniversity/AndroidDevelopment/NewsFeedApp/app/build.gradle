@@ -102,6 +102,9 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
+    // Kirich's View Binding Property Delegate
+    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01'
+
     //Logs
     implementation "com.jakewharton.timber:timber:$timber_version"
 

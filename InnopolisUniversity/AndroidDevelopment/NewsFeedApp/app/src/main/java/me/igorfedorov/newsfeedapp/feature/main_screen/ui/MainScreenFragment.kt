@@ -1,5 +1,6 @@
 package me.igorfedorov.newsfeedapp.feature.main_screen.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -11,8 +12,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.igorfedorov.newsfeedapp.R
-import me.igorfedorov.newsfeedapp.common.autoCleared
 import me.igorfedorov.newsfeedapp.common.exception.CustomError
+import me.igorfedorov.newsfeedapp.common.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.newsfeedapp.databinding.FragmentMainScreenBinding
 import me.igorfedorov.newsfeedapp.feature.main_screen.di.MAIN_SCREEN_VIEW_MODEL
 import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
@@ -26,7 +27,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
     private val binding: FragmentMainScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
-    private var articleAdapter: ArticleAdapter by autoCleared()
+    private var articleAdapter: ArticleAdapter? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,10 +42,10 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
     private fun initAdapter() {
         articleAdapter = ArticleAdapter()
         binding.articlesRecyclerView.apply {
-            adapter = articleAdapter
+            articleAdapter?.let { setAdapterAndCleanupOnDetachFromWindow(it) }
             layoutManager = LinearLayoutManager(requireContext())
         }
-        articleAdapter.items = viewModel.articles.value
+        articleAdapter?.items = viewModel.articles.value
     }
 
     private fun observeViewModel() {
@@ -65,10 +66,11 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         viewModel.isFetching.observe(viewLifecycleOwner, ::updateProgressBar)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateAdapter(articles: List<Article>?) {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-            articleAdapter.items = articles
-            articleAdapter.notifyDataSetChanged()
+            articleAdapter?.items = articles
+            articleAdapter?.notifyDataSetChanged()
         }
     }
 

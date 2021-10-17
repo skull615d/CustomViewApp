@@ -33,14 +33,15 @@ class WeatherDataAdapter(
             }
         ) {
 
+            binding.root.setThrottledClickListener {
+                onItemClick(item)
+            }
+            binding.root.setOnLongClickListener {
+                onItemLongClick(item)
+                true
+            }
+
             bind {
-                binding.root.setThrottledClickListener {
-                    onItemClick(item)
-                }
-                binding.root.setOnLongClickListener {
-                    onItemLongClick(item)
-                    true
-                }
                 binding.apply {
                     cityNameTextView.text = item.name
                     temperatureTextView.text = item.main.temp.toString()

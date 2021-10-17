@@ -21,10 +21,11 @@ class CityDataAdapter(onItemClick: (cityData: CityData) -> Unit) :
             { layoutInflater, parent -> ItemCityDataBinding.inflate(layoutInflater, parent, false) }
         ) {
 
+            binding.root.setThrottledClickListener {
+                onItemClick(item)
+            }
+
             bind {
-                binding.root.setThrottledClickListener {
-                    onItemClick(item)
-                }
                 binding.apply {
                     cityTextView.text = item.city
                     countryTextView.text = item.city
@@ -36,7 +37,7 @@ class CityDataAdapter(onItemClick: (cityData: CityData) -> Unit) :
 
     class CitiesDataDiffUtilCallback : DiffUtil.ItemCallback<CityData>() {
         override fun areItemsTheSame(oldItem: CityData, newItem: CityData): Boolean {
-            return false
+            return oldItem.name == newItem.name
         }
 
         override fun areContentsTheSame(oldItem: CityData, newItem: CityData): Boolean {

@@ -17,7 +17,7 @@ import me.igorfedorov.newsfeedapp.common.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.newsfeedapp.databinding.FragmentMainScreenBinding
 import me.igorfedorov.newsfeedapp.feature.main_screen.di.MAIN_SCREEN_VIEW_MODEL
 import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
-import me.igorfedorov.newsfeedapp.feature.main_screen.ui.adapter.ArticleAdapter
+import me.igorfedorov.newsfeedapp.feature.main_screen.ui.adapter.ArticlesAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 
@@ -27,7 +27,7 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
     private val binding: FragmentMainScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
-    private var articleAdapter: ArticleAdapter? = null
+    private var articlesAdapter: ArticlesAdapter? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,12 +40,12 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
     }
 
     private fun initAdapter() {
-        articleAdapter = ArticleAdapter()
+        articlesAdapter = ArticlesAdapter()
         binding.articlesRecyclerView.apply {
-            articleAdapter?.let { setAdapterAndCleanupOnDetachFromWindow(it) }
+            articlesAdapter?.let { setAdapterAndCleanupOnDetachFromWindow(it) }
             layoutManager = LinearLayoutManager(requireContext())
         }
-        articleAdapter?.items = viewModel.articles.value
+        articlesAdapter?.items = viewModel.articles.value
     }
 
     private fun observeViewModel() {
@@ -69,8 +69,8 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
     @SuppressLint("NotifyDataSetChanged")
     private fun updateAdapter(articles: List<Article>?) {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-            articleAdapter?.items = articles
-            articleAdapter?.notifyDataSetChanged()
+            articlesAdapter?.items = articles
+            articlesAdapter?.notifyDataSetChanged()
         }
     }
 

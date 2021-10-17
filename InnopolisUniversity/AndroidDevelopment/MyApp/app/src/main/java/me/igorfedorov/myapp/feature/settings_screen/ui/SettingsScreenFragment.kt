@@ -10,8 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -93,8 +91,6 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         binding.progressBarSettings.isVisible = resource is Resource.Loading
     }
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
     private fun initFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             val cityNameFlow = binding.citiesNameEditText.textChangeFlow().onStart { emit("") }

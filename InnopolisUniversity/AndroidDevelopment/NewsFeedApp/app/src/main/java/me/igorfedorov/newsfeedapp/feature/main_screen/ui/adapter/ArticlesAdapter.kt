@@ -6,7 +6,7 @@ import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import me.igorfedorov.newsfeedapp.databinding.ItemArticleBinding
 import me.igorfedorov.newsfeedapp.feature.main_screen.domain.model.Article
 
-class ArticleAdapter : AsyncListDifferDelegationAdapter<Article>(ArticleDiffUtilCallback()) {
+class ArticlesAdapter : AsyncListDifferDelegationAdapter<Article>(ArticleDiffUtilCallback()) {
 
     init {
         delegatesManager.addDelegate(articleAdapterDelegate())

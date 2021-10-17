@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
-import me.igorfedorov.myapp.common.autoCleared
+import me.igorfedorov.myapp.common.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.myapp.databinding.FragmentWeatherScreenBinding
 import me.igorfedorov.myapp.feature.weather_screen.di.VIEW_MODEL_WEATHER
 import me.igorfedorov.myapp.feature.weather_screen.domain.model.WeatherMain
@@ -40,7 +40,7 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
     private val binding
         get() = _binding ?: throw IllegalStateException("Cannot access binding")
 
-    private var weatherDataAdapter: WeatherDataAdapter by autoCleared()
+    private var weatherDataAdapter: WeatherDataAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,10 +69,10 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
             onItemLongClick = ::deleteCity
         )
         binding.weatherRecyclerView.apply {
-            adapter = weatherDataAdapter
+            weatherDataAdapter?.let { setAdapterAndCleanupOnDetachFromWindow(it) }
             layoutManager = LinearLayoutManager(requireContext())
         }
-        weatherDataAdapter.items = weatherViewModel.weather.value.data
+        weatherDataAdapter?.items = weatherViewModel.weather.value.data
     }
 
     private fun showMoreWeather(weatherMain: WeatherMain) {
@@ -122,8 +122,8 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
     private fun updateWeatherAdapterItems(data: List<WeatherMain>?) {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             Timber.d(data?.toString())
-            weatherDataAdapter.items = data
-            weatherDataAdapter.notifyDataSetChanged()
+            weatherDataAdapter?.items = data
+            weatherDataAdapter?.notifyDataSetChanged()
         }
     }
 

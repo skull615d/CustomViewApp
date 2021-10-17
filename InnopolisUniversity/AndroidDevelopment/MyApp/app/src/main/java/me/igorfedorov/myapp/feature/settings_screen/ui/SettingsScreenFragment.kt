@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
-import me.igorfedorov.myapp.common.autoCleared
+import me.igorfedorov.myapp.common.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.myapp.common.textChangeFlow
 import me.igorfedorov.myapp.databinding.FragmentSettingsScreenBinding
 import me.igorfedorov.myapp.feature.settings_screen.di.VIEW_MODEL_SETTINGS
@@ -39,7 +39,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
     private val binding
         get() = _binding ?: throw IllegalStateException("Cannot access binding")
 
-    private var cityDataAdapter: CityDataAdapter by autoCleared()
+    private var cityDataAdapter: CityDataAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,9 +57,10 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
 
         initFlow()
 
+        initAdapter()
+
         observeViewModel()
 
-        initAdapter()
     }
 
     private fun observeViewModel() {
@@ -69,11 +70,11 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
             when (it) {
                 is Resource.Success -> {
                     viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                        cityDataAdapter.items = it.data
+                        cityDataAdapter?.items = it.data
                     }
                 }
                 is Resource.Error -> {
-                    cityDataAdapter.items = emptyList()
+                    cityDataAdapter?.items = emptyList()
                     binding.errorTextView.text = it.message
                 }
                 is Resource.Loading -> {
@@ -106,10 +107,10 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
     private fun initAdapter() {
         cityDataAdapter = CityDataAdapter { onCItyDataClick(it) }
         binding.citiesRecyclerView.apply {
-            adapter = cityDataAdapter
+            cityDataAdapter?.let { setAdapterAndCleanupOnDetachFromWindow(it) }
             layoutManager = LinearLayoutManager(requireContext())
         }
-        cityDataAdapter.items = screenViewModel.citiesData.value.data
+        cityDataAdapter?.items = screenViewModel.citiesData.value.data
     }
 
     private fun onCItyDataClick(cityData: CityData) {

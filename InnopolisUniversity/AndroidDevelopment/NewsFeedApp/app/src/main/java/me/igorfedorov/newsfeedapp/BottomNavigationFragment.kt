@@ -31,13 +31,11 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
                 R.id.news_feed_menu_item -> {
                     when (menuItem.isChecked) {
                         false -> {
-                            menuItem.isEnabled = true
                             binding.bottomNavigationFragmentContainerView.findNavController()
                                 .navigate(R.id.news_feed_nav_graph)
                             true
                         }
                         true -> {
-                            menuItem.isEnabled = false
                             false
                         }
                     }

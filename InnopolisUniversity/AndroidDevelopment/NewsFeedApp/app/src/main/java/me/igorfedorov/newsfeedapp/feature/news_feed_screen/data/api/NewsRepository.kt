@@ -4,6 +4,6 @@ import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 interface NewsRepository {
 
-    suspend fun getLastHourNews(): List<Article>
+    suspend fun getHeadlinesNews(): List<Article>
 
 }

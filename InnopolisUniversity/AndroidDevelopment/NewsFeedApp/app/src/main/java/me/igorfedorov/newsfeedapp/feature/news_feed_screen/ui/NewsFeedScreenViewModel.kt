@@ -1,8 +1,9 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 
-import me.igorfedorov.newsfeedapp.base.BaseViewModel
-import me.igorfedorov.newsfeedapp.base.Event
+import me.igorfedorov.newsfeedapp.base.base_vies_model.BaseViewModel
+import me.igorfedorov.newsfeedapp.base.base_vies_model.Event
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.NewsFeedInteractor
+
 
 class NewsFeedScreenViewModel(
     private val newsFeedInteractor: NewsFeedInteractor
@@ -13,14 +14,19 @@ class NewsFeedScreenViewModel(
     }
 
     override fun initialViewState(): ViewState {
-        return ViewState(emptyList(), false)
+        return ViewState(
+            articleList = emptyList(),
+            isLoading = false,
+            errorMessage = "",
+            isInErrorState = false
+        )
     }
 
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
             is UIEvent.GetCurrentNews -> {
                 processDataEvent(DataEvent.OnLoadData)
-                newsFeedInteractor.getLastHourNews().fold(
+                newsFeedInteractor.getHeadlinesNews().fold(
                     onError = {
                         processDataEvent(DataEvent.ErrorNewsRequest(it.localizedMessage ?: ""))
                     },
@@ -33,14 +39,20 @@ class NewsFeedScreenViewModel(
                 return previousState.copy(isLoading = true)
             }
             is DataEvent.SuccessNewsRequest -> {
-                return previousState.copy(articleList = event.articleList, isLoading = false)
+                return previousState.copy(
+                    articleList = event.articleList,
+                    isLoading = false,
+                    isInErrorState = false
+                )
             }
             is DataEvent.ErrorNewsRequest -> {
+                return previousState.copy(
+                    errorMessage = event.errorMessage,
+                    isInErrorState = true
+                )
             }
 
         }
         return null
     }
-
-
 }

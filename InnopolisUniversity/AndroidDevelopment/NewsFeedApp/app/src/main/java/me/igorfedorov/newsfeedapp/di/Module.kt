@@ -1,7 +1,7 @@
 package me.igorfedorov.newsfeedapp.di
 
 import me.igorfedorov.newsfeedapp.BuildConfig
-import me.igorfedorov.newsfeedapp.common.utils.InternetAvailability
+import me.igorfedorov.newsfeedapp.base.utils.InternetAvailability
 import me.igorfedorov.newsfeedapp.di.util.ApiKeyInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

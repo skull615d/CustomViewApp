@@ -49,8 +49,28 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun render(viewState: ViewState) {
-        articlesAdapter.items = viewState.articleList
+
+        updateAdapterItems(viewState)
+
+        updateProgressBar(viewState)
+
+        updateErrorText(viewState)
+
+    }
+
+    private fun updateErrorText(viewState: ViewState) {
+        binding.errorTextView.apply {
+            text = viewState.errorMessage
+            isVisible = viewState.isInErrorState
+        }
+    }
+
+    private fun updateProgressBar(viewState: ViewState) {
         binding.progressBar.isVisible = viewState.isLoading
+    }
+
+    private fun updateAdapterItems(viewState: ViewState) {
+        articlesAdapter.items = viewState.articleList
     }
 
     private fun initAdapter() {

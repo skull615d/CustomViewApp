@@ -1,4 +1,4 @@
-package me.igorfedorov.newsfeedapp.common.utils
+package me.igorfedorov.newsfeedapp.base.utils
 
 import android.content.Context
 import android.net.NetworkCapabilities

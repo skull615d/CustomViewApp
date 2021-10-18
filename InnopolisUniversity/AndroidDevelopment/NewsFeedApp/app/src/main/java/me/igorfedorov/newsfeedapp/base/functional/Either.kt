@@ -1,4 +1,4 @@
-package me.igorfedorov.newsfeedapp.base
+package me.igorfedorov.newsfeedapp.base.functional
 
 sealed class Either<out LEFT, out RIGHT> {
 

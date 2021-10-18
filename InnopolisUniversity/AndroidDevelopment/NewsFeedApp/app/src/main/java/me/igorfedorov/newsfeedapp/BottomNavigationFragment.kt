@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import me.igorfedorov.newsfeedapp.databinding.FragmentBottomNavigationBinding
 
 class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
@@ -58,20 +56,4 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
             }
         }
     }
-
-    private fun setupBottomNavigationBar() {
-        val navGraphIds = listOf(
-            R.navigation.news_feed_nav_graph
-        )
-
-        val navHostFragment = childFragmentManager.findFragmentById(
-            R.id.bottomNavigationFragmentContainerView
-        ) as NavHostFragment
-        navController = navHostFragment.navController
-
-        // Setup the bottom navigation view with navController
-
-        binding.bottomNavigationView.setupWithNavController(navController)
-    }
-
 }

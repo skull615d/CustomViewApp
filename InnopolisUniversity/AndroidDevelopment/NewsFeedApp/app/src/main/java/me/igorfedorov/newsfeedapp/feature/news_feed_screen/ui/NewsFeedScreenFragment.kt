@@ -61,10 +61,8 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
         }
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

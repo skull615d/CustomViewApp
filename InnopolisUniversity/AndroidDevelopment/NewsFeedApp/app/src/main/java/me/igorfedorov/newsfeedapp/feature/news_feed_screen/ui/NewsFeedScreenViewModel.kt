@@ -11,7 +11,7 @@ import me.igorfedorov.newsfeedapp.common.onSuccess
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.use_case.get_last_hour_news_use_case.GetLastHourNewsUseCase
 
-class MainScreenViewModel(
+class NewsFeedScreenViewModel(
     private val getLastHourNewsUseCase: GetLastHourNewsUseCase
 ) : ViewModel() {
 

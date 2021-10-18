@@ -7,7 +7,7 @@ import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRemoteSo
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRepository
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRepositoryImpl
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.use_case.get_last_hour_news_use_case.GetLastHourNewsUseCase
-import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.MainScreenViewModel
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.NewsFeedScreenViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -37,7 +37,7 @@ val mainScreenModule = module {
     }
 
     viewModel(named(MAIN_SCREEN_VIEW_MODEL)) {
-        MainScreenViewModel(get<GetLastHourNewsUseCase>())
+        NewsFeedScreenViewModel(get<GetLastHourNewsUseCase>())
     }
 
 }

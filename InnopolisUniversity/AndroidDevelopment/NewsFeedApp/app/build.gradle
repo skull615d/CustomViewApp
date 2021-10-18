@@ -64,8 +64,11 @@ dependencies {
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
 
     // Navigation Kotlin
+    // Kotlin
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    // Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigation_version"
 
     // AdapterDelegates
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl:$adapter_delegate_version"
@@ -101,9 +104,6 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
-
-    // Kirich's View Binding Property Delegate
-    implementation 'com.github.kirich1409:viewbindingpropertydelegate:1.5.0-beta01'
 
     //Logs
     implementation "com.jakewharton.timber:timber:$timber_version"

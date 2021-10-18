@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import me.igorfedorov.newsfeedapp.databinding.FragmentBottomNavigationBinding
 
@@ -14,8 +13,6 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
     private var _binding: FragmentBottomNavigationBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("cannot access binding")
-
-    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +25,6 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {

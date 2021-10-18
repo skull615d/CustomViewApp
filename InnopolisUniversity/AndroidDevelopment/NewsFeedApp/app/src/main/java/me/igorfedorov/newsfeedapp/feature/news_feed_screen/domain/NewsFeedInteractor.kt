@@ -7,7 +7,7 @@ class NewsFeedInteractor(
     private val repository: NewsRepository
 ) {
 
-    suspend fun getNews() = attempt {
+    suspend fun getLastHourNews() = attempt {
         repository.getLastHourNews()
     }
 

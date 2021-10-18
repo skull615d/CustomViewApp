@@ -20,7 +20,7 @@ class NewsFeedScreenViewModel(
         when (event) {
             is UIEvent.GetCurrentNews -> {
                 processDataEvent(DataEvent.OnLoadData)
-                newsFeedInteractor.getNews().fold(
+                newsFeedInteractor.getLastHourNews().fold(
                     onError = {
                         processDataEvent(DataEvent.ErrorNewsRequest(it.localizedMessage ?: ""))
                     },

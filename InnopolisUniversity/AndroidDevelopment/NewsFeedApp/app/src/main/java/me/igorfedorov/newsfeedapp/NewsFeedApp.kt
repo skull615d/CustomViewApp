@@ -19,7 +19,5 @@ class NewsFeedApp : Application() {
             androidContext(this@NewsFeedApp)
             modules(appModule, mainScreenModule)
         }
-
     }
-
 }

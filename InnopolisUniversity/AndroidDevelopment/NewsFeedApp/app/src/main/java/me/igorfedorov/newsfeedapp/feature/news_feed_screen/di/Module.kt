@@ -25,19 +25,14 @@ val mainScreenModule = module {
     }
 
     single<NewsRepository> {
-        NewsRepositoryImpl(
-            get<NewsRemoteSource>()
-        )
+        NewsRepositoryImpl(get<NewsRemoteSource>())
     }
 
     single<NewsFeedInteractor> {
         NewsFeedInteractor(get<NewsRepository>())
     }
 
-
-
     viewModel(named(MAIN_SCREEN_VIEW_MODEL)) {
         NewsFeedScreenViewModel(get<NewsFeedInteractor>())
     }
-
 }

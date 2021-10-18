@@ -1,52 +1,46 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
-import me.igorfedorov.newsfeedapp.common.exception.CustomError
-import me.igorfedorov.newsfeedapp.common.onFailure
-import me.igorfedorov.newsfeedapp.common.onSuccess
-import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
-import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.use_case.get_last_hour_news_use_case.GetLastHourNewsUseCase
+import me.igorfedorov.newsfeedapp.base.BaseViewModel
+import me.igorfedorov.newsfeedapp.base.Event
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.NewsFeedInteractor
 
 class NewsFeedScreenViewModel(
-    private val getLastHourNewsUseCase: GetLastHourNewsUseCase
-) : ViewModel() {
-
-    private val _articles: MutableLiveData<List<Article>> = MutableLiveData()
-    val articles: LiveData<List<Article>>
-        get() = _articles
-
-    private val _failure: MutableLiveData<CustomError> = MutableLiveData()
-    val failure: LiveData<CustomError> = _failure
-
-    private val _isFetching: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isFetching: LiveData<Boolean>
-        get() = _isFetching
+    private val newsFeedInteractor: NewsFeedInteractor
+) : BaseViewModel<ViewState>() {
 
     init {
-        loadNews()
+        processUiEvent(UIEvent.GetCurrentNews)
     }
 
-    fun loadNews() =
-        viewModelScope.launch {
-            _isFetching.postValue(true)
-            getLastHourNewsUseCase().apply {
-                onFailure(::handleFailure)
-                onSuccess(::handleArticleList)
+    override fun initialViewState(): ViewState {
+        return ViewState(emptyList(), false)
+    }
+
+    override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
+        when (event) {
+            is UIEvent.GetCurrentNews -> {
+                processDataEvent(DataEvent.OnLoadData)
+                newsFeedInteractor.getNews().fold(
+                    onError = {
+                        processDataEvent(DataEvent.ErrorNewsRequest(it.localizedMessage ?: ""))
+                    },
+                    onSuccess = {
+                        processDataEvent(DataEvent.SuccessNewsRequest(it))
+                    }
+                )
             }
+            is DataEvent.OnLoadData -> {
+                return previousState.copy(isLoading = true)
+            }
+            is DataEvent.SuccessNewsRequest -> {
+                return previousState.copy(articleList = event.articleList, isLoading = false)
+            }
+            is DataEvent.ErrorNewsRequest -> {
+            }
+
         }
-
-    private fun handleArticleList(articles: List<Article>) {
-        _articles.postValue(articles)
-        _isFetching.postValue(false)
+        return null
     }
 
-    private fun handleFailure(customError: CustomError) {
-        _failure.value = customError
-        _isFetching.postValue(false)
-    }
 
 }

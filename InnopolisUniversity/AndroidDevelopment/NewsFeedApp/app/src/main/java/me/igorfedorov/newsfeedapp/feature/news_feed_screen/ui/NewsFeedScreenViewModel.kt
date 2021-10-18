@@ -47,11 +47,11 @@ class NewsFeedScreenViewModel(
             }
             is DataEvent.ErrorNewsRequest -> {
                 return previousState.copy(
+                    isLoading = false,
                     errorMessage = event.errorMessage,
-                    isInErrorState = true
+                    isInErrorState = true,
                 )
             }
-
         }
         return null
     }

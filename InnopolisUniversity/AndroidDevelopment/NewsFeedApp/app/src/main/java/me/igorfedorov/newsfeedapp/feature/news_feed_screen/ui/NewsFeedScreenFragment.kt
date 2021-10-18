@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.common.autoCleared
 import me.igorfedorov.newsfeedapp.common.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.newsfeedapp.databinding.FragmentNewsFeedScreenBinding
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.MAIN_SCREEN_VIEW_MODEL
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter.ArticlesAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
@@ -74,11 +76,16 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun initAdapter() {
-        articlesAdapter = ArticlesAdapter()
+        articlesAdapter = ArticlesAdapter(::openArticle)
         binding.articlesRecyclerView.apply {
             setAdapterAndCleanupOnDetachFromWindow(articlesAdapter)
             layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
         }
+    }
+
+    private fun openArticle(article: Article) {
+
     }
 
     override fun onDestroyView() {

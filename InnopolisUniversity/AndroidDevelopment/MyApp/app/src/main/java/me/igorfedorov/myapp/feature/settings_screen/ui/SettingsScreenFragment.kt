@@ -99,7 +99,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
     }
 
     private fun initAdapter() {
-        cityDataAdapter = CityDataAdapter { onItemClick(it) }
+        cityDataAdapter = CityDataAdapter(::onItemClick)
         binding.citiesRecyclerView.apply {
             setAdapterAndCleanupOnDetachFromWindow(cityDataAdapter)
             layoutManager = LinearLayoutManager(requireContext())

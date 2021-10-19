@@ -99,7 +99,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
     }
 
     private fun initAdapter() {
-        cityDataAdapter = CityDataAdapter { onCItyDataClick(it) }
+        cityDataAdapter = CityDataAdapter { onItemClick(it) }
         binding.citiesRecyclerView.apply {
             setAdapterAndCleanupOnDetachFromWindow(cityDataAdapter)
             layoutManager = LinearLayoutManager(requireContext())
@@ -107,7 +107,7 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         cityDataAdapter.items = screenViewModel.citiesData.value.data
     }
 
-    private fun onCItyDataClick(cityData: CityData) {
+    private fun onItemClick(cityData: CityData) {
         findNavController().navigate(
             SettingsScreenFragmentDirections.actionSettingsScreenFragmentToWeatherScreenFragment(
                 cityData.city

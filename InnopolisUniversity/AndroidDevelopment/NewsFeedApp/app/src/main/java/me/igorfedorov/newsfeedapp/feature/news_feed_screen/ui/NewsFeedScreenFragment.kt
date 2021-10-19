@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
 import me.igorfedorov.newsfeedapp.R
-import me.igorfedorov.newsfeedapp.common.autoCleared
 import me.igorfedorov.newsfeedapp.common.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.newsfeedapp.databinding.FragmentNewsFeedScreenBinding
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.MAIN_SCREEN_VIEW_MODEL
@@ -30,7 +29,9 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
     private val binding: FragmentNewsFeedScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
-    private var articlesAdapter: ArticlesAdapter by autoCleared()
+    private val articlesAdapter: ArticlesAdapter by lazy {
+        ArticlesAdapter(::openArticle)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,7 +76,6 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun initAdapter() {
-        articlesAdapter = ArticlesAdapter(::openArticle)
         binding.articlesRecyclerView.apply {
             setAdapterAndCleanupOnDetachFromWindow(articlesAdapter)
             layoutManager = LinearLayoutManager(requireContext())

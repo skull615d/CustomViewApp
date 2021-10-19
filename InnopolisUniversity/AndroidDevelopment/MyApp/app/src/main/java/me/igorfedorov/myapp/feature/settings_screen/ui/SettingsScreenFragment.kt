@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.CreateMethod
+import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
+import me.igorfedorov.myapp.common.autoCleared
 import me.igorfedorov.myapp.common.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.myapp.common.textChangeFlow
 import me.igorfedorov.myapp.databinding.FragmentSettingsScreenBinding
@@ -33,18 +36,15 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
         )
     )
 
-    private var _binding: FragmentSettingsScreenBinding? = null
-    private val binding
-        get() = _binding ?: throw IllegalStateException("Cannot access binding")
+    private val binding: FragmentSettingsScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
-    private var cityDataAdapter: CityDataAdapter? = null
+    private var cityDataAdapter: CityDataAdapter by autoCleared()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSettingsScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -66,11 +66,11 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
             when (it) {
                 is Resource.Success -> {
                     viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                        cityDataAdapter?.items = it.data
+                        cityDataAdapter.items = it.data
                     }
                 }
                 is Resource.Error -> {
-                    cityDataAdapter?.items = emptyList()
+                    cityDataAdapter.items = emptyList()
                     binding.errorTextView.text = it.message
                 }
                 is Resource.Loading -> {
@@ -101,10 +101,10 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
     private fun initAdapter() {
         cityDataAdapter = CityDataAdapter { onCItyDataClick(it) }
         binding.citiesRecyclerView.apply {
-            cityDataAdapter?.let { setAdapterAndCleanupOnDetachFromWindow(it) }
+            setAdapterAndCleanupOnDetachFromWindow(cityDataAdapter)
             layoutManager = LinearLayoutManager(requireContext())
         }
-        cityDataAdapter?.items = screenViewModel.citiesData.value.data
+        cityDataAdapter.items = screenViewModel.citiesData.value.data
     }
 
     private fun onCItyDataClick(cityData: CityData) {
@@ -113,10 +113,5 @@ class SettingsScreenFragment : Fragment(R.layout.fragment_settings_screen) {
                 cityData.city
             )
         )
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 }

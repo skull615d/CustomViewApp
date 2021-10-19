@@ -11,12 +11,15 @@ import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.CreateMethod
+import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import me.igorfedorov.myapp.R
 import me.igorfedorov.myapp.common.Resource
+import me.igorfedorov.myapp.common.autoCleared
 import me.igorfedorov.myapp.common.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.myapp.databinding.FragmentWeatherScreenBinding
 import me.igorfedorov.myapp.feature.weather_screen.di.VIEW_MODEL_WEATHER
@@ -36,18 +39,15 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
         )
     )
 
-    private var _binding: FragmentWeatherScreenBinding? = null
-    private val binding
-        get() = _binding ?: throw IllegalStateException("Cannot access binding")
+    private val binding: FragmentWeatherScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
-    private var weatherDataAdapter: WeatherDataAdapter? = null
+    private var weatherDataAdapter: WeatherDataAdapter by autoCleared()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWeatherScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -69,10 +69,10 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
             onItemLongClick = ::deleteCity
         )
         binding.weatherRecyclerView.apply {
-            weatherDataAdapter?.let { setAdapterAndCleanupOnDetachFromWindow(it) }
+            setAdapterAndCleanupOnDetachFromWindow(weatherDataAdapter)
             layoutManager = LinearLayoutManager(requireContext())
         }
-        weatherDataAdapter?.items = weatherViewModel.weather.value.data
+        weatherDataAdapter.items = weatherViewModel.weather.value.data
     }
 
     private fun showMoreWeather(weatherMain: WeatherMain) {
@@ -122,8 +122,8 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
     private fun updateWeatherAdapterItems(data: List<WeatherMain>?) {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             Timber.d(data?.toString())
-            weatherDataAdapter?.items = data
-            weatherDataAdapter?.notifyDataSetChanged()
+            weatherDataAdapter.items = data
+            weatherDataAdapter.notifyDataSetChanged()
         }
     }
 
@@ -136,17 +136,11 @@ class WeatherScreenFragment : Fragment(R.layout.fragment_weather_screen) {
     **/
     private fun initWeatherButton() {
         binding.getWeatherButton.setOnClickListener {
-            weatherViewModel.requestWeatherByCity("Лондон")
+            weatherViewModel.requestWeatherByCity("London")
         }
     }
 
     private fun observeProgressBarVisibility(resource: Resource<List<WeatherMain>>) {
         binding.progressBarWeather.isVisible = resource is Resource.Loading
-    }
-
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 }

@@ -6,26 +6,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import by.kirich1409.viewbindingdelegate.CreateMethod
+import by.kirich1409.viewbindingdelegate.viewBinding
 import me.igorfedorov.newsfeedapp.databinding.FragmentBottomNavigationBinding
 
 class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
-    private var _binding: FragmentBottomNavigationBinding? = null
-    private val binding
-        get() = _binding ?: throw IllegalStateException("cannot access binding")
+    private val binding: FragmentBottomNavigationBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentBottomNavigationBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        setupBottomNavigation()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBottomNavigation()
+    }
 
+    private fun setupBottomNavigation() {
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.news_feed_menu_item -> {

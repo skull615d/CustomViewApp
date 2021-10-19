@@ -8,6 +8,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.kirich1409.viewbindingdelegate.CreateMethod
+import by.kirich1409.viewbindingdelegate.viewBinding
 import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.common.autoCleared
 import me.igorfedorov.newsfeedapp.common.setAdapterAndCleanupOnDetachFromWindow
@@ -26,9 +28,7 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
         )
     )
 
-    private var _binding: FragmentNewsFeedScreenBinding? = null
-    private val binding
-        get() = _binding ?: throw IllegalStateException("Cannot access binding")
+    private val binding: FragmentNewsFeedScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
     private var articlesAdapter: ArticlesAdapter by autoCleared()
 
@@ -37,7 +37,6 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewsFeedScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -86,10 +85,5 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
     private fun openArticle(article: Article) {
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

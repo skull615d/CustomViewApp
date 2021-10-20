@@ -78,11 +78,11 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun openArticle(viewState: ViewState) {
-        if (viewState.article.url.isNotEmpty()) {
+        viewState.article?.let { article ->
             findNavController()
                 .navigate(
                     NewsFeedScreenFragmentDirections
-                        .actionNewsFeedScreenFragmentToWebViewFragment(articleURL = viewState.article.url)
+                        .actionNewsFeedScreenFragmentToWebViewFragment(articleURL = article.url)
                 )
         }
     }

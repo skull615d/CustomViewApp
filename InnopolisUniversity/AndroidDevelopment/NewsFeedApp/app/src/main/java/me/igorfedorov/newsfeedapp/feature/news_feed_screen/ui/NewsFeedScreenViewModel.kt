@@ -14,14 +14,10 @@ class NewsFeedScreenViewModel(
         processUiEvent(UIEvent.GetCurrentNews)
     }
 
-    fun openArticleWebView(article: Article) {
-        processUiEvent(UIEvent.OnArticleCLick(article))
-    }
-
     override fun initialViewState(): ViewState {
         return ViewState(
             articleList = emptyList(),
-            article = Article.empty,
+            article = null,
             isLoading = false,
             errorMessage = "",
             isInErrorState = false
@@ -44,8 +40,13 @@ class NewsFeedScreenViewModel(
             is UIEvent.OnArticleCLick -> {
                 return previousState.copy(article = event.article)
             }
+            is UIEvent.OnGoBackFromWebView -> {
+                return previousState.copy(article = null)
+            }
             is DataEvent.OnLoadData -> {
-                return previousState.copy(isLoading = true)
+                return previousState.copy(
+                    isLoading = true
+                )
             }
             is DataEvent.SuccessNewsRequest -> {
                 return previousState.copy(
@@ -58,10 +59,18 @@ class NewsFeedScreenViewModel(
                 return previousState.copy(
                     isLoading = false,
                     errorMessage = event.errorMessage,
-                    isInErrorState = true,
+                    isInErrorState = true
                 )
             }
         }
         return null
+    }
+
+    fun openArticleWebView(article: Article) {
+        processUiEvent(UIEvent.OnArticleCLick(article))
+    }
+
+    fun closeArticleWebView() {
+        processUiEvent(UIEvent.OnGoBackFromWebView)
     }
 }

@@ -17,8 +17,17 @@ import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
 import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.databinding.FragmentWebViewBinding
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.MAIN_SCREEN_VIEW_MODEL
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.core.qualifier.named
 
 class WebViewFragment : Fragment(R.layout.fragment_web_view) {
+
+    private val viewModel: NewsFeedScreenViewModel by sharedViewModel(
+        qualifier = named(
+            MAIN_SCREEN_VIEW_MODEL
+        )
+    )
 
     private val binding: FragmentWebViewBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
@@ -48,6 +57,18 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.loadUrl(navArgs<WebViewFragmentArgs>().value.articleURL)
 
+
+//        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+//            findNavController().navigate(WebViewFragmentDirections.actionWebViewFragmentToNewsFeedScreenFragment())
+//        }
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
     }
+
+    override fun onStop() {
+        viewModel.closeArticleWebView()
+        super.onStop()
+    }
+
 
 }

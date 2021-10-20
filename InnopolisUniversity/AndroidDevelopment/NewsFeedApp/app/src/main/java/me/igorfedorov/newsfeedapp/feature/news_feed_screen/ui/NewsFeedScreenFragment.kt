@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.CreateMethod
@@ -16,12 +17,12 @@ import me.igorfedorov.newsfeedapp.databinding.FragmentNewsFeedScreenBinding
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.MAIN_SCREEN_VIEW_MODEL
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter.ArticlesAdapter
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.qualifier.named
 
 class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
-    private val viewModel: NewsFeedScreenViewModel by viewModel(
+    private val viewModel: NewsFeedScreenViewModel by sharedViewModel(
         qualifier = named(
             MAIN_SCREEN_VIEW_MODEL
         )
@@ -84,6 +85,11 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun openArticle(article: Article) {
-
+        article.url?.let {
+            findNavController().navigate(
+                NewsFeedScreenFragmentDirections
+                    .actionNewsFeedScreenFragmentToWebViewFragment(articleURL = it)
+            )
+        }
     }
 }

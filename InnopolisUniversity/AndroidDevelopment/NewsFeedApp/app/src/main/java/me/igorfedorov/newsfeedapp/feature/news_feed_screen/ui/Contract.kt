@@ -1,6 +1,6 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 
-import me.igorfedorov.newsfeedapp.base.base_vies_model.Event
+import me.igorfedorov.newsfeedapp.base.base_view_model.Event
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 data class ViewState(

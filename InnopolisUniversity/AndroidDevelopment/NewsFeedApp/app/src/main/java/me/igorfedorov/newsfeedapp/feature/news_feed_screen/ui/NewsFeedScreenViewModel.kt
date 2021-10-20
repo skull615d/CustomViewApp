@@ -3,6 +3,7 @@ package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 import me.igorfedorov.newsfeedapp.base.base_view_model.BaseViewModel
 import me.igorfedorov.newsfeedapp.base.base_view_model.Event
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.NewsFeedInteractor
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 
 class NewsFeedScreenViewModel(
@@ -13,9 +14,14 @@ class NewsFeedScreenViewModel(
         processUiEvent(UIEvent.GetCurrentNews)
     }
 
+    fun openArticleWebView(article: Article) {
+        processUiEvent(UIEvent.OnArticleCLick(article))
+    }
+
     override fun initialViewState(): ViewState {
         return ViewState(
             articleList = emptyList(),
+            article = Article.empty,
             isLoading = false,
             errorMessage = "",
             isInErrorState = false
@@ -34,6 +40,9 @@ class NewsFeedScreenViewModel(
                         processDataEvent(DataEvent.SuccessNewsRequest(it))
                     }
                 )
+            }
+            is UIEvent.OnArticleCLick -> {
+                return previousState.copy(article = event.article)
             }
             is DataEvent.OnLoadData -> {
                 return previousState.copy(isLoading = true)

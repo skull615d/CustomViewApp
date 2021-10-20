@@ -47,5 +47,7 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
         }
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.loadUrl(navArgs<WebViewFragmentArgs>().value.articleURL)
+
     }
+
 }

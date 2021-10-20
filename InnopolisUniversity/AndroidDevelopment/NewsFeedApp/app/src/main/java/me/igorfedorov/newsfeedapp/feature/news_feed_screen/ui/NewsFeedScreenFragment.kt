@@ -15,7 +15,6 @@ import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.base.utils.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.newsfeedapp.databinding.FragmentNewsFeedScreenBinding
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.MAIN_SCREEN_VIEW_MODEL
-import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter.ArticlesAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.qualifier.named
@@ -31,7 +30,7 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     private val binding: FragmentNewsFeedScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
     private val articlesAdapter: ArticlesAdapter by lazy {
-        ArticlesAdapter(::openArticle)
+        ArticlesAdapter(viewModel::openArticleWebView)
     }
 
     override fun onCreateView(
@@ -59,6 +58,8 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
         updateErrorText(viewState)
 
+        openArticle(viewState)
+
     }
 
     private fun updateErrorText(viewState: ViewState) {
@@ -76,20 +77,21 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
         articlesAdapter.items = viewState.articleList
     }
 
+    private fun openArticle(viewState: ViewState) {
+        if (viewState.article.url.isNotEmpty()) {
+            findNavController()
+                .navigate(
+                    NewsFeedScreenFragmentDirections
+                        .actionNewsFeedScreenFragmentToWebViewFragment(articleURL = viewState.article.url)
+                )
+        }
+    }
+
     private fun initAdapter() {
         binding.articlesRecyclerView.apply {
             setAdapterAndCleanupOnDetachFromWindow(articlesAdapter)
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
-        }
-    }
-
-    private fun openArticle(article: Article) {
-        article.url?.let {
-            findNavController().navigate(
-                NewsFeedScreenFragmentDirections
-                    .actionNewsFeedScreenFragmentToWebViewFragment(articleURL = it)
-            )
         }
     }
 }

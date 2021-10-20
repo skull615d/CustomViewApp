@@ -1,11 +1,7 @@
 package me.igorfedorov.newsfeedapp.common.data_base
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import me.igorfedorov.newsfeedapp.common.data_base.dao.ArticlesDao
-import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
-
+/*
 @Database(
     entities = [
         Article::class
@@ -21,4 +17,4 @@ abstract class ArticlesDatabase : RoomDatabase() {
 
     abstract fun articlesDao(): ArticlesDao
 
-}
+}*/

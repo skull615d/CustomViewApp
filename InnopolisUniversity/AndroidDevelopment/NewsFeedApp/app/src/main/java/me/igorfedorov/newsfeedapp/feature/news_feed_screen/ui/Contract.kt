@@ -16,7 +16,7 @@ sealed class UIEvent() : Event {
     object GetCurrentNews : UIEvent()
     object OnGoBackFromWebView : UIEvent()
     data class OnArticleCLick(val article: Article) : UIEvent()
-    data class OnAddToBookmarks(val article: Article) : UIEvent()
+    data class OnBookmarkClick(val article: Article) : UIEvent()
 }
 
 sealed class DataEvent() : Event {

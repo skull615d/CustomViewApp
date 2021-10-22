@@ -12,7 +12,7 @@ import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 class ArticlesAdapter(
     onItemClickListener: (article: Article) -> Unit,
-    onAddToBookmarksListener: (article: Article) -> Unit
+    onBookmarkClick: (article: Article) -> Unit
 ) :
     AsyncListDifferDelegationAdapter<Article>(ArticleDiffUtilCallback()) {
 
@@ -20,7 +20,7 @@ class ArticlesAdapter(
         delegatesManager.addDelegate(
             articleAdapterDelegate(
                 onItemClickListener,
-                onAddToBookmarksListener
+                onBookmarkClick
             )
         )
     }

@@ -32,7 +32,7 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     private val articlesAdapter: ArticlesAdapter by lazy {
         ArticlesAdapter(
             onItemClickListener = viewModel::openArticleWebView,
-            onAddToBookmarksListener = viewModel::addToBookmarks
+            onBookmarkClick = viewModel::onBookmarkClick
         )
     }
 

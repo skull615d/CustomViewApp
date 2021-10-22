@@ -13,6 +13,7 @@ import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
 import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.base.utils.setAdapterAndCleanupOnDetachFromWindow
+import me.igorfedorov.newsfeedapp.base.utils.toastShort
 import me.igorfedorov.newsfeedapp.databinding.FragmentNewsFeedScreenBinding
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.MAIN_SCREEN_VIEW_MODEL
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter.ArticlesAdapter
@@ -34,6 +35,12 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
             onItemClickListener = viewModel::openArticleWebView,
             onBookmarkClick = viewModel::onBookmarkClick
         )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Kinda works
+        viewModel.onConfigurationChanged()
     }
 
     override fun onCreateView(
@@ -63,6 +70,12 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
         openArticle(viewState)
 
+        showToast(viewState)
+
+    }
+
+    private fun showToast(viewState: ViewState) {
+        viewState.toastMessage?.let { toastShort(it) }
     }
 
     private fun updateErrorText(viewState: ViewState) {

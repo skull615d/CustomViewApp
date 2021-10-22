@@ -21,6 +21,7 @@ class NewsFeedScreenViewModel(
             article = null,
             isLoading = false,
             errorMessage = null,
+            toastMessage = null
         )
     }
 
@@ -47,6 +48,16 @@ class NewsFeedScreenViewModel(
             is UIEvent.OnBookmarkClick -> {
                 bookmarksInteractor.create(event.article)
             }
+            is UIEvent.ShowToast -> {
+                return previousState.copy(
+                    toastMessage = event.toastMessage
+                )
+            }
+            is UIEvent.OnConfigurationChanged -> {
+                return previousState.copy(
+                    toastMessage = null
+                )
+            }
             is DataEvent.SuccessNewsRequest -> {
                 return previousState.copy(
                     articleList = event.articleList,
@@ -72,8 +83,14 @@ class NewsFeedScreenViewModel(
         return null
     }
 
+    fun onConfigurationChanged() {
+        processUiEvent(UIEvent.OnConfigurationChanged)
+    }
+
     fun onBookmarkClick(article: Article) {
         processUiEvent(UIEvent.OnBookmarkClick(article))
+        processUiEvent(UIEvent.ShowToast("${article.title} added to bookmarks"))
+
     }
 
     fun openArticleWebView(article: Article) {

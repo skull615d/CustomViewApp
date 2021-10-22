@@ -3,6 +3,9 @@ package me.igorfedorov.newsfeedapp.base.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.view.View
+import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import me.igorfedorov.newsfeedapp.base.common.Constants.DEFAULT_THROTTLE_DELAY
 import java.text.SimpleDateFormat
@@ -51,4 +54,20 @@ fun String.dateFromISO8601(
     formatTo: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", locale)
 ): String {
     return formatTo.format(formatFrom.parse(this) ?: "")
+}
+
+fun <T : Fragment> T.toastShort(@StringRes message: Int) {
+    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+}
+
+fun <T : Fragment> T.toastLong(@StringRes message: Int) {
+    Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+}
+
+fun <T : Fragment> T.toastShort(message: String) {
+    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+}
+
+fun <T : Fragment> T.toastLong(message: String) {
+    Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
 }

@@ -7,7 +7,8 @@ data class ViewState(
     val articleList: List<Article>,
     val article: Article?,
     val isLoading: Boolean,
-    val errorMessage: String?
+    val errorMessage: String?,
+    val toastMessage: String?
 ) {
     val isInErrorState = errorMessage != null
 }
@@ -17,6 +18,8 @@ sealed class UIEvent() : Event {
     object OnGoBackFromWebView : UIEvent()
     data class OnArticleCLick(val article: Article) : UIEvent()
     data class OnBookmarkClick(val article: Article) : UIEvent()
+    data class ShowToast(val toastMessage: String) : UIEvent()
+    object OnConfigurationChanged : UIEvent()
 }
 
 sealed class DataEvent() : Event {

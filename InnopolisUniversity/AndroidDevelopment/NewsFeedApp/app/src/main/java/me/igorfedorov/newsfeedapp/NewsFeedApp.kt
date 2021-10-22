@@ -2,6 +2,8 @@ package me.igorfedorov.newsfeedapp
 
 import android.app.Application
 import me.igorfedorov.newsfeedapp.di.appModule
+import me.igorfedorov.newsfeedapp.di.dataBaseModule
+import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.di.bookmarksModule
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.mainScreenModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -17,7 +19,7 @@ class NewsFeedApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@NewsFeedApp)
-            modules(appModule, mainScreenModule)
+            modules(appModule, mainScreenModule, dataBaseModule, bookmarksModule)
         }
     }
 }

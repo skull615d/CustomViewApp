@@ -1,12 +1,5 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model
 
-/*@Entity(
-    tableName = ArticlesContract.TABLE_NAME,
-    primaryKeys = [
-        ArticlesContract.Columns.URL
-    ],
-
-    )*/
 data class Article(
     val author: String?,
     val content: String?,

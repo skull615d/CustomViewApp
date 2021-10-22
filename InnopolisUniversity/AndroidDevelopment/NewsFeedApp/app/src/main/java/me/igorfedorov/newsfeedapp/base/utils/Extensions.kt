@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import me.igorfedorov.newsfeedapp.common.Constants.DEFAULT_THROTTLE_DELAY
+import me.igorfedorov.newsfeedapp.base.common.Constants.DEFAULT_THROTTLE_DELAY
 import java.text.SimpleDateFormat
 import java.util.*
 

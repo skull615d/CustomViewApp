@@ -26,10 +26,9 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:ellipsize="end"
         android:maxLines="3"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/addToBookmarksIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/authorTextView"
         app:layout_constraintTop_toBottomOf="@+id/authorTextView"
@@ -42,9 +41,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:contentDescription="@string/article_s_image"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/news_feed_variant_outline" />
@@ -60,5 +57,16 @@
         app:layout_constraintTop_toTopOf="@+id/authorTextView"
         app:layout_constraintVertical_weight="2"
         tools:text="2021-10-19 01:06" />
+
+    <ImageView
+        android:id="@+id/addToBookmarksIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/articleImageImageView"
+        app:layout_constraintTop_toBottomOf="@+id/articleImageImageView"
+        app:srcCompat="@drawable/news_add_to_bookmark_outline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,18 +7,20 @@ data class ViewState(
     val articleList: List<Article>,
     val article: Article?,
     val isLoading: Boolean,
-    val errorMessage: String,
-    val isInErrorState: Boolean
-)
+    val errorMessage: String?
+) {
+    val isInErrorState = errorMessage != null
+}
 
 sealed class UIEvent() : Event {
     object GetCurrentNews : UIEvent()
-    class OnArticleCLick(val article: Article) : UIEvent()
+    data class OnArticleCLick(val article: Article) : UIEvent()
     object OnGoBackFromWebView : UIEvent()
 }
 
 sealed class DataEvent() : Event {
-    object OnLoadData : DataEvent()
+    object OnLoadDataTrue : DataEvent()
+    object OnLoadDataFalse : DataEvent()
     data class SuccessNewsRequest(val articleList: List<Article>) : DataEvent()
     data class ErrorNewsRequest(val errorMessage: String) : DataEvent()
 }

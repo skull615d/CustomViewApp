@@ -19,15 +19,14 @@ class NewsFeedScreenViewModel(
             articleList = emptyList(),
             article = null,
             isLoading = false,
-            errorMessage = "",
-            isInErrorState = false
+            errorMessage = null,
         )
     }
 
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
             is UIEvent.GetCurrentNews -> {
-                processDataEvent(DataEvent.OnLoadData)
+                processDataEvent(DataEvent.OnLoadDataTrue)
                 newsFeedInteractor.getHeadlinesNews().fold(
                     onError = {
                         processDataEvent(DataEvent.ErrorNewsRequest(it.localizedMessage ?: ""))
@@ -36,6 +35,7 @@ class NewsFeedScreenViewModel(
                         processDataEvent(DataEvent.SuccessNewsRequest(it))
                     }
                 )
+                processDataEvent(DataEvent.OnLoadDataFalse)
             }
             is UIEvent.OnArticleCLick -> {
                 return previousState.copy(article = event.article)
@@ -43,23 +43,25 @@ class NewsFeedScreenViewModel(
             is UIEvent.OnGoBackFromWebView -> {
                 return previousState.copy(article = null)
             }
-            is DataEvent.OnLoadData -> {
-                return previousState.copy(
-                    isLoading = true
-                )
-            }
             is DataEvent.SuccessNewsRequest -> {
                 return previousState.copy(
                     articleList = event.articleList,
-                    isLoading = false,
-                    isInErrorState = false
+                    errorMessage = null
                 )
             }
             is DataEvent.ErrorNewsRequest -> {
                 return previousState.copy(
-                    isLoading = false,
-                    errorMessage = event.errorMessage,
-                    isInErrorState = true
+                    errorMessage = event.errorMessage
+                )
+            }
+            is DataEvent.OnLoadDataTrue -> {
+                return previousState.copy(
+                    isLoading = true
+                )
+            }
+            is DataEvent.OnLoadDataFalse -> {
+                return previousState.copy(
+                    isLoading = false
                 )
             }
         }

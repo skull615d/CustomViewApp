@@ -30,7 +30,10 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     private val binding: FragmentNewsFeedScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
 
     private val articlesAdapter: ArticlesAdapter by lazy {
-        ArticlesAdapter(viewModel::openArticleWebView)
+        ArticlesAdapter(
+            onItemClickListener = viewModel::openArticleWebView,
+            onAddToBookmarksListener = viewModel::addToBookmarks
+        )
     }
 
     override fun onCreateView(

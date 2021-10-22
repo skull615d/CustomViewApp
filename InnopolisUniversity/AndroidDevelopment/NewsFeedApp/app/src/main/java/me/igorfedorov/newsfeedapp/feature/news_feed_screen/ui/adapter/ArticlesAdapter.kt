@@ -10,20 +10,35 @@ import me.igorfedorov.newsfeedapp.base.utils.setThrottledClickListener
 import me.igorfedorov.newsfeedapp.databinding.ItemArticleBinding
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
-class ArticlesAdapter(onItemClickListener: (article: Article) -> Unit) :
+class ArticlesAdapter(
+    onItemClickListener: (article: Article) -> Unit,
+    onAddToBookmarksListener: (article: Article) -> Unit
+) :
     AsyncListDifferDelegationAdapter<Article>(ArticleDiffUtilCallback()) {
 
     init {
-        delegatesManager.addDelegate(articleAdapterDelegate(onItemClickListener))
+        delegatesManager.addDelegate(
+            articleAdapterDelegate(
+                onItemClickListener,
+                onAddToBookmarksListener
+            )
+        )
     }
 
-    private fun articleAdapterDelegate(onItemClickListener: (article: Article) -> Unit) =
+    private fun articleAdapterDelegate(
+        onItemClickListener: (article: Article) -> Unit,
+        onAddToBookmarksListener: (article: Article) -> Unit
+    ) =
         adapterDelegateViewBinding<Article, Article, ItemArticleBinding>(
             { layoutInflater, parent -> ItemArticleBinding.inflate(layoutInflater, parent, false) }
         ) {
 
             binding.root.setThrottledClickListener {
                 onItemClickListener(item)
+            }
+
+            binding.addToBookmarksIcon.setThrottledClickListener {
+                onAddToBookmarksListener(item)
             }
 
             bind {

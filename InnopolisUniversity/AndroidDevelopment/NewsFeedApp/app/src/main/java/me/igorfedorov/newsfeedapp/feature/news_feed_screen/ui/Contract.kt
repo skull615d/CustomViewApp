@@ -14,8 +14,9 @@ data class ViewState(
 
 sealed class UIEvent() : Event {
     object GetCurrentNews : UIEvent()
-    data class OnArticleCLick(val article: Article) : UIEvent()
     object OnGoBackFromWebView : UIEvent()
+    data class OnArticleCLick(val article: Article) : UIEvent()
+    data class OnAddToBookmarks(val article: Article) : UIEvent()
 }
 
 sealed class DataEvent() : Event {

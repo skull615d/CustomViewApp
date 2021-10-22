@@ -2,12 +2,14 @@ package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 
 import me.igorfedorov.newsfeedapp.base.base_view_model.BaseViewModel
 import me.igorfedorov.newsfeedapp.base.base_view_model.Event
+import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.domain.BookmarksInteractor
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.NewsFeedInteractor
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 
 class NewsFeedScreenViewModel(
-    private val newsFeedInteractor: NewsFeedInteractor
+    private val newsFeedInteractor: NewsFeedInteractor,
+    private val bookmarksInteractor: BookmarksInteractor
 ) : BaseViewModel<ViewState>() {
 
     init {
@@ -43,6 +45,9 @@ class NewsFeedScreenViewModel(
             is UIEvent.OnGoBackFromWebView -> {
                 return previousState.copy(article = null)
             }
+            is UIEvent.OnAddToBookmarks -> {
+                bookmarksInteractor.create(event.article)
+            }
             is DataEvent.SuccessNewsRequest -> {
                 return previousState.copy(
                     articleList = event.articleList,
@@ -66,6 +71,10 @@ class NewsFeedScreenViewModel(
             }
         }
         return null
+    }
+
+    fun addToBookmarks(article: Article) {
+        processUiEvent(UIEvent.OnAddToBookmarks(article))
     }
 
     fun openArticleWebView(article: Article) {

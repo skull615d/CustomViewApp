@@ -6,7 +6,6 @@ import me.igorfedorov.newsfeedapp.base.data_base.BookmarksDatabase
 import me.igorfedorov.newsfeedapp.base.utils.InternetAvailability
 import me.igorfedorov.newsfeedapp.di.util.ApiKeyInterceptor
 import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.dao.BookmarkDao
-import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.dao.SourceDao
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -54,9 +53,5 @@ val dataBaseModule = module {
 
     single<BookmarkDao> {
         get<BookmarksDatabase>().bookmarksDao()
-    }
-
-    single<SourceDao> {
-        get<BookmarksDatabase>().sourceDao()
     }
 }

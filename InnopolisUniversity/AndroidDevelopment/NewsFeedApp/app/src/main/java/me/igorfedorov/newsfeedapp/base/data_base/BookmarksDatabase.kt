@@ -3,7 +3,6 @@ package me.igorfedorov.newsfeedapp.base.data_base
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.dao.BookmarkDao
-import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.dao.SourceDao
 import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.entities.BookmarkEntity
 
 
@@ -21,6 +20,5 @@ abstract class BookmarksDatabase : RoomDatabase() {
     }
 
     abstract fun bookmarksDao(): BookmarkDao
-    abstract fun sourceDao(): SourceDao
 
 }

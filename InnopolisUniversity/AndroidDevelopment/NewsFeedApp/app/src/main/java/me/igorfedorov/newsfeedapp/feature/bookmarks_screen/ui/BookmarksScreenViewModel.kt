@@ -4,7 +4,7 @@ import me.igorfedorov.newsfeedapp.base.base_view_model.BaseViewModel
 import me.igorfedorov.newsfeedapp.base.base_view_model.Event
 import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.domain.BookmarksInteractor
 
-class BookmarksViewModel(
+class BookmarksScreenViewModel(
     private val bookmarksInteractor: BookmarksInteractor
 ) : BaseViewModel<ViewState>() {
 

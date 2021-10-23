@@ -14,7 +14,8 @@ class BookmarksScreenViewModel(
 
     override fun initialViewState(): ViewState {
         return ViewState(
-            articles = emptyList()
+            articles = emptyList(),
+            null
         )
     }
 
@@ -33,6 +34,9 @@ class BookmarksScreenViewModel(
             }
             is DataEvent.SuccessBookmarksRequest -> {
                 return previousState.copy(articles = event.articles)
+            }
+            is DataEvent.ErrorBookmarksRequest -> {
+                return previousState.copy(errorMessage = event.errorMessage)
             }
         }
         return null

@@ -7,5 +7,5 @@
     <fragment
         android:id="@+id/bookmarksScreenFragment"
         android:name="me.igorfedorov.newsfeedapp.feature.bookmarks_screen.ui.BookmarksScreenFragment"
-        android:label="BookmarksScreenFragment" />
+        android:label="Bookmarks" />
 </navigation>

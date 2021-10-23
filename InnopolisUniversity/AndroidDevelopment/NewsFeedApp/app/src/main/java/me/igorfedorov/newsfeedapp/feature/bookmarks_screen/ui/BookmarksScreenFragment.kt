@@ -7,7 +7,6 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import me.igorfedorov.newsfeedapp.R
@@ -22,7 +21,9 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks_screen) {
 
     private val viewModel: BookmarksScreenViewModel by viewModel()
 
-    private val binding: FragmentBookmarksScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
+    private val binding: FragmentBookmarksScreenBinding by viewBinding(
+        FragmentBookmarksScreenBinding::bind
+    )
 
     private val articlesAdapter by lazy {
         ListDelegationAdapter(

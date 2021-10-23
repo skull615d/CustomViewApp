@@ -15,6 +15,7 @@ import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.entities.B
 abstract class BookmarksDatabase : RoomDatabase() {
 
     companion object {
+
         const val DB_VERSION = 1
         const val DB_NAME = "bookmarks_database"
     }

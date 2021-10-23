@@ -14,23 +14,15 @@ class NewsFeedInteractor(
         val news = newsRepository.getHeadlinesNews()
         val bookmarks = bookmarksRepository.read()
         news.map { article ->
-            if (bookmarks.map { bookmarksArticle ->
-                    bookmarksArticle.url
-                }.contains(article.url)) {
-                article.copy(isBookmarked = true)
-            } else {
-                article.copy(isBookmarked = false)
-            }
+            article.copy(isBookmarked = bookmarks.map { it.url }.contains(article.url))
         }
     }
 
-    suspend fun addArticleToBookmarks(article: Article) {
+    suspend fun addArticleToBookmarks(article: Article) = attempt {
         bookmarksRepository.create(article.copy(isBookmarked = true))
     }
 
-    suspend fun deleteArticleFromBookmarks(article: Article) {
+    suspend fun deleteArticleFromBookmarks(article: Article) = attempt {
         bookmarksRepository.delete(article)
     }
-
-
 }

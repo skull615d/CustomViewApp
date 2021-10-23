@@ -8,16 +8,19 @@ class BookmarksInteractor(
     private val bookmarksRepository: BookmarksRepository
 ) {
 
-    suspend fun create(article: Article) = bookmarksRepository.create(article)
+    suspend fun create(article: Article) = attempt {
+        bookmarksRepository.create(article)
+    }
 
     suspend fun read() = attempt {
         bookmarksRepository.read()
     }
 
-    suspend fun update(article: Article) = bookmarksRepository.update(article)
+    suspend fun update(article: Article) = attempt {
+        bookmarksRepository.update(article)
+    }
 
     suspend fun delete(article: Article) = attempt {
         bookmarksRepository.delete(article)
     }
-
 }

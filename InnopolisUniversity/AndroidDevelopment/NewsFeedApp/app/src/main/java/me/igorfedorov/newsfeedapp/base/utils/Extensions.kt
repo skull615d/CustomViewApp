@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
 import me.igorfedorov.newsfeedapp.base.common.Constants.DEFAULT_THROTTLE_DELAY
 import java.text.SimpleDateFormat
 import java.util.*
@@ -70,4 +71,9 @@ fun <T : Fragment> T.toastShort(message: String) {
 
 fun <T : Fragment> T.toastLong(message: String) {
     Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+}
+
+fun <T> AbsDelegationAdapter<T>.setData(data: T) {
+    items = data
+    notifyDataSetChanged()
 }

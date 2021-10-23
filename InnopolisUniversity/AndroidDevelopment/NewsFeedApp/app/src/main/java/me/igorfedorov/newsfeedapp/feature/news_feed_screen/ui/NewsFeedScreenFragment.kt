@@ -1,22 +1,21 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.base.utils.setAdapterAndCleanupOnDetachFromWindow
+import me.igorfedorov.newsfeedapp.base.utils.setData
 import me.igorfedorov.newsfeedapp.base.utils.toastShort
 import me.igorfedorov.newsfeedapp.databinding.FragmentNewsFeedScreenBinding
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.MAIN_SCREEN_VIEW_MODEL
-import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter.ArticlesAdapter
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter.articleAdapterDelegate
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.qualifier.named
 
@@ -28,12 +27,14 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
         )
     )
 
-    private val binding: FragmentNewsFeedScreenBinding by viewBinding(createMethod = CreateMethod.INFLATE)
+    private val binding: FragmentNewsFeedScreenBinding by viewBinding(FragmentNewsFeedScreenBinding::bind)
 
-    private val articlesAdapter: ArticlesAdapter by lazy {
-        ArticlesAdapter(
-            onItemClickListener = viewModel::openArticleWebView,
-            onBookmarkClick = viewModel::onBookmarkClick
+    private val articlesAdapter by lazy {
+        ListDelegationAdapter(
+            articleAdapterDelegate(
+                onItemClickListener = viewModel::openArticleWebView,
+                onBookmarkClick = viewModel::onBookmarkClick
+            )
         )
     }
 
@@ -41,14 +42,6 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
         super.onStart()
         // Kinda works
         viewModel.onConfigurationChanged()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,7 +83,7 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun updateAdapterItems(viewState: ViewState) {
-        articlesAdapter.items = viewState.articleList
+        articlesAdapter.setData(viewState.articleList)
     }
 
     private fun openArticle(viewState: ViewState) {

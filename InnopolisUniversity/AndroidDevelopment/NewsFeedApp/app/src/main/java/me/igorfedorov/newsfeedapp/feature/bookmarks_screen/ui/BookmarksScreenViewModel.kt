@@ -13,12 +13,10 @@ class BookmarksScreenViewModel(
         processUiEvent(UIEvent.GetCurrentBookmarks)
     }
 
-    override fun initialViewState(): ViewState {
-        return ViewState(
-            articles = emptyList(),
-            null
-        )
-    }
+    override fun initialViewState() = ViewState(
+        articles = emptyList(),
+        null
+    )
 
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {

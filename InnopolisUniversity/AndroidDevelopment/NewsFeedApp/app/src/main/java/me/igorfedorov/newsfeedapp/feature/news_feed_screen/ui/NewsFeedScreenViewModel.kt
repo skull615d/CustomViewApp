@@ -48,13 +48,22 @@ class NewsFeedScreenViewModel(
             is DataEvent.AddArticleToBookmarks -> {
                 newsFeedInteractor.addArticleToBookmarks(event.article)
                 return previousState.copy(articleList = previousState.articleList.map {
-                    it.copy(isBookmarked = it == event.article)
+                    if (it == event.article) {
+                        it.copy(isBookmarked = true)
+                    } else {
+                        it
+                    }
                 })
+
             }
             is DataEvent.RemoveArticleFromBookmarks -> {
                 newsFeedInteractor.deleteArticleFromBookmarks(event.article)
                 return previousState.copy(articleList = previousState.articleList.map {
-                    it.copy(isBookmarked = it != event.article)
+                    if (it == event.article) {
+                        it.copy(isBookmarked = false)
+                    } else {
+                        it
+                    }
                 })
             }
             is DataEvent.SuccessNewsRequest -> {

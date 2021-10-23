@@ -51,19 +51,11 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks_screen) {
     }
 
     private fun initAdapter() {
-        with(binding) {
-            rvBookmarks.apply {
-                setAdapterAndCleanupOnDetachFromWindow(articlesAdapter)
-                layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(
-                    DividerItemDecoration(
-                        requireContext(),
-                        LinearLayoutManager.VERTICAL
-                    )
-                )
-            }
+        binding.rvBookmarks.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            setAdapterAndCleanupOnDetachFromWindow(articlesAdapter)
         }
-        articlesAdapter.setData(viewModel.viewState.value?.articles)
     }
 
     private fun showCustomTab(it: Article) {

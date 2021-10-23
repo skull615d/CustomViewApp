@@ -54,7 +54,6 @@ class NewsFeedScreenViewModel(
                         it
                     }
                 })
-
             }
             is DataEvent.RemoveArticleFromBookmarks -> {
                 newsFeedInteractor.deleteArticleFromBookmarks(event.article)

@@ -22,9 +22,7 @@ import org.koin.core.qualifier.named
 class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
     private val viewModel: NewsFeedScreenViewModel by sharedViewModel(
-        qualifier = named(
-            MAIN_SCREEN_VIEW_MODEL
-        )
+        qualifier = named(MAIN_SCREEN_VIEW_MODEL)
     )
 
     private val binding: FragmentNewsFeedScreenBinding by viewBinding(FragmentNewsFeedScreenBinding::bind)
@@ -97,10 +95,10 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun initAdapter() {
-        binding.articlesRecyclerView.apply {
-            setAdapterAndCleanupOnDetachFromWindow(articlesAdapter)
+        binding.rvArticles.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            setAdapterAndCleanupOnDetachFromWindow(articlesAdapter)
         }
     }
 }

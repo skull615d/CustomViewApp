@@ -25,6 +25,11 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks_screen) {
         ArticlesAdapter({}, {})
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateUi()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

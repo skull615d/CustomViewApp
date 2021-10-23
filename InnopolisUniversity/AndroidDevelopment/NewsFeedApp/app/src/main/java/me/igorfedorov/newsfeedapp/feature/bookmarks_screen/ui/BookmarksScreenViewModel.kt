@@ -41,4 +41,8 @@ class BookmarksScreenViewModel(
         }
         return null
     }
+
+    fun updateUi() {
+        processUiEvent(UIEvent.GetCurrentBookmarks)
+    }
 }

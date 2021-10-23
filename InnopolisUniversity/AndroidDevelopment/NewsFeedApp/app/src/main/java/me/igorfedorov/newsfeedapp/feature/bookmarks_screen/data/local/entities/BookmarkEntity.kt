@@ -24,5 +24,7 @@ data class BookmarkEntity(
     @ColumnInfo(name = BookmarksContract.Columns.TITLE)
     val title: String?,
     @ColumnInfo(name = BookmarksContract.Columns.URL_TO_IMAGE)
-    val urlToImage: String?
+    val urlToImage: String?,
+    @ColumnInfo(name = BookmarksContract.Columns.IS_BOOKMARKED)
+    val isBookmarked: Boolean
 )

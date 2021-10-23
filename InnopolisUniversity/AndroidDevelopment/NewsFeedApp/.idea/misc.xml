@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.5796875" />
+        <entry key="app/src/main/res/drawable/bookmark.xml" value="0.5953125" />
+        <entry key="app/src/main/res/drawable/bookmark_outline.xml" value="0.5953125" />
+        <entry key="app/src/main/res/drawable/news_add_to_bookmark_outline.xml" value="0.5953125" />
+        <entry key="app/src/main/res/drawable/news_bookmark_multiple_outline.xml" value="0.5953125" />
+        <entry key="app/src/main/res/drawable/remove_from_bookmarks.xml" value="0.5953125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4569746376811594" />
         <entry key="app/src/main/res/layout/fragment_bookmarks_screen.xml" value="0.5791666666666667" />
         <entry key="app/src/main/res/layout/fragment_bottom_navigation.xml" value="0.5584" />

@@ -2,13 +2,11 @@ package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 
 import me.igorfedorov.newsfeedapp.base.base_view_model.BaseViewModel
 import me.igorfedorov.newsfeedapp.base.base_view_model.Event
-import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.domain.BookmarksInteractor
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.NewsFeedInteractor
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 class NewsFeedScreenViewModel(
-    private val newsFeedInteractor: NewsFeedInteractor,
-    private val bookmarksInteractor: BookmarksInteractor
+    private val newsFeedInteractor: NewsFeedInteractor
 ) : BaseViewModel<ViewState>() {
 
     init {
@@ -45,9 +43,6 @@ class NewsFeedScreenViewModel(
             is UIEvent.OnGoBackFromWebView -> {
                 return previousState.copy(article = null)
             }
-            is UIEvent.OnBookmarkClick -> {
-                bookmarksInteractor.create(event.article)
-            }
             is UIEvent.ShowToast -> {
                 return previousState.copy(
                     toastMessage = event.toastMessage
@@ -57,6 +52,26 @@ class NewsFeedScreenViewModel(
                 return previousState.copy(
                     toastMessage = null
                 )
+            }
+            is DataEvent.AddArticleToBookmarks -> {
+                newsFeedInteractor.addArticleToBookmarks(event.article)
+                return previousState.copy(articleList = previousState.articleList.map {
+                    if (it == event.article) {
+                        it.copy(isBookmarked = true)
+                    } else {
+                        it
+                    }
+                })
+            }
+            is DataEvent.RemoveArticleFromBookmarks -> {
+                newsFeedInteractor.deleteArticleFromBookmarks(event.article)
+                return previousState.copy(articleList = previousState.articleList.map {
+                    if (it == event.article) {
+                        it.copy(isBookmarked = false)
+                    } else {
+                        it
+                    }
+                })
             }
             is DataEvent.SuccessNewsRequest -> {
                 return previousState.copy(
@@ -88,9 +103,12 @@ class NewsFeedScreenViewModel(
     }
 
     fun onBookmarkClick(article: Article) {
-        processUiEvent(UIEvent.OnBookmarkClick(article))
-        processUiEvent(UIEvent.ShowToast("${article.title} added to bookmarks"))
-
+        if (!article.isBookmarked) {
+            processDataEvent(DataEvent.AddArticleToBookmarks(article))
+            processUiEvent(UIEvent.ShowToast("${article.title} added to bookmarks"))
+        } else {
+            processDataEvent(DataEvent.RemoveArticleFromBookmarks(article))
+        }
     }
 
     fun openArticleWebView(article: Article) {

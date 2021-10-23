@@ -27,7 +27,7 @@ class ArticlesAdapter(
 
     private fun articleAdapterDelegate(
         onItemClickListener: (article: Article) -> Unit,
-        onAddToBookmarksListener: (article: Article) -> Unit
+        onBookmarkClick: (article: Article) -> Unit
     ) =
         adapterDelegateViewBinding<Article, Article, ItemArticleBinding>(
             { layoutInflater, parent -> ItemArticleBinding.inflate(layoutInflater, parent, false) }
@@ -38,7 +38,7 @@ class ArticlesAdapter(
             }
 
             binding.addToBookmarksIcon.setThrottledClickListener {
-                onAddToBookmarksListener(item)
+                onBookmarkClick(item)
             }
 
             bind {
@@ -50,6 +50,8 @@ class ArticlesAdapter(
                         .centerCrop()
                         .placeholder(R.drawable.news_feed_variant_outline)
                         .into(binding.articleImageImageView)
+                    addToBookmarksIcon.setImageResource(R.drawable.add_to_bookmarks)
+                    if (item.isBookmarked) addToBookmarksIcon.setImageResource(R.drawable.remove_from_bookmarks)
                 }
             }
         }

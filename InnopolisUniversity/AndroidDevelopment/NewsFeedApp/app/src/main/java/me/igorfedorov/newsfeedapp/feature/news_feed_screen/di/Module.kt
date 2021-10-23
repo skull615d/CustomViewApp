@@ -1,7 +1,7 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.di
 
 import me.igorfedorov.newsfeedapp.di.APP_MODULE_RETROFIT
-import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.domain.BookmarksInteractor
+import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.BookmarksRepository
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.MainScreenNewsApi
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRemoteSource
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRepository
@@ -30,13 +30,15 @@ val mainScreenModule = module {
     }
 
     single<NewsFeedInteractor> {
-        NewsFeedInteractor(get<NewsRepository>())
+        NewsFeedInteractor(
+            newsRepository = get<NewsRepository>(),
+            bookmarksRepository = get<BookmarksRepository>()
+        )
     }
 
     viewModel(named(MAIN_SCREEN_VIEW_MODEL)) {
         NewsFeedScreenViewModel(
-            newsFeedInteractor = get<NewsFeedInteractor>(),
-            bookmarksInteractor = get<BookmarksInteractor>()
+            newsFeedInteractor = get<NewsFeedInteractor>()
         )
     }
 }

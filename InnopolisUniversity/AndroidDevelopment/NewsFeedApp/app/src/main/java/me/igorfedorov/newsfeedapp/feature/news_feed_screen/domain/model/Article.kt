@@ -8,7 +8,8 @@ data class Article(
     val source: Source?,
     val title: String?,
     val url: String,
-    val urlToImage: String?
+    val urlToImage: String?,
+    var isBookmarked: Boolean
 ) {
 
     companion object {
@@ -20,7 +21,8 @@ data class Article(
             source = Source.empty,
             title = "",
             url = "",
-            urlToImage = ""
+            urlToImage = "",
+            isBookmarked = false
         )
     }
 }

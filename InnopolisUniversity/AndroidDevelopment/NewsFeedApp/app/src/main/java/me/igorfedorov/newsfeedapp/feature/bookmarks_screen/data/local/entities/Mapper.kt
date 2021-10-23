@@ -9,7 +9,8 @@ fun Article.toBookmark() = BookmarkEntity(
     description = description,
     publishedAt = publishedAt,
     title = title,
-    urlToImage = urlToImage
+    urlToImage = urlToImage,
+    isBookmarked = isBookmarked
 )
 
 fun BookmarkEntity.toArticle() = Article(
@@ -20,5 +21,6 @@ fun BookmarkEntity.toArticle() = Article(
     source = null,
     title = title,
     url = url,
-    urlToImage = urlToImage
+    urlToImage = urlToImage,
+    isBookmarked = isBookmarked
 )

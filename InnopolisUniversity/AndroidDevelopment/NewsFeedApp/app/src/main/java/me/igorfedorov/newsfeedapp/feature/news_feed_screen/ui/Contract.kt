@@ -17,7 +17,6 @@ sealed class UIEvent() : Event {
     object GetCurrentNews : UIEvent()
     object OnGoBackFromWebView : UIEvent()
     data class OnArticleCLick(val article: Article) : UIEvent()
-    data class OnBookmarkClick(val article: Article) : UIEvent()
     data class ShowToast(val toastMessage: String) : UIEvent()
     object OnConfigurationChanged : UIEvent()
 }
@@ -27,4 +26,6 @@ sealed class DataEvent() : Event {
     object OnLoadDataFalse : DataEvent()
     data class SuccessNewsRequest(val articleList: List<Article>) : DataEvent()
     data class ErrorNewsRequest(val errorMessage: String) : DataEvent()
+    data class AddArticleToBookmarks(val article: Article) : DataEvent()
+    data class RemoveArticleFromBookmarks(val article: Article) : DataEvent()
 }

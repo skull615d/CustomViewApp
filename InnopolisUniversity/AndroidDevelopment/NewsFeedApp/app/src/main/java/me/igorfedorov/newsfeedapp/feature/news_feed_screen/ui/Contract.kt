@@ -6,11 +6,11 @@ import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 data class ViewState(
     val articleList: List<Article>,
     val article: Article?,
-    val isLoading: Boolean,
     val errorMessage: String?,
     val toastMessage: String?
 ) {
     val isInErrorState = errorMessage != null
+    val isLoading = articleList.isEmpty() && !isInErrorState
 }
 
 sealed class UIEvent() : Event {
@@ -22,8 +22,6 @@ sealed class UIEvent() : Event {
 }
 
 sealed class DataEvent() : Event {
-    object OnLoadDataTrue : DataEvent()
-    object OnLoadDataFalse : DataEvent()
     data class SuccessNewsRequest(val articleList: List<Article>) : DataEvent()
     data class ErrorNewsRequest(val errorMessage: String) : DataEvent()
     data class AddArticleToBookmarks(val article: Article) : DataEvent()

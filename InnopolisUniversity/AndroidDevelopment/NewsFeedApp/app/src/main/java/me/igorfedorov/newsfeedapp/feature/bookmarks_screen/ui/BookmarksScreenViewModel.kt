@@ -3,6 +3,7 @@ package me.igorfedorov.newsfeedapp.feature.bookmarks_screen.ui
 import me.igorfedorov.newsfeedapp.base.base_view_model.BaseViewModel
 import me.igorfedorov.newsfeedapp.base.base_view_model.Event
 import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.domain.BookmarksInteractor
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 class BookmarksScreenViewModel(
     private val bookmarksInteractor: BookmarksInteractor
@@ -32,6 +33,16 @@ class BookmarksScreenViewModel(
                     }
                 )
             }
+            is DataEvent.RemoveFromBookmarks -> {
+                bookmarksInteractor.delete(event.article).fold(
+                    onError = {
+                        processDataEvent(DataEvent.ErrorBookmarksRequest(it.localizedMessage ?: ""))
+                    },
+                    onSuccess = {
+                        processUiEvent(UIEvent.GetCurrentBookmarks)
+                    }
+                )
+            }
             is DataEvent.SuccessBookmarksRequest -> {
                 return previousState.copy(articles = event.articles)
             }
@@ -44,5 +55,9 @@ class BookmarksScreenViewModel(
 
     fun updateUi() {
         processUiEvent(UIEvent.GetCurrentBookmarks)
+    }
+
+    fun deleteFromBookmarks(article: Article) {
+        processDataEvent(DataEvent.RemoveFromBookmarks(article))
     }
 }

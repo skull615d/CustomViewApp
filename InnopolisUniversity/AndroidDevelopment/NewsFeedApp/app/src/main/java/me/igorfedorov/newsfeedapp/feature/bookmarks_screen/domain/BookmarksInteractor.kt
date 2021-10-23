@@ -16,6 +16,8 @@ class BookmarksInteractor(
 
     suspend fun update(article: Article) = bookmarksRepository.update(article)
 
-    suspend fun delete(article: Article) = bookmarksRepository.delete(article)
+    suspend fun delete(article: Article) = attempt {
+        bookmarksRepository.delete(article)
+    }
 
 }

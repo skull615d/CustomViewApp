@@ -26,12 +26,9 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks_screen) {
 
     private val articlesAdapter: ArticlesAdapter by lazy {
         ArticlesAdapter(
-            onItemClickListener = {
-                showCustomTab(it)
-            },
-            onBookmarkClick = {
-
-            })
+            onItemClickListener = ::showCustomTab,
+            onBookmarkClick = viewModel::deleteFromBookmarks
+        )
     }
 
     private fun showCustomTab(it: Article) {
@@ -72,5 +69,6 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks_screen) {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
         }
+        articlesAdapter.items = viewModel.viewState.value?.articles
     }
 }

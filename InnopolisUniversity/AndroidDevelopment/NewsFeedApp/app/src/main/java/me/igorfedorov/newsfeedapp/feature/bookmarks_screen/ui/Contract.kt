@@ -20,5 +20,6 @@ sealed class DataEvent() : Event {
     object OnLoadData : DataEvent()
     data class SuccessBookmarksRequest(val articles: List<Article>) : DataEvent()
     data class ErrorBookmarksRequest(val errorMessage: String) : DataEvent()
+    data class RemoveFromBookmarks(val article: Article) : DataEvent()
 }
 

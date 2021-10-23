@@ -17,7 +17,6 @@ class NewsFeedScreenViewModel(
         return ViewState(
             articleList = emptyList(),
             article = null,
-            isLoading = false,
             errorMessage = null,
             toastMessage = null
         )
@@ -26,7 +25,6 @@ class NewsFeedScreenViewModel(
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
             is UIEvent.GetCurrentNews -> {
-                processDataEvent(DataEvent.OnLoadDataTrue)
                 newsFeedInteractor.getHeadlinesNews().fold(
                     onError = {
                         processDataEvent(DataEvent.ErrorNewsRequest(it.localizedMessage ?: ""))
@@ -35,7 +33,6 @@ class NewsFeedScreenViewModel(
                         processDataEvent(DataEvent.SuccessNewsRequest(it))
                     }
                 )
-                processDataEvent(DataEvent.OnLoadDataFalse)
             }
             is UIEvent.OnArticleCLick -> {
                 return previousState.copy(article = event.article)
@@ -49,6 +46,7 @@ class NewsFeedScreenViewModel(
                 )
             }
             is UIEvent.OnConfigurationChanged -> {
+                processUiEvent(UIEvent.GetCurrentNews)
                 return previousState.copy(
                     toastMessage = null
                 )
@@ -82,16 +80,6 @@ class NewsFeedScreenViewModel(
             is DataEvent.ErrorNewsRequest -> {
                 return previousState.copy(
                     errorMessage = event.errorMessage
-                )
-            }
-            is DataEvent.OnLoadDataTrue -> {
-                return previousState.copy(
-                    isLoading = true
-                )
-            }
-            is DataEvent.OnLoadDataFalse -> {
-                return previousState.copy(
-                    isLoading = false
                 )
             }
         }

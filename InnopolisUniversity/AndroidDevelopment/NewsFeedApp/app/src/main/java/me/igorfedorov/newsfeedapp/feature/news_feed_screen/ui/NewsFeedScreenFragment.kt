@@ -91,6 +91,7 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
     private fun updateAdapterItems(viewState: ViewState) {
         articlesAdapter.items = viewState.articleList
+        articlesAdapter.notifyDataSetChanged()
     }
 
     private fun openArticle(viewState: ViewState) {

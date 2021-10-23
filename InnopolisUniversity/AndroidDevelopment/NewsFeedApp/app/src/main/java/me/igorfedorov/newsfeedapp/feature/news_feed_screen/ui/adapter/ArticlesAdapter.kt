@@ -2,7 +2,7 @@ package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
-import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
+import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.base.utils.dateFromISO8601
@@ -14,7 +14,7 @@ class ArticlesAdapter(
     onItemClickListener: (article: Article) -> Unit,
     onBookmarkClick: (article: Article) -> Unit
 ) :
-    AsyncListDifferDelegationAdapter<Article>(ArticleDiffUtilCallback()) {
+    ListDelegationAdapter<List<Article>>() {
 
     init {
         delegatesManager.addDelegate(

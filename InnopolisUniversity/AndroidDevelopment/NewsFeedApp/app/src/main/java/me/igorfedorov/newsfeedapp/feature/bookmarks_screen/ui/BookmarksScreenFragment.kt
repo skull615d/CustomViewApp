@@ -61,6 +61,7 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks_screen) {
 
     private fun render(viewState: ViewState) {
         articlesAdapter.items = viewState.articles
+        articlesAdapter.notifyDataSetChanged()
     }
 
     private fun initAdapter() {

@@ -13,14 +13,14 @@ data class ViewState(
 }
 
 sealed class UIEvent() : Event {
-    object GetCurrentNews : UIEvent()
+    object GetArticlesFromDB : UIEvent()
     object OnGoBackFromWebView : UIEvent()
     data class OnArticleCLick(val article: Article) : UIEvent()
-    data class ShowToast(val toastMessage: String) : UIEvent()
     object OnConfigurationChanged : UIEvent()
 }
 
 sealed class DataEvent() : Event {
+    object GetCurrentNews : UIEvent()
     data class SuccessNewsRequest(val articleList: List<Article>) : DataEvent()
     data class ErrorNewsRequest(val errorMessage: String) : DataEvent()
     data class AddArticleToBookmarks(val article: Article) : DataEvent()

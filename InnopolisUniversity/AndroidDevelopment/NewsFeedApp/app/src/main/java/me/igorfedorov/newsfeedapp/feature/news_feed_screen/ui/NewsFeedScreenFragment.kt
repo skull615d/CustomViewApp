@@ -33,9 +33,14 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
         )
     }
 
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         // Kinda works
+        viewModel.onConfigurationChanged()
+    }*/
+
+    override fun onResume() {
+        super.onResume()
         viewModel.onConfigurationChanged()
     }
 

@@ -11,7 +11,7 @@ class NewsFeedScreenViewModel(
 ) : BaseViewModel<ViewState>() {
 
     init {
-        processUiEvent(UIEvent.GetCurrentNews)
+        processUiEvent(UIEvent.GetArticlesFromDB)
     }
 
     val toastEvent = SingleLiveEvent<String>()
@@ -24,13 +24,12 @@ class NewsFeedScreenViewModel(
 
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
-            is UIEvent.GetCurrentNews -> {
-                newsFeedInteractor.getHeadlinesNews().fold(
-                    onError = {
-                        processDataEvent(DataEvent.ErrorNewsRequest(it.localizedMessage ?: ""))
-                    },
+            is UIEvent.GetArticlesFromDB -> {
+                newsFeedInteractor.getArticlesFromDB().fold(
+                    onError = ::processError,
                     onSuccess = {
                         processDataEvent(DataEvent.SuccessNewsRequest(it))
+                        processDataEvent(DataEvent.GetCurrentNews)
                     }
                 )
             }
@@ -41,7 +40,19 @@ class NewsFeedScreenViewModel(
                 return previousState.copy(article = null)
             }
             is UIEvent.OnConfigurationChanged -> {
-                processUiEvent(UIEvent.GetCurrentNews)
+                processUiEvent(UIEvent.GetArticlesFromDB)
+            }
+            is DataEvent.GetCurrentNews -> {
+                newsFeedInteractor.getHeadlinesNews().fold(
+                    onError = ::processError,
+                    onSuccess = { articles ->
+                        articles.forEach { newsFeedInteractor.addArticleToDB(it) }
+                        /*
+                        Looper, as I see it
+                        processUiEvent(UIEvent.GetArticlesFromDB)
+                        */
+                    }
+                )
             }
             is DataEvent.AddArticleToBookmarks -> {
                 newsFeedInteractor.addArticleToBookmarks(event.article)
@@ -97,5 +108,9 @@ class NewsFeedScreenViewModel(
 
     fun closeArticleWebView() {
         processUiEvent(UIEvent.OnGoBackFromWebView)
+    }
+
+    private fun processError(t: Throwable) {
+        processDataEvent(DataEvent.ErrorNewsRequest(t.localizedMessage ?: ""))
     }
 }

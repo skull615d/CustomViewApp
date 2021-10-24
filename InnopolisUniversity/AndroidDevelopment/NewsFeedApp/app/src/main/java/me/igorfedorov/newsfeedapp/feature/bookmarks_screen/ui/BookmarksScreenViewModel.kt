@@ -32,7 +32,7 @@ class BookmarksScreenViewModel(
                 )
             }
             is DataEvent.RemoveFromBookmarks -> {
-                bookmarksInteractor.delete(event.article).fold(
+                bookmarksInteractor.update(event.article.copy(isBookmarked = false)).fold(
                     onError = {
                         processDataEvent(DataEvent.ErrorBookmarksRequest(it.localizedMessage ?: ""))
                     },
@@ -42,7 +42,7 @@ class BookmarksScreenViewModel(
                 )
             }
             is DataEvent.SuccessBookmarksRequest -> {
-                return previousState.copy(articles = event.articles)
+                return previousState.copy(articles = event.articles.filter { it.isBookmarked })
             }
             is DataEvent.ErrorBookmarksRequest -> {
                 return previousState.copy(errorMessage = event.errorMessage)

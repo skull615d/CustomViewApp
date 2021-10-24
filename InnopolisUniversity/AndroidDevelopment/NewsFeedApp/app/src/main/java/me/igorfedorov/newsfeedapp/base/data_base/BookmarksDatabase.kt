@@ -2,13 +2,13 @@ package me.igorfedorov.newsfeedapp.base.data_base
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.dao.BookmarkDao
-import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.entities.BookmarkEntity
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.dao.ArticleDao
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.entities.ArticleEntity
 
 
 @Database(
     entities = [
-        BookmarkEntity::class
+        ArticleEntity::class
     ],
     version = BookmarksDatabase.DB_VERSION
 )
@@ -20,6 +20,6 @@ abstract class BookmarksDatabase : RoomDatabase() {
         const val DB_NAME = "bookmarks_database"
     }
 
-    abstract fun bookmarksDao(): BookmarkDao
+    abstract fun bookmarksDao(): ArticleDao
 
 }

@@ -1,4 +1,4 @@
-package me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.entities
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -10,7 +10,7 @@ import me.igorfedorov.newsfeedapp.base.data_base.contracts.BookmarksContract
         BookmarksContract.Columns.URL
     ]
 )
-data class BookmarkEntity(
+data class ArticleEntity(
     @ColumnInfo(name = BookmarksContract.Columns.URL)
     val url: String,
     @ColumnInfo(name = BookmarksContract.Columns.AUTHOR)

@@ -13,6 +13,7 @@ import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
 import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.base.utils.setAdapterAndCleanupOnDetachFromWindow
+import me.igorfedorov.newsfeedapp.base.utils.setData
 import me.igorfedorov.newsfeedapp.base.utils.toastShort
 import me.igorfedorov.newsfeedapp.databinding.FragmentNewsFeedScreenBinding
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.MAIN_SCREEN_VIEW_MODEL
@@ -56,8 +57,14 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
         initAdapter()
 
+        viewModel.toastEvent.observe(viewLifecycleOwner, ::showToast)
+
         viewModel.viewState.observe(viewLifecycleOwner, ::render)
 
+    }
+
+    private fun showToast(toast: String?) {
+        toast?.let { toastShort(it) }
     }
 
     private fun render(viewState: ViewState) {
@@ -70,12 +77,6 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
         openArticle(viewState)
 
-        showToast(viewState)
-
-    }
-
-    private fun showToast(viewState: ViewState) {
-        viewState.toastMessage?.let { toastShort(it) }
     }
 
     private fun updateErrorText(viewState: ViewState) {
@@ -90,8 +91,7 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun updateAdapterItems(viewState: ViewState) {
-        articlesAdapter.items = viewState.articleList
-        articlesAdapter.notifyDataSetChanged()
+        articlesAdapter.setData(viewState.articles)
     }
 
     private fun openArticle(viewState: ViewState) {

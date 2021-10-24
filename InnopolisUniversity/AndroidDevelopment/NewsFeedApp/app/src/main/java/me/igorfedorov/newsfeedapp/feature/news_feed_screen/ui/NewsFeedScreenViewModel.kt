@@ -2,6 +2,7 @@ package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 
 import me.igorfedorov.newsfeedapp.base.base_view_model.BaseViewModel
 import me.igorfedorov.newsfeedapp.base.base_view_model.Event
+import me.igorfedorov.newsfeedapp.base.utils.SingleLiveEvent
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.NewsFeedInteractor
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
@@ -13,12 +14,13 @@ class NewsFeedScreenViewModel(
         processUiEvent(UIEvent.GetCurrentNews)
     }
 
+    val toastEvent = SingleLiveEvent<String>()
+
     override fun initialViewState(): ViewState {
         return ViewState(
-            articleList = emptyList(),
+            articles = emptyList(),
             article = null,
-            errorMessage = null,
-            toastMessage = null
+            errorMessage = null
         )
     }
 
@@ -40,20 +42,12 @@ class NewsFeedScreenViewModel(
             is UIEvent.OnGoBackFromWebView -> {
                 return previousState.copy(article = null)
             }
-            is UIEvent.ShowToast -> {
-                return previousState.copy(
-                    toastMessage = event.toastMessage
-                )
-            }
             is UIEvent.OnConfigurationChanged -> {
                 processUiEvent(UIEvent.GetCurrentNews)
-                return previousState.copy(
-                    toastMessage = null
-                )
             }
             is DataEvent.AddArticleToBookmarks -> {
                 newsFeedInteractor.addArticleToBookmarks(event.article)
-                return previousState.copy(articleList = previousState.articleList.map {
+                return previousState.copy(articles = previousState.articles.map {
                     if (it == event.article) {
                         it.copy(isBookmarked = true)
                     } else {
@@ -63,7 +57,7 @@ class NewsFeedScreenViewModel(
             }
             is DataEvent.RemoveArticleFromBookmarks -> {
                 newsFeedInteractor.deleteArticleFromBookmarks(event.article)
-                return previousState.copy(articleList = previousState.articleList.map {
+                return previousState.copy(articles = previousState.articles.map {
                     if (it == event.article) {
                         it.copy(isBookmarked = false)
                     } else {
@@ -73,7 +67,7 @@ class NewsFeedScreenViewModel(
             }
             is DataEvent.SuccessNewsRequest -> {
                 return previousState.copy(
-                    articleList = event.articleList,
+                    articles = event.articleList,
                     errorMessage = null
                 )
             }
@@ -93,7 +87,7 @@ class NewsFeedScreenViewModel(
     fun onBookmarkClick(article: Article) {
         if (!article.isBookmarked) {
             processDataEvent(DataEvent.AddArticleToBookmarks(article))
-            processUiEvent(UIEvent.ShowToast("${article.title} added to bookmarks"))
+            toastEvent.postValue("${article.title} added to bookmarks")
         } else {
             processDataEvent(DataEvent.RemoveArticleFromBookmarks(article))
         }

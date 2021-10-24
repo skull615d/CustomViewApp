@@ -4,13 +4,12 @@ import me.igorfedorov.newsfeedapp.base.base_view_model.Event
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 data class ViewState(
-    val articleList: List<Article>,
+    val articles: List<Article>,
     val article: Article?,
-    val errorMessage: String?,
-    val toastMessage: String?
+    val errorMessage: String?
 ) {
     val isInErrorState = errorMessage != null
-    val isLoading = articleList.isEmpty() && !isInErrorState
+    val isLoading = articles.isEmpty() && !isInErrorState
 }
 
 sealed class UIEvent() : Event {

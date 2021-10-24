@@ -28,7 +28,6 @@ class NewsFeedInteractor(
         bookmarksRepository.create(article.copy(isBookmarked = true))
     }
 
-
     suspend fun deleteArticleFromBookmarks(article: Article) = attempt {
         bookmarksRepository.delete(article)
     }

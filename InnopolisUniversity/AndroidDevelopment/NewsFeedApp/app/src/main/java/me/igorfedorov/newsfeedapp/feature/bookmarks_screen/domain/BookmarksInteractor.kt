@@ -1,27 +1,27 @@
 package me.igorfedorov.newsfeedapp.feature.bookmarks_screen.domain
 
 import me.igorfedorov.newsfeedapp.base.utils.attempt
-import me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.BookmarksRepository
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRepository
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 class BookmarksInteractor(
-    private val bookmarksRepository: BookmarksRepository
+    private val newsRepository: NewsRepository
 ) {
 
     suspend fun create(article: Article) = attempt {
-        bookmarksRepository.create(article)
+        newsRepository.addArticleToDB(article)
     }
 
     suspend fun read() = attempt {
-        bookmarksRepository.read()
+        newsRepository.getArticlesFromDB()
     }
 
     suspend fun update(article: Article) = attempt {
-        bookmarksRepository.update(article)
+        newsRepository.updateArticleInDB(article)
     }
 
     suspend fun delete(article: Article) = attempt {
-        bookmarksRepository.delete(article)
+        newsRepository.deleteArticleFromDB(article)
     }
 
 }

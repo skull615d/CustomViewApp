@@ -1,8 +1,8 @@
-package me.igorfedorov.newsfeedapp.feature.bookmarks_screen.data.local.entities
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.entities
 
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
-fun Article.toBookmark() = BookmarkEntity(
+fun Article.toArticleEntity() = ArticleEntity(
     url = url,
     author = author,
     content = content,
@@ -13,7 +13,7 @@ fun Article.toBookmark() = BookmarkEntity(
     isBookmarked = isBookmarked
 )
 
-fun BookmarkEntity.toArticle() = Article(
+fun ArticleEntity.toArticle() = Article(
     author = author,
     content = content,
     description = description,

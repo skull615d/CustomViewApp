@@ -24,13 +24,12 @@ class NewsFeedInteractor(
         }
     }
 
-    suspend fun addArticleToBookmarks(article: Article) {
+    suspend fun addArticleToBookmarks(article: Article) = attempt {
         bookmarksRepository.create(article.copy(isBookmarked = true))
     }
 
-    suspend fun deleteArticleFromBookmarks(article: Article) {
+
+    suspend fun deleteArticleFromBookmarks(article: Article) = attempt {
         bookmarksRepository.delete(article)
     }
-
-
 }

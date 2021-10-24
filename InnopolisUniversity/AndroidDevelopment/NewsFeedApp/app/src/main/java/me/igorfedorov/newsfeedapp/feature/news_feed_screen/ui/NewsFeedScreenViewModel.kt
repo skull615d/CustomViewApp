@@ -16,13 +16,11 @@ class NewsFeedScreenViewModel(
 
     val toastEvent = SingleLiveEvent<String>()
 
-    override fun initialViewState(): ViewState {
-        return ViewState(
-            articles = emptyList(),
-            article = null,
-            errorMessage = null
-        )
-    }
+    override fun initialViewState() = ViewState(
+        articles = emptyList(),
+        article = null,
+        errorMessage = null
+    )
 
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
@@ -85,11 +83,11 @@ class NewsFeedScreenViewModel(
     }
 
     fun onBookmarkClick(article: Article) {
-        if (!article.isBookmarked) {
+        if (article.isBookmarked) {
+            processDataEvent(DataEvent.RemoveArticleFromBookmarks(article))
+        } else {
             processDataEvent(DataEvent.AddArticleToBookmarks(article))
             toastEvent.postValue("${article.title} added to bookmarks")
-        } else {
-            processDataEvent(DataEvent.RemoveArticleFromBookmarks(article))
         }
     }
 

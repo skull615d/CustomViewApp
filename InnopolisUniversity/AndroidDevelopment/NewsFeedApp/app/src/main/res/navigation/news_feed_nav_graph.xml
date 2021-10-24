@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/webViewFragment"
         android:name="me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.WebViewFragment"
-        android:label="WebViewFragment"
+        android:label="Full Article"
         tools:layout="@layout/fragment_web_view">
         <argument
             android:name="articleURL"

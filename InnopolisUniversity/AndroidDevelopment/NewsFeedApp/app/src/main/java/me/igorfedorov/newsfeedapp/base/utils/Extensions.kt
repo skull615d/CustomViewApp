@@ -1,13 +1,19 @@
 package me.igorfedorov.newsfeedapp.base.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
+import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.base.common.Constants.DEFAULT_THROTTLE_DELAY
 import java.text.SimpleDateFormat
 import java.util.*
@@ -71,6 +77,21 @@ fun <T : Fragment> T.toastShort(message: String) {
 
 fun <T : Fragment> T.toastLong(message: String) {
     Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+}
+
+fun ImageView.loadImage(
+    src: String?,
+    @DrawableRes errorRes: Int = R.drawable.news_feed_variant_outline,
+    @DrawableRes placeholderRes: Int = R.drawable.news_feed_variant_outline,
+    config: RequestBuilder<Drawable>.() -> Unit = {}
+) {
+    Glide
+        .with(context)
+        .load(src)
+        .error(errorRes)
+        .placeholder(placeholderRes)
+        .apply { config(this) }
+        .into(this)
 }
 
 fun <T> AbsDelegationAdapter<T>.setData(data: T) {

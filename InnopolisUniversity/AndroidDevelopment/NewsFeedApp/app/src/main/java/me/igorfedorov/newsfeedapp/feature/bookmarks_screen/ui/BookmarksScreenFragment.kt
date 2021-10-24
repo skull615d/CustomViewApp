@@ -31,13 +31,6 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks_screen) {
         )
     }
 
-    private fun showCustomTab(it: Article) {
-        CustomTabsIntent.Builder()
-            .build().apply {
-                launchUrl(requireContext(), Uri.parse(it.url))
-            }
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.updateUi()
@@ -62,5 +55,12 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks_screen) {
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
         }
         articlesAdapter.items = viewModel.viewState.value?.articles
+    }
+
+    private fun showCustomTab(it: Article) {
+        CustomTabsIntent.Builder()
+            .build().apply {
+                launchUrl(requireContext(), Uri.parse(it.url))
+            }
     }
 }

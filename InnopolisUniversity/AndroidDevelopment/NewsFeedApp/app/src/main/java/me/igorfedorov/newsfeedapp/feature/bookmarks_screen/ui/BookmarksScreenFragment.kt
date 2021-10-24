@@ -65,4 +65,11 @@ class BookmarksScreenFragment : Fragment(R.layout.fragment_bookmarks_screen) {
                 launchUrl(requireContext(), Uri.parse(it.url))
             }
     }
+
+    private fun showCustomTab(it: Article) {
+        CustomTabsIntent.Builder()
+            .build().apply {
+                launchUrl(requireContext(), Uri.parse(it.url))
+            }
+    }
 }

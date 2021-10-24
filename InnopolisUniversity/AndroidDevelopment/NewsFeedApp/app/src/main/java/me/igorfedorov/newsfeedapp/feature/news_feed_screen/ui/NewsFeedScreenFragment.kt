@@ -8,14 +8,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import me.igorfedorov.newsfeedapp.R
 import me.igorfedorov.newsfeedapp.base.utils.setAdapterAndCleanupOnDetachFromWindow
 import me.igorfedorov.newsfeedapp.base.utils.setData
 import me.igorfedorov.newsfeedapp.base.utils.toastShort
 import me.igorfedorov.newsfeedapp.databinding.FragmentNewsFeedScreenBinding
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.di.MAIN_SCREEN_VIEW_MODEL
-import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter.articleAdapterDelegate
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui.adapter.ArticlesAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.qualifier.named
 
@@ -27,12 +26,10 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
     private val binding: FragmentNewsFeedScreenBinding by viewBinding(FragmentNewsFeedScreenBinding::bind)
 
-    private val articlesAdapter by lazy {
-        ListDelegationAdapter(
-            articleAdapterDelegate(
-                onItemClickListener = viewModel::openArticleWebView,
-                onBookmarkClick = viewModel::onBookmarkClick
-            )
+    private val articlesAdapter: ArticlesAdapter by lazy {
+        ArticlesAdapter(
+            onItemClickListener = viewModel::openArticleWebView,
+            onBookmarkClick = viewModel::onBookmarkClick
         )
     }
 
@@ -47,8 +44,14 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
         initAdapter()
 
+        viewModel.toastEvent.observe(viewLifecycleOwner, ::showToast)
+
         viewModel.viewState.observe(viewLifecycleOwner, ::render)
 
+    }
+
+    private fun showToast(toast: String?) {
+        toast?.let { toastShort(it) }
     }
 
     private fun render(viewState: ViewState) {
@@ -61,12 +64,6 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
 
         openArticle(viewState)
 
-        showToast(viewState)
-
-    }
-
-    private fun showToast(viewState: ViewState) {
-        viewState.toastMessage?.let { toastShort(it) }
     }
 
     private fun updateErrorText(viewState: ViewState) {
@@ -81,7 +78,7 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun updateAdapterItems(viewState: ViewState) {
-        articlesAdapter.setData(viewState.articleList)
+        articlesAdapter.setData(viewState.articles)
     }
 
     private fun openArticle(viewState: ViewState) {
@@ -95,10 +92,10 @@ class NewsFeedScreenFragment : Fragment(R.layout.fragment_news_feed_screen) {
     }
 
     private fun initAdapter() {
-        binding.rvArticles.apply {
+        binding.articlesRecyclerView.apply {
+            setAdapterAndCleanupOnDetachFromWindow(articlesAdapter)
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
-            setAdapterAndCleanupOnDetachFromWindow(articlesAdapter)
         }
     }
 }

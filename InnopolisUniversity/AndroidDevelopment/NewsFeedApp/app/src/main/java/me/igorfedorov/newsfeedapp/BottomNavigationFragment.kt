@@ -44,6 +44,5 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
         )
         val activity = requireActivity() as AppCompatActivity
         activity.setupActionBarWithNavController(navController, appBarConfiguration)
-
     }
 }

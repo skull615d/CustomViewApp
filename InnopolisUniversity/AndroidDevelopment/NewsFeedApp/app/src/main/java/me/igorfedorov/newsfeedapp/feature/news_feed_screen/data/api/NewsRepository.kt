@@ -1,5 +1,6 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api
 
+import androidx.lifecycle.LiveData
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article
 
 interface NewsRepository {
@@ -9,6 +10,8 @@ interface NewsRepository {
     suspend fun addArticleToDB(article: Article)
 
     suspend fun getArticlesFromDB(): List<Article>
+
+    fun subscribeToDB(): LiveData<List<Article>>
 
     suspend fun updateArticleInDB(article: Article)
 

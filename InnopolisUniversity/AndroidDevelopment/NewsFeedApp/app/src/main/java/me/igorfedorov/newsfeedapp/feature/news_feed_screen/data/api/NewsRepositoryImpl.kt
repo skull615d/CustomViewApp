@@ -1,5 +1,7 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.model.toNews
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.NewsLocalSource
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.entities.toArticle
@@ -21,6 +23,10 @@ class NewsRepositoryImpl(
 
     override suspend fun getArticlesFromDB(): List<Article> {
         return newsLocalSource.read().map { it.toArticle() }
+    }
+
+    override fun subscribeToDB(): LiveData<List<Article>> {
+        return newsLocalSource.subscribeToDB().map { it.map { it.toArticle() } }
     }
 
     override suspend fun updateArticleInDB(article: Article) {

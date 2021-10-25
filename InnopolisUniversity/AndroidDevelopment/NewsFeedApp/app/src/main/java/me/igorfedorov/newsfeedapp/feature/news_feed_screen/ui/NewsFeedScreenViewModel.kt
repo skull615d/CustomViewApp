@@ -1,5 +1,9 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.ui
 
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import me.igorfedorov.newsfeedapp.base.base_view_model.BaseViewModel
 import me.igorfedorov.newsfeedapp.base.base_view_model.Event
 import me.igorfedorov.newsfeedapp.base.utils.SingleLiveEvent
@@ -11,6 +15,18 @@ class NewsFeedScreenViewModel(
 ) : BaseViewModel<ViewState>() {
 
     init {
+        viewModelScope.launch {
+            newsFeedInteractor.subscribeToDB().fold(
+                onError = {
+
+                },
+                onSuccess = {
+                    it.asFlow().collect { article ->
+                        processDataEvent(DataEvent.SuccessNewsRequest(article))
+                    }
+                }
+            )
+        }
         processUiEvent(UIEvent.GetArticlesFromDB)
     }
 

@@ -1,5 +1,6 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import me.igorfedorov.newsfeedapp.base.data_base.contracts.BookmarksContract
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.entities.ArticleEntity
@@ -12,6 +13,9 @@ interface ArticleDao {
 
     @Query("SELECT * FROM ${BookmarksContract.TABLE_NAME}")
     suspend fun getAllArticles(): List<ArticleEntity>
+
+    @Query("SELECT * FROM ${BookmarksContract.TABLE_NAME}")
+    fun subscribeToDB(): LiveData<List<ArticleEntity>>
 
     @Update
     suspend fun updateArticle(articleEntity: ArticleEntity)

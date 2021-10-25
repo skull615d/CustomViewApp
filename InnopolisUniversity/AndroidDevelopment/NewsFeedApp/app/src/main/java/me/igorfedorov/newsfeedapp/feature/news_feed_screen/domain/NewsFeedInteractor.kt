@@ -26,6 +26,10 @@ class NewsFeedInteractor(
         }
     }
 
+    fun subscribeToDB() = attempt {
+        newsRepository.subscribeToDB()
+    }
+
     suspend fun addArticleToDB(article: Article) = attempt {
         newsRepository.addArticleToDB(article)
     }

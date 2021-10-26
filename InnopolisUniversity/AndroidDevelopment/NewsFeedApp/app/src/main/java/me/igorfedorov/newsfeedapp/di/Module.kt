@@ -6,6 +6,7 @@ import me.igorfedorov.newsfeedapp.base.data_base.BookmarksDatabase
 import me.igorfedorov.newsfeedapp.base.utils.InternetAvailability
 import me.igorfedorov.newsfeedapp.di.util.ApiKeyInterceptor
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.dao.ArticleDao
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -23,6 +24,7 @@ val appModule = module {
         OkHttpClient.Builder()
             .addInterceptor(ApiKeyInterceptor(BuildConfig.NEWS_API_KEY))
             .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .cache(Cache(androidContext().cacheDir, 10L * 1024 * 1024))
             .build()
     }
 
@@ -38,7 +40,6 @@ val appModule = module {
         InternetAvailability(androidContext())
     }
 }
-
 
 val dataBaseModule = module {
     single<BookmarksDatabase> {

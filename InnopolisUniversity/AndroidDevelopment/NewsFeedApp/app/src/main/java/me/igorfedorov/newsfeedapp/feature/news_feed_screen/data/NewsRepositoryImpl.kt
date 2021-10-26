@@ -1,7 +1,8 @@
-package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRemoteSource
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.model.toNews
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.NewsLocalSource
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.entities.toArticle

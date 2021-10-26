@@ -1,4 +1,4 @@
-package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api
+package me.igorfedorov.newsfeedapp.feature.news_feed_screen.data
 
 import androidx.lifecycle.LiveData
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.model.Article

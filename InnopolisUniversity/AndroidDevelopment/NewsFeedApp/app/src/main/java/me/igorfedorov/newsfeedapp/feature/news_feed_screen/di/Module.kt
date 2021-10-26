@@ -1,10 +1,10 @@
 package me.igorfedorov.newsfeedapp.feature.news_feed_screen.di
 
 import me.igorfedorov.newsfeedapp.di.APP_MODULE_RETROFIT
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.NewsRepository
+import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.NewsRepositoryImpl
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.MainScreenNewsApi
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRemoteSource
-import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRepository
-import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.api.NewsRepositoryImpl
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.NewsLocalSource
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.data.local.dao.ArticleDao
 import me.igorfedorov.newsfeedapp.feature.news_feed_screen.domain.NewsFeedInteractor

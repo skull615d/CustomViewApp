@@ -20,21 +20,6 @@ interface MainScreenNewsApi {
             "sa", "se", "sg", "si", "sk", "th", "tr", "tw", "ua", "us", "ve", "za",
         )
 
-    @GET("v2/everything")
-    suspend fun getEverythingNews(
-        @Query("q") query: String = "bitcoin",
-        @Query("qInTitle") queryInTitle: String = "",
-        @Query("sources") sources: String = "",
-        @Query("domains") domains: String = "",
-        @Query("excludeDomains") excludeDomains: String = "",
-        @Query("from") from: String = "",
-        @Query("to") to: String = "",
-        @Query("language") language: String = "",
-        @Query("sortBy") sortBy: String = "",
-        @Query("pageSize") pageSize: Int = 100,
-        @Query("page") page: Int = 1,
-    ): NewsDTO
-
     @GET("v2/top-headlines")
     suspend fun getHeadlinesNews(
         @Query("country") country: String = if (supportedCountries.contains(Locale.getDefault().country.lowercase())) Locale.getDefault().country else "us",

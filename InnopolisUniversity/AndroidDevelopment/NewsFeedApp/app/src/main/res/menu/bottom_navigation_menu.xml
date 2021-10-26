@@ -9,7 +9,7 @@
         android:icon="@drawable/news_bookmark_multiple_outline"
         android:title="@string/bookmarks" />
     <item
-        android:id="@+id/news_search_menu_item"
+        android:id="@+id/search"
         android:icon="@drawable/news_search_outline"
         android:title="@string/search_news" />
 </menu>

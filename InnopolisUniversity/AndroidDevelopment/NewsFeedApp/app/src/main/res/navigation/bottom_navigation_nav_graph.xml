@@ -6,4 +6,5 @@
 
     <include app:graph="@navigation/news_feed_nav_graph" />
     <include app:graph="@navigation/bookmarks_nav_graph" />
+    <include app:graph="@navigation/search_news_nav_graph" />
 </navigation>

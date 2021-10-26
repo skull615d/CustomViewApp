@@ -18,13 +18,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val BASE_URL = "https://newsapi.org/"
 const val APP_MODULE_OKHTTP = "APP_MODULE_OKHTTP"
 const val APP_MODULE_RETROFIT = "APP_MODULE_RETROFIT"
+const val TEN_MB = 10L * 1024 * 1024
 val appModule = module {
 
     single<OkHttpClient>(named(APP_MODULE_OKHTTP)) {
         OkHttpClient.Builder()
             .addInterceptor(ApiKeyInterceptor(BuildConfig.NEWS_API_KEY))
             .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .cache(Cache(androidContext().cacheDir, 10L * 1024 * 1024))
+            .cache(Cache(androidContext().cacheDir, TEN_MB))
             .build()
     }
 

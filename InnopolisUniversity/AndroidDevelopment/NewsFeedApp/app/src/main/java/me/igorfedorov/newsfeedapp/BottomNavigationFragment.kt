@@ -40,7 +40,7 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.news, R.id.bookmarks)
+            setOf(R.id.news, R.id.bookmarks, R.id.search)
         )
         val activity = requireActivity() as AppCompatActivity
         activity.setupActionBarWithNavController(navController, appBarConfiguration)

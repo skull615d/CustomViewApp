@@ -23,5 +23,4 @@ class BookmarksInteractor(
     suspend fun delete(article: Article) = attempt {
         newsRepository.deleteArticleFromDB(article)
     }
-
 }

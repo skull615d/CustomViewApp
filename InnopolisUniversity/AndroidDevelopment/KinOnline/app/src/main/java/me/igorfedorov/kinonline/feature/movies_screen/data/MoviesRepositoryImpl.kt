@@ -9,9 +9,7 @@ class MoviesRepositoryImpl(
 ) : MoviesRepository {
 
     override suspend fun getAllMovies(): List<Movie> {
-        return moviesRemoteSource.getAllMovies().flatMap { apiResponse ->
-            apiResponse.moviesDTO.map { it.toMovie() }
-        }
+        return moviesRemoteSource.getAllMovies().moviesDTO.map { it.toMovie() }
     }
 
 }

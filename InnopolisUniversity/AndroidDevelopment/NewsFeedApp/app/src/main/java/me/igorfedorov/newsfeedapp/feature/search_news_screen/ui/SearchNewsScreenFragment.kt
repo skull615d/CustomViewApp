@@ -61,7 +61,6 @@ class SearchNewsScreenFragment : Fragment(R.layout.fragment_search_news_screen) 
 
     private fun render(viewState: ViewState) {
         articlesAdapter.setData(viewState.articles)
-
     }
 
     private fun initAdapter() {

@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import me.igorfedorov.kinonline.R
+import me.igorfedorov.kinonline.base.utils.setAdapterAndCleanupOnDetachFromWindow
+import me.igorfedorov.kinonline.base.utils.setData
 import me.igorfedorov.kinonline.databinding.FragmentMoviesListBinding
 import me.igorfedorov.kinonline.feature.movies_screen.ui.adapter.MoviesAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,7 +33,7 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
 
     private fun initAdapter() {
         binding.moviesListRecyclerView.apply {
-            adapter = moviesAdapter
+            setAdapterAndCleanupOnDetachFromWindow(moviesAdapter)
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
@@ -39,8 +41,7 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
     }
 
     private fun render(viewState: ViewState) {
-        moviesAdapter.items = viewState.movies
-        moviesAdapter.notifyDataSetChanged()
+        moviesAdapter.setData(viewState.movies)
         binding.progressBar.isVisible = viewState.isLoading
     }
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.channels.trySendBlocking
@@ -89,6 +90,12 @@ fun <T> AbsDelegationAdapter<T>.setData(data: T) {
     items = data
     notifyDataSetChanged()
 }
+
+fun <T> AsyncListDifferDelegationAdapter<T>.setData(data: List<T>) {
+    items = data
+    notifyDataSetChanged()
+}
+
 
 fun EditText.textChangeFlow(): Flow<String> {
     return callbackFlow {

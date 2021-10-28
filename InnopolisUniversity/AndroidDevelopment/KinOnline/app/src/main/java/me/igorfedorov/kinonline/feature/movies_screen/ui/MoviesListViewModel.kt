@@ -36,10 +36,10 @@ class MoviesListViewModel(
                 router.navigateTo(Screens.movieInfo(event.movie))
             }
             is DataEvent.SuccessMoviesRequest -> {
-                return previousState.copy(movies = event.movies)
+                return previousState.copy(movies = event.movies, errorMessage = null)
             }
             is DataEvent.ErrorMoviesRequest -> {
-                return previousState.copy(errorMessage = event.errorMessage)
+                return previousState.copy(errorMessage = event.errorMessage, movies = emptyList())
             }
         }
         return null

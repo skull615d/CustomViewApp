@@ -20,7 +20,11 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
     private val viewModel: MoviesListViewModel by viewModel()
 
     private val moviesAdapter: MoviesAdapter by lazy {
-        MoviesAdapter()
+        MoviesAdapter(
+            onItemClick = {
+
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,8 +45,18 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
     }
 
     private fun render(viewState: ViewState) {
-        moviesAdapter.setData(viewState.movies)
+
+        setDataToAdapter(viewState)
+
+        updateProgressBar(viewState)
+    }
+
+    private fun updateProgressBar(viewState: ViewState) {
         binding.progressBar.isVisible = viewState.isLoading
+    }
+
+    private fun setDataToAdapter(viewState: ViewState) {
+        moviesAdapter.setData(viewState.movies)
     }
 
 }

@@ -13,6 +13,7 @@ data class ViewState(
 
 sealed class UIEvent() : Event {
     object OnGetMovies : UIEvent()
+    data class OnMovieClick(val movie: Movie) : UIEvent()
 }
 
 sealed class DataEvent() : Event {

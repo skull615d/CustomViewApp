@@ -6,29 +6,37 @@ import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import me.igorfedorov.kinonline.R
 import me.igorfedorov.kinonline.base.utils.loadImage
+import me.igorfedorov.kinonline.base.utils.setThrottledClickListener
 import me.igorfedorov.kinonline.databinding.ItemMovieBinding
 import me.igorfedorov.kinonline.feature.movies_screen.domain.model.Movie
 
-class MoviesAdapter : AsyncListDifferDelegationAdapter<Movie>(MoviesDiffUtilCallback()) {
+class MoviesAdapter(
+    onItemClick: (movie: Movie) -> Unit
+) : AsyncListDifferDelegationAdapter<Movie>(MoviesDiffUtilCallback()) {
 
     init {
-        delegatesManager.addDelegate(movieAdapterDelegate())
+        delegatesManager.addDelegate(movieAdapterDelegate(onItemClick))
     }
 
     @SuppressLint("CheckResult")
-    private fun movieAdapterDelegate() = adapterDelegateViewBinding<Movie, Movie, ItemMovieBinding>(
-        { layoutInflater, parent -> ItemMovieBinding.inflate(layoutInflater, parent, false) }
-    ) {
+    private fun movieAdapterDelegate(onItemClick: (movie: Movie) -> Unit) =
+        adapterDelegateViewBinding<Movie, Movie, ItemMovieBinding>(
+            { layoutInflater, parent -> ItemMovieBinding.inflate(layoutInflater, parent, false) }
+        ) {
 
-        bind {
-            binding.apply {
-                moviePosterImageView.loadImage(item.posterUrl) {
-                    fitCenter()
-                    placeholder(R.drawable.ic_movies_placeholder)
+            binding.root.setThrottledClickListener {
+                onItemClick(item)
+            }
+
+            bind {
+                binding.apply {
+                    moviePosterImageView.loadImage(item.posterUrl) {
+                        centerCrop()
+                        placeholder(R.drawable.ic_movies_placeholder)
+                    }
                 }
             }
         }
-    }
 
 
     class MoviesDiffUtilCallback : DiffUtil.ItemCallback<Movie>() {

@@ -1,5 +1,8 @@
 package me.igorfedorov.kinonline.di
 
+import com.github.terrakok.cicerone.Cicerone
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,5 +30,25 @@ val appModule = module {
             .client(get())
             .build()
     }
+
+}
+
+val ciceroneModule = module {
+
+    single<Cicerone<Router>> {
+        Cicerone.create(Router())
+    }
+
+    single<NavigatorHolder> {
+        get<Cicerone<Router>>().getNavigatorHolder()
+    }
+
+    single<Router> {
+        get<Cicerone<Router>>().router
+    }
+
+    /*single {
+        MainActivityNavigator(get<MainActivity>())
+    }*/
 
 }

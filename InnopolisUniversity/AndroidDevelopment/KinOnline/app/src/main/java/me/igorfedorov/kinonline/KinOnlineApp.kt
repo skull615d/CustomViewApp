@@ -2,6 +2,7 @@ package me.igorfedorov.kinonline
 
 import android.app.Application
 import me.igorfedorov.kinonline.di.appModule
+import me.igorfedorov.kinonline.di.ciceroneModule
 import me.igorfedorov.kinonline.feature.movies_screen.di.moviesScreenModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -17,7 +18,7 @@ class KinOnlineApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@KinOnlineApp)
-            modules(appModule, moviesScreenModule)
+            modules(appModule, moviesScreenModule, ciceroneModule)
         }
     }
 }

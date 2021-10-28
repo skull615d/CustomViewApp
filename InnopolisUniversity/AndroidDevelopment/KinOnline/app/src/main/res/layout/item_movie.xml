@@ -15,6 +15,7 @@
             android:id="@+id/moviePosterImageView"
             android:layout_width="match_parent"
             android:layout_height="500dp"
+            android:contentDescription="@string/movie_poster"
             app:srcCompat="@android:drawable/btn_star_big_on" />
 
     </com.google.android.material.card.MaterialCardView>

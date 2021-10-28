@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        navigatorHolder.removeNavigator()
         super.onPause()
+        navigatorHolder.removeNavigator()
     }
 
     override fun onBackPressed() {

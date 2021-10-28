@@ -3,7 +3,6 @@ package me.igorfedorov.kinonline.base.utils
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -128,11 +127,4 @@ fun Activity.hideKeyboard() {
 fun Context.hideKeyboard(view: View) {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-}
-
-fun <T : Fragment> T.withArguments(action: Bundle.() -> Unit): T {
-    return apply {
-        val args = Bundle().apply(action)
-        arguments = args
-    }
 }

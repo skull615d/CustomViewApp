@@ -1,5 +1,6 @@
 package me.igorfedorov.kinonline.feature.movies_screen.di
 
+import com.github.terrakok.cicerone.Router
 import me.igorfedorov.kinonline.feature.movies_screen.data.MoviesRepository
 import me.igorfedorov.kinonline.feature.movies_screen.data.MoviesRepositoryImpl
 import me.igorfedorov.kinonline.feature.movies_screen.data.api.MoviesApi
@@ -30,7 +31,10 @@ val moviesScreenModule = module {
     }
 
     viewModel<MoviesListViewModel> {
-        MoviesListViewModel(get<MoviesInteractor>())
+        MoviesListViewModel(
+            get<MoviesInteractor>(),
+            get<Router>()
+        )
     }
 
 }

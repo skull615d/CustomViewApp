@@ -27,7 +27,7 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
     private val moviesAdapter: MoviesAdapter by lazy {
         MoviesAdapter(
             onItemClick = {
-
+                viewModel.processUiEvent(UIEvent.OnMovieClick(it))
             }
         )
     }

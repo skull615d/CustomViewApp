@@ -1,11 +1,14 @@
 package me.igorfedorov.kinonline.feature.movies_screen.ui
 
+import com.github.terrakok.cicerone.Router
 import me.igorfedorov.kinonline.base.base_view_model.BaseViewModel
 import me.igorfedorov.kinonline.base.base_view_model.Event
+import me.igorfedorov.kinonline.base.cicerone_navigation.Screens
 import me.igorfedorov.kinonline.feature.movies_screen.domain.MoviesInteractor
 
 class MoviesListViewModel(
-    private val moviesInteractor: MoviesInteractor
+    private val moviesInteractor: MoviesInteractor,
+    private val router: Router
 ) : BaseViewModel<ViewState>() {
 
     init {
@@ -28,6 +31,9 @@ class MoviesListViewModel(
                         processDataEvent(DataEvent.SuccessMoviesRequest(it))
                     }
                 )
+            }
+            is UIEvent.OnMovieClick -> {
+                router.navigateTo(Screens.movieInfo(event.movie))
             }
             is DataEvent.SuccessMoviesRequest -> {
                 return previousState.copy(movies = event.movies)

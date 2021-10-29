@@ -11,7 +11,7 @@ import me.igorfedorov.kinonline.databinding.ItemMovieBinding
 import me.igorfedorov.kinonline.feature.movies_screen.domain.model.Movie
 
 class MoviesAdapter(
-    onItemClick: (movie: Movie) -> Unit
+    onItemClick: (movie: Movie, layoutPosition: Int) -> Unit
 ) : AsyncListDifferDelegationAdapter<Movie>(MoviesDiffUtilCallback()) {
 
     init {
@@ -19,13 +19,13 @@ class MoviesAdapter(
     }
 
     @SuppressLint("CheckResult")
-    private fun movieAdapterDelegate(onItemClick: (movie: Movie) -> Unit) =
+    private fun movieAdapterDelegate(onItemClick: (movie: Movie, layoutPosition: Int) -> Unit) =
         adapterDelegateViewBinding<Movie, Movie, ItemMovieBinding>(
             { layoutInflater, parent -> ItemMovieBinding.inflate(layoutInflater, parent, false) }
         ) {
 
             binding.root.setThrottledClickListener {
-                onItemClick(item)
+                onItemClick(item, layoutPosition)
             }
 
             bind {

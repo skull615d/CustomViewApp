@@ -25,24 +25,17 @@
         android:clickable="true"
         android:contentDescription="@string/play_movie"
         android:focusable="true"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_media_play" />
-
-    <TextView
-        android:id="@+id/originalTitleTextView"
-        style="@style/H4Heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/moviePosterImageView"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
-        tools:text="Matrix" />
 
     <TextView
         android:id="@+id/titleTextView"
         style="@style/H3Heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/moviePosterImageView"
         app:layout_constraintTop_toBottomOf="@+id/moviePosterImageView"
         tools:text="Матрица" />

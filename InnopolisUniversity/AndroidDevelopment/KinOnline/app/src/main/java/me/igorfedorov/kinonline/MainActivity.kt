@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.transition.ChangeBounds
 import com.github.terrakok.cicerone.Command
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
@@ -33,24 +32,9 @@ class MainActivity : AppCompatActivity() {
             currentFragment: Fragment?,
             nextFragment: Fragment
         ) {
-            if (currentFragment is MoviesListFragment
-                && nextFragment is MovieInfoFragment
-            ) {
-                setupSharedElementForMoviesListToMovieInfo(
-                    currentFragment,
-                    nextFragment,
-                    fragmentTransaction
-                )
-            }
+            if (currentFragment is MoviesListFragment && nextFragment is MovieInfoFragment)
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_NONE)
         }
-    }
-
-    private fun setupSharedElementForMoviesListToMovieInfo(
-        currentFragment: MoviesListFragment,
-        nextFragment: MovieInfoFragment,
-        fragmentTransaction: FragmentTransaction
-    ) {
-        val changeBounds = ChangeBounds()
     }
 
     private val router by inject<Router>()

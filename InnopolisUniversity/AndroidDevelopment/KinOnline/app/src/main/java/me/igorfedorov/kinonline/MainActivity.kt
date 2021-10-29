@@ -2,13 +2,19 @@ package me.igorfedorov.kinonline
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.transition.ChangeBounds
 import com.github.terrakok.cicerone.Command
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.github.terrakok.cicerone.androidx.FragmentScreen
 import me.igorfedorov.kinonline.base.cicerone_navigation.Screens
 import me.igorfedorov.kinonline.base.cicerone_navigation.common.BackButtonListener
+import me.igorfedorov.kinonline.feature.movie_info_screen.ui.MovieInfoFragment
+import me.igorfedorov.kinonline.feature.movies_screen.ui.MoviesListFragment
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +26,31 @@ class MainActivity : AppCompatActivity() {
             super.applyCommands(commands)
             supportFragmentManager.executePendingTransactions()
         }
+
+        override fun setupFragmentTransaction(
+            screen: FragmentScreen,
+            fragmentTransaction: FragmentTransaction,
+            currentFragment: Fragment?,
+            nextFragment: Fragment
+        ) {
+            if (currentFragment is MoviesListFragment
+                && nextFragment is MovieInfoFragment
+            ) {
+                setupSharedElementForMoviesListToMovieInfo(
+                    currentFragment,
+                    nextFragment,
+                    fragmentTransaction
+                )
+            }
+        }
+    }
+
+    private fun setupSharedElementForMoviesListToMovieInfo(
+        currentFragment: MoviesListFragment,
+        nextFragment: MovieInfoFragment,
+        fragmentTransaction: FragmentTransaction
+    ) {
+        val changeBounds = ChangeBounds()
     }
 
     private val router by inject<Router>()

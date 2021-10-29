@@ -2,4 +2,5 @@
     <string name="app_name">KinOnline</string>
     <string name="play_movie">Play Movie</string>
     <string name="movie_poster">Movie Poster</string>
+    <string name="watch_movie">Watch Movie</string>
 </resources>

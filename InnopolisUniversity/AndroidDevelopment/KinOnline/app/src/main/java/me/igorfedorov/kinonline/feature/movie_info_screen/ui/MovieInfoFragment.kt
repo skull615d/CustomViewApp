@@ -32,6 +32,7 @@ class MovieInfoFragment : Fragment(R.layout.fragment_movie_info) {
         binding.apply {
             moviePosterImageView.loadImage(movie.posterUrl)
             titleTextView.text = movie.title
+            descriptionTextView.text = movie.overview
         }
     }
 }

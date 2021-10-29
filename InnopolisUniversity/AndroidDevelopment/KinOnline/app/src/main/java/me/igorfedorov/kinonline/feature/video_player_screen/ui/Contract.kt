@@ -7,7 +7,8 @@ data class ViewState(
 )
 
 sealed class UIEvent() : Event {
-
+    data class OnGetUrlFromBundle(val url: String) : UIEvent()
+    object OnPlayButtonClick : UIEvent()
 }
 
 sealed class DataEvent() : Event {

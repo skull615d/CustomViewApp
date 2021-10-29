@@ -38,7 +38,7 @@ class MovieInfoFragment : Fragment(R.layout.fragment_movie_info) {
             titleTextView.text = movie.title
             descriptionTextView.text = movie.overview
             playMovieFab.setThrottledClickListener {
-
+                viewModel.processUiEvent(UIEvent.OnPlayButtonCLick(movie.video))
             }
         }
     }

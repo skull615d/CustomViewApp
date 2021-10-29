@@ -3,9 +3,12 @@ package me.igorfedorov.kinonline.di
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.SimpleExoPlayer
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -50,5 +53,13 @@ val ciceroneModule = module {
     /*single {
         MainActivityNavigator(get<MainActivity>())
     }*/
+
+}
+
+val exoPlayerModule = module {
+
+    single<ExoPlayer> {
+        SimpleExoPlayer.Builder(androidApplication()).build()
+    }
 
 }

@@ -1,7 +1,8 @@
 package me.igorfedorov.customviewapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import me.igorfedorov.customviewapp.feature.canvas.CanvasFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

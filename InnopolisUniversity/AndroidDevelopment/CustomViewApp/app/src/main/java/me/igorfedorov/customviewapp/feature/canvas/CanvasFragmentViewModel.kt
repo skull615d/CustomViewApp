@@ -28,6 +28,9 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
                     isPaletteVisible = !previousState.isPaletteVisible
                 )
             }
+            is UIEvent.OnShowPaletteClicked -> {
+                return previousState.copy(isPaletteVisible = !previousState.isPaletteVisible)
+            }
         }
         return null
     }

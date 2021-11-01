@@ -11,5 +11,6 @@ data class ViewState(
 
 sealed class UIEvent : Event {
     object OnToolsClicked : UIEvent()
+    object OnShowPaletteClicked : UIEvent()
     data class OnColorClicked(val index: Int) : UIEvent()
 }

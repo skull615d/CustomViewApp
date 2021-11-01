@@ -12,7 +12,7 @@ fun colorAdapterDelegate(
     adapterDelegateViewBinding<ToolsItem.ColorModel, Item, ItemPaletteBinding>(
         { layoutInflater, parent -> ItemPaletteBinding.inflate(layoutInflater, parent, false) }
     ) {
-        bind { list ->
+        bind {
 
             binding.color.setColorFilter(
                 context.resources.getColor(item.color, null),

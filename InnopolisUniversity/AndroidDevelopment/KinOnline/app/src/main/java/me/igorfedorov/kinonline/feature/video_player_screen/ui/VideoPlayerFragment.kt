@@ -56,19 +56,18 @@ class VideoPlayerFragment : Fragment(R.layout.fragment_video_player) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.videoPlayerView.apply {
-            player = exoPlayer
-            exoPlayer.setMediaItem(MediaItem.fromUri(url))
+            player = viewModel.exoPlayer
+            viewModel.processUiEvent(UIEvent.OnGetUrlFromBundle(url))
         }
     }
 
     private fun initializePlayer() {
-        exoPlayer.playWhenReady = playWhenReady
-        exoPlayer.seekTo(currentWindow, playbackPosition)
-        exoPlayer.prepare()
+        viewModel.initializePlayer()
+
     }
 
     private fun releasePlayer() {
-        exoPlayer.run {
+        viewModel.exoPlayer.run {
             playbackPosition = this.currentPosition
             currentWindow = this.currentWindowIndex
             playWhenReady = this.playWhenReady

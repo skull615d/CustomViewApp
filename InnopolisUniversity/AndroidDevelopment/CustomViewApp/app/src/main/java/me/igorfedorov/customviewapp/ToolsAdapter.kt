@@ -18,6 +18,8 @@ fun colorAdapterDelegate(
                 context.resources.getColor(item.color, null),
                 PorterDuff.Mode.SRC_IN
             )
-            itemView.setOnClickListener { onClick(adapterPosition) }
+            itemView.setOnClickListener {
+                onClick(adapterPosition)
+            }
         }
     }

@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_circle_24.xml" value="0.5958333333333333" />
         <entry key="app/src/main/res/drawable/ic_palette.xml" value="0.39814814814814814" />
         <entry key="app/src/main/res/layout/fragment_canvas.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_line.xml" value="0.5796875" />
         <entry key="app/src/main/res/layout/item_palette.xml" value="0.67" />
         <entry key="app/src/main/res/layout/item_size.xml" value="0.5796875" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.5796875" />

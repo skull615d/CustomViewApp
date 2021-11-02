@@ -8,6 +8,7 @@ import me.igorfedorov.customviewapp.base.canvas_state.SIZE
 data class ViewState(
     val colors: List<ToolsItem.ColorModel>,
     val sizes: List<ToolsItem.SizeModel>,
+    val lines: List<ToolsItem.LineModel>,
     val isToolsVisible: Boolean,
     val canvasViewState: CanvasViewState,
 )

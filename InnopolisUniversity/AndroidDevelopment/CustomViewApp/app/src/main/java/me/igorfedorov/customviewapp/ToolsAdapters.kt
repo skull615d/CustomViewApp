@@ -4,6 +4,7 @@ import android.graphics.PorterDuff
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import me.igorfedorov.customviewapp.base.Item
+import me.igorfedorov.customviewapp.databinding.ItemLineBinding
 import me.igorfedorov.customviewapp.databinding.ItemPaletteBinding
 import me.igorfedorov.customviewapp.databinding.ItemSizeBinding
 
@@ -34,6 +35,22 @@ fun sizeAdapterDelegate(
         bind {
 
             binding.size.text = item.size.name
+
+            itemView.setOnClickListener {
+                onClick(adapterPosition)
+            }
+        }
+    }
+
+fun lineAdapterDelegate(
+    onClick: (Int) -> Unit
+): AdapterDelegate<List<Item>> =
+    adapterDelegateViewBinding<ToolsItem.LineModel, Item, ItemLineBinding>(
+        { layoutInflater, parent -> ItemLineBinding.inflate(layoutInflater, parent, false) }
+    ) {
+        bind {
+
+            binding.line.text = item.line.name
 
             itemView.setOnClickListener {
                 onClick(adapterPosition)

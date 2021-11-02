@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import me.igorfedorov.customviewapp.R
 import me.igorfedorov.customviewapp.ToolsLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import me.igorfedorov.customviewapp.base.canvas_state.LINE as ENUM_LINE
 import me.igorfedorov.customviewapp.base.canvas_state.SIZE as ENUM_SIZE
 
 class CanvasFragment : Fragment(R.layout.fragment_canvas) {
@@ -26,6 +27,7 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
     private val toolsLayouts: List<ToolsLayout> by lazy {
         listOf(
             requireActivity().findViewById(R.id.palette),
+            requireActivity().findViewById(R.id.size),
             requireActivity().findViewById(R.id.line)
         )
     }
@@ -40,6 +42,9 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
         }
         toolsLayouts[SIZE].setOnClickListener {
             viewModel.processUiEvent(UIEvent.OnSizeClicked(ENUM_SIZE.values()[it]))
+        }
+        toolsLayouts[LINE].setOnClickListener {
+            viewModel.processUiEvent(UIEvent.OnLineClicked(ENUM_LINE.values()[it]))
         }
         viewModel.viewState.observe(viewLifecycleOwner, ::render)
     }
@@ -61,6 +66,8 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
         toolsLayouts[PALETTE].render(viewState.colors)
         toolsLayouts[SIZE].isGone = !viewState.isToolsVisible
         toolsLayouts[SIZE].render(viewState.sizes)
+        toolsLayouts[LINE].isGone = !viewState.isToolsVisible
+        toolsLayouts[LINE].render(viewState.lines)
         requireActivity().findViewById<DrawView>(R.id.drawView).render(viewState.canvasViewState)
     }
 

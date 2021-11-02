@@ -12,6 +12,7 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
     override fun initialViewState() = ViewState(
         colors = enumValues<COLOR>().map { ToolsItem.ColorModel(it.value) },
         sizes = enumValues<SIZE>().map { ToolsItem.SizeModel(it) },
+        lines = enumValues<LINE>().map { ToolsItem.LineModel(it) },
         isToolsVisible = false,
         canvasViewState = CanvasViewState(
             color = COLOR.BLACK,
@@ -50,7 +51,7 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
                 return previousState.copy(
                     isToolsVisible = !previousState.isToolsVisible,
                     canvasViewState = previousState.canvasViewState.copy(
-                        line = event.line
+                        line = previousState.lines[event.line.ordinal].line
                     )
                 )
             }

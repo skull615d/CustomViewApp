@@ -23,7 +23,11 @@ class ToolsLayout @JvmOverloads constructor(
         },
         sizeAdapterDelegate {
             onClick(it)
-        })
+        },
+        lineAdapterDelegate {
+            onClick(it)
+        }
+    )
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

@@ -16,7 +16,7 @@
         android:id="@+id/drawView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/palette"
+        app:layout_constraintBottom_toTopOf="@+id/line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -29,7 +29,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/palette_picker_image_view" />
 
     <include
         android:id="@+id/size"
@@ -39,7 +39,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/palette"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/sizePickerImageView" />
 
     <include
         android:id="@+id/line"
@@ -49,6 +49,29 @@
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/size"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linePickerImageView" />
+
+    <ImageView
+        android:id="@+id/palette_picker_image_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/sizePickerImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/palette_picker_image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_size_small" />
+
+    <ImageView
+        android:id="@+id/linePickerImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/sizePickerImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_mode_edit_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

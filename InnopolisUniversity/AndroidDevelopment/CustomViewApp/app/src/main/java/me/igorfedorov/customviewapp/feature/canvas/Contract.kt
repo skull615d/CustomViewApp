@@ -10,12 +10,18 @@ data class ViewState(
     val sizes: List<ToolsItem.SizeModel>,
     val lines: List<ToolsItem.LineModel>,
     val isToolsVisible: Boolean,
+    val isPaletteToolsVisible: Boolean,
+    val isSizeToolsVisible: Boolean,
+    val isLineToolsVisible: Boolean,
     val canvasViewState: CanvasViewState,
 )
 
 sealed class UIEvent : Event {
     object OnToolsClicked : UIEvent()
-    object OnShowPaletteClicked : UIEvent()
+    object OnPaletteToolsClicked : UIEvent()
+    object OnSizeToolsClicked : UIEvent()
+    object OnLineToolsClicked : UIEvent()
+    object OnShowTools : UIEvent()
     data class OnColorClicked(val index: Int) : UIEvent()
     data class OnSizeClicked(val size: SIZE) : UIEvent()
     data class OnLineClicked(val line: LINE) : UIEvent()

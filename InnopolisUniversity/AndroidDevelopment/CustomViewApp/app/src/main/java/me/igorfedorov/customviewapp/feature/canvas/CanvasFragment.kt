@@ -5,8 +5,11 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import me.igorfedorov.customviewapp.R
 import me.igorfedorov.customviewapp.ToolsLayout
+import me.igorfedorov.customviewapp.base.utils.setThrottledClickListener
+import me.igorfedorov.customviewapp.databinding.FragmentCanvasBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import me.igorfedorov.customviewapp.base.canvas_state.LINE as ENUM_LINE
 import me.igorfedorov.customviewapp.base.canvas_state.SIZE as ENUM_SIZE
@@ -24,6 +27,8 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
 
     private val viewModel: CanvasFragmentViewModel by viewModel()
 
+    private val binding: FragmentCanvasBinding by viewBinding()
+
     private val toolsLayouts: List<ToolsLayout> by lazy {
         listOf(
             requireActivity().findViewById(R.id.palette),
@@ -37,6 +42,8 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
 
         initToolbar()
 
+        setOnToolsClickListeners()
+
         toolsLayouts[PALETTE].setOnClickListener {
             viewModel.processUiEvent(UIEvent.OnColorClicked(it))
         }
@@ -49,11 +56,29 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
         viewModel.viewState.observe(viewLifecycleOwner, ::render)
     }
 
+    private fun setOnToolsClickListeners() {
+        binding.apply {
+            palettePickerImageView.setThrottledClickListener {
+                viewModel.processUiEvent(UIEvent.OnPaletteToolsClicked)
+            }
+            sizePickerImageView.setThrottledClickListener {
+                viewModel.processUiEvent(UIEvent.OnSizeToolsClicked)
+            }
+            linePickerImageView.setThrottledClickListener {
+                viewModel.processUiEvent(UIEvent.OnLineToolsClicked)
+            }
+        }
+    }
+
     private fun initToolbar() {
         requireActivity().findViewById<Toolbar>(R.id.toolbar).setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.show_palette -> {
-                    viewModel.processUiEvent(UIEvent.OnShowPaletteClicked)
+                    viewModel.processUiEvent(UIEvent.OnShowTools)
+                    true
+                }
+                R.id.delete_drawing -> {
+                    requireActivity().findViewById<DrawView>(R.id.drawView).clear()
                     true
                 }
                 else -> false
@@ -62,13 +87,47 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
     }
 
     private fun render(viewState: ViewState) {
-        toolsLayouts[PALETTE].isGone = !viewState.isToolsVisible
+
+        renderPalettePickerImageView(viewState)
+        renderLinePickerImageView(viewState)
+        renderSizePickerImageView(viewState)
+
+        toolsLayouts[PALETTE].isGone = !viewState.isPaletteToolsVisible
         toolsLayouts[PALETTE].render(viewState.colors)
-        toolsLayouts[SIZE].isGone = !viewState.isToolsVisible
+        toolsLayouts[SIZE].isGone = !viewState.isSizeToolsVisible
         toolsLayouts[SIZE].render(viewState.sizes)
-        toolsLayouts[LINE].isGone = !viewState.isToolsVisible
+        toolsLayouts[LINE].isGone = !viewState.isLineToolsVisible
         toolsLayouts[LINE].render(viewState.lines)
         requireActivity().findViewById<DrawView>(R.id.drawView).render(viewState.canvasViewState)
     }
 
+    private fun renderSizePickerImageView(viewState: ViewState) {
+        binding.sizePickerImageView.isGone = !viewState.isToolsVisible
+        binding.sizePickerImageView.setImageResource(
+            when (viewState.canvasViewState.size) {
+                ENUM_SIZE.SMALL -> {
+                    R.drawable.ic_size_small
+                }
+                ENUM_SIZE.MEDIUM -> {
+                    R.drawable.ic_size_medium
+                }
+                ENUM_SIZE.LARGE -> {
+                    R.drawable.ic_size_large
+                }
+            }
+        )
+    }
+
+    private fun renderLinePickerImageView(viewState: ViewState) {
+        binding.linePickerImageView.isGone = !viewState.isToolsVisible
+    }
+
+    private fun renderPalettePickerImageView(viewState: ViewState) {
+        binding.palettePickerImageView.apply {
+            isGone = !viewState.isToolsVisible
+            setBackgroundColor(
+                resources.getColor(viewState.canvasViewState.color.value, null)
+            )
+        }
+    }
 }

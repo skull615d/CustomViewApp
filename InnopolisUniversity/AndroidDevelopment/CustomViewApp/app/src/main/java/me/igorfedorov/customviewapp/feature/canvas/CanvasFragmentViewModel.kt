@@ -14,6 +14,9 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
         sizes = enumValues<SIZE>().map { ToolsItem.SizeModel(it) },
         lines = enumValues<LINE>().map { ToolsItem.LineModel(it) },
         isToolsVisible = false,
+        isPaletteToolsVisible = false,
+        isSizeToolsVisible = false,
+        isLineToolsVisible = false,
         canvasViewState = CanvasViewState(
             color = COLOR.BLACK,
             size = SIZE.SMALL,
@@ -26,11 +29,12 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
             /*is UIEvent.OnToolsClicked -> {
                 return previousState.copy(isToolsVisible = !previousState.isToolsVisible)
             }*/
-            is UIEvent.OnShowPaletteClicked -> {
+            is UIEvent.OnShowTools -> {
                 return previousState.copy(isToolsVisible = !previousState.isToolsVisible)
             }
             is UIEvent.OnColorClicked -> {
                 return previousState.copy(
+                    isPaletteToolsVisible = !previousState.isPaletteToolsVisible,
                     canvasViewState = previousState.canvasViewState.copy(
                         color = COLOR.from(
                             previousState.colors[event.index].color
@@ -40,6 +44,7 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
             }
             is UIEvent.OnSizeClicked -> {
                 return previousState.copy(
+                    isSizeToolsVisible = !previousState.isSizeToolsVisible,
                     canvasViewState = previousState.canvasViewState.copy(
                         size = previousState.sizes[event.size.ordinal].size
                     )
@@ -47,10 +52,20 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
             }
             is UIEvent.OnLineClicked -> {
                 return previousState.copy(
+                    isLineToolsVisible = !previousState.isLineToolsVisible,
                     canvasViewState = previousState.canvasViewState.copy(
                         line = previousState.lines[event.line.ordinal].line
                     )
                 )
+            }
+            is UIEvent.OnPaletteToolsClicked -> {
+                return previousState.copy(isPaletteToolsVisible = !previousState.isPaletteToolsVisible)
+            }
+            is UIEvent.OnSizeToolsClicked -> {
+                return previousState.copy(isSizeToolsVisible = !previousState.isSizeToolsVisible)
+            }
+            is UIEvent.OnLineToolsClicked -> {
+                return previousState.copy(isLineToolsVisible = !previousState.isLineToolsVisible)
             }
         }
         return null

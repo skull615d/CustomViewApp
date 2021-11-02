@@ -9,4 +9,11 @@
         android:title="@string/palette"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/delete_drawing"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_delete_forever_24"
+        android:title="@string/delete_drawing"
+        app:showAsAction="collapseActionView" />
+
 </menu>

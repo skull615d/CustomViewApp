@@ -23,9 +23,9 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
 
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
-            is UIEvent.OnToolsClicked -> {
+            /*is UIEvent.OnToolsClicked -> {
                 return previousState.copy(isToolsVisible = !previousState.isToolsVisible)
-            }
+            }*/
             is UIEvent.OnShowPaletteClicked -> {
                 return previousState.copy(isToolsVisible = !previousState.isToolsVisible)
             }
@@ -35,13 +35,11 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
                         color = COLOR.from(
                             previousState.colors[event.index].color
                         )
-                    ),
-                    isToolsVisible = !previousState.isToolsVisible
+                    )
                 )
             }
             is UIEvent.OnSizeClicked -> {
                 return previousState.copy(
-                    isToolsVisible = !previousState.isToolsVisible,
                     canvasViewState = previousState.canvasViewState.copy(
                         size = previousState.sizes[event.size.ordinal].size
                     )
@@ -49,7 +47,6 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
             }
             is UIEvent.OnLineClicked -> {
                 return previousState.copy(
-                    isToolsVisible = !previousState.isToolsVisible,
                     canvasViewState = previousState.canvasViewState.copy(
                         line = previousState.lines[event.line.ordinal].line
                     )

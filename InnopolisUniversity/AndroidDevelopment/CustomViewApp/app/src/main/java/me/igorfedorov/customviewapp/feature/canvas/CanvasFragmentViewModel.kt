@@ -10,7 +10,9 @@ class CanvasFragmentViewModel : BaseViewModel<ViewState>() {
     override fun initialViewState() = ViewState(
         colors = enumValues<COLOR>().map { ToolsItem.ColorModel(it.value) },
         isPaletteVisible = false,
-        canvasViewState = CanvasViewState(COLOR.BLACK)
+        canvasViewState = CanvasViewState(
+            color = COLOR.BLACK
+        )
     )
 
     override suspend fun reduce(event: Event, previousState: ViewState): ViewState? {

@@ -112,6 +112,7 @@ class DrawView @JvmOverloads constructor(
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(width, height, oldWidth, oldHeight)
+        // Changed extraBitmap.recycle() to return for not to redraw onSizeChanged
         if (::extraBitmap.isInitialized) extraBitmap.recycle()
         extraBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         extraCanvas = Canvas(extraBitmap)

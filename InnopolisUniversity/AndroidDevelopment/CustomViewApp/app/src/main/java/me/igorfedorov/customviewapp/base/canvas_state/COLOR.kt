@@ -1,4 +1,4 @@
-package me.igorfedorov.customviewapp.base
+package me.igorfedorov.customviewapp.base.canvas_state
 
 import androidx.annotation.ColorRes
 import me.igorfedorov.customviewapp.R

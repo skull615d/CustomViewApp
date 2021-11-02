@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/ic_palette.xml" value="0.39814814814814814" />
         <entry key="app/src/main/res/layout/fragment_canvas.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_palette.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/item_size.xml" value="0.5796875" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.5796875" />
         <entry key="app/src/main/res/layout/tools_view.xml" value="0.5796875" />
         <entry key="app/src/main/res/layout/view_tools.xml" value="0.5799895779051589" />

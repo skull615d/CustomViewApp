@@ -8,12 +8,15 @@ import androidx.fragment.app.Fragment
 import me.igorfedorov.customviewapp.R
 import me.igorfedorov.customviewapp.ToolsLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import me.igorfedorov.customviewapp.base.canvas_state.SIZE as ENUM_SIZE
 
 class CanvasFragment : Fragment(R.layout.fragment_canvas) {
 
     companion object {
 
         private const val PALETTE = 0
+        private const val SIZE = 1
+        private const val LINE = 2
 
         fun newInstance() = CanvasFragment()
     }
@@ -21,7 +24,10 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
     private val viewModel: CanvasFragmentViewModel by viewModel()
 
     private val toolsLayouts: List<ToolsLayout> by lazy {
-        listOf(requireActivity().findViewById(R.id.palette))
+        listOf(
+            requireActivity().findViewById(R.id.palette),
+            requireActivity().findViewById(R.id.line)
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,6 +37,9 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
 
         toolsLayouts[PALETTE].setOnClickListener {
             viewModel.processUiEvent(UIEvent.OnColorClicked(it))
+        }
+        toolsLayouts[SIZE].setOnClickListener {
+            viewModel.processUiEvent(UIEvent.OnSizeClicked(ENUM_SIZE.values()[it]))
         }
         viewModel.viewState.observe(viewLifecycleOwner, ::render)
     }
@@ -48,8 +57,10 @@ class CanvasFragment : Fragment(R.layout.fragment_canvas) {
     }
 
     private fun render(viewState: ViewState) {
-        toolsLayouts[PALETTE].isGone = !viewState.isPaletteVisible
+        toolsLayouts[PALETTE].isGone = !viewState.isToolsVisible
         toolsLayouts[PALETTE].render(viewState.colors)
+        toolsLayouts[SIZE].isGone = !viewState.isToolsVisible
+        toolsLayouts[SIZE].render(viewState.sizes)
         requireActivity().findViewById<DrawView>(R.id.drawView).render(viewState.canvasViewState)
     }
 

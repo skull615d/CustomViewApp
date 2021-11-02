@@ -5,6 +5,7 @@ import com.hannesdorfmann.adapterdelegates4.AdapterDelegate
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import me.igorfedorov.customviewapp.base.Item
 import me.igorfedorov.customviewapp.databinding.ItemPaletteBinding
+import me.igorfedorov.customviewapp.databinding.ItemSizeBinding
 
 fun colorAdapterDelegate(
     onClick: (Int) -> Unit
@@ -18,6 +19,22 @@ fun colorAdapterDelegate(
                 context.resources.getColor(item.color, null),
                 PorterDuff.Mode.SRC_IN
             )
+            itemView.setOnClickListener {
+                onClick(adapterPosition)
+            }
+        }
+    }
+
+fun sizeAdapterDelegate(
+    onClick: (Int) -> Unit
+): AdapterDelegate<List<Item>> =
+    adapterDelegateViewBinding<ToolsItem.SizeModel, Item, ItemSizeBinding>(
+        { layoutInflater, parent -> ItemSizeBinding.inflate(layoutInflater, parent, false) }
+    ) {
+        bind {
+
+            binding.size.text = item.size.name
+
             itemView.setOnClickListener {
                 onClick(adapterPosition)
             }

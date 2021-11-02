@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import androidx.core.content.res.ResourcesCompat
 import me.igorfedorov.customviewapp.R
+import me.igorfedorov.customviewapp.base.canvas_state.LINE
 import kotlin.math.abs
 
 class DrawView @JvmOverloads constructor(
@@ -53,6 +54,23 @@ class DrawView @JvmOverloads constructor(
     fun render(state: CanvasViewState) {
         drawColor = ResourcesCompat.getColor(resources, state.color.value, null)
         paint.color = drawColor
+        paint.strokeWidth = state.size.value.toFloat()
+        // When expression to simplify adding new Line states
+        when (state.line) {
+            LINE.BROKEN -> {
+                paint.pathEffect = DashPathEffect(
+                    floatArrayOf(
+                        state.size.value.toFloat() * 2,
+                        state.size.value.toFloat() * 2,
+                        state.size.value.toFloat() * 2,
+                        state.size.value.toFloat() * 2
+                    ), 0f
+                )
+            }
+            LINE.CONTINUOUS -> {
+                paint.pathEffect = null
+            }
+        }
     }
 
     fun clear() {
@@ -113,7 +131,7 @@ class DrawView @JvmOverloads constructor(
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(width, height, oldWidth, oldHeight)
         // Changed extraBitmap.recycle() to return for not to redraw onSizeChanged
-        if (::extraBitmap.isInitialized) extraBitmap.recycle()
+        if (::extraBitmap.isInitialized) return
         extraBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         extraCanvas = Canvas(extraBitmap)
     }

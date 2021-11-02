@@ -17,9 +17,13 @@ class ToolsLayout @JvmOverloads constructor(
 
     private var onClick: (Int) -> Unit = {}
 
-    private val adapterDelegate = ListDelegationAdapter(colorAdapterDelegate {
-        onClick(it)
-    })
+    private val adapterDelegate = ListDelegationAdapter(
+        colorAdapterDelegate {
+            onClick(it)
+        },
+        sizeAdapterDelegate {
+            onClick(it)
+        })
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

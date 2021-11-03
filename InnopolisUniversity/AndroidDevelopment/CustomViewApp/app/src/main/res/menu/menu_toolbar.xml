@@ -15,5 +15,11 @@
         android:icon="@drawable/ic_baseline_delete_forever_24"
         android:title="@string/delete_drawing"
         app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/save"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:title="@string/save"
+        app:showAsAction="collapseActionView" />
 
 </menu>

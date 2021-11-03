@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Black/AndroidStudioProjects/Study/InnopolisUniversity/AndroidDevelopment/CustomViewApp/app/src/main/res/layout/fragment_canvas.xml" value="0.3546875" />
+        <entry key="..\:/Users/Black/AndroidStudioProjects/Study/InnopolisUniversity/AndroidDevelopment/CustomViewApp/app/src/main/res/menu/menu_toolbar.xml" value="0.3546875" />
         <entry key="app/src/main/res/drawable/ic_baseline_circle_24.xml" value="0.5958333333333333" />
         <entry key="app/src/main/res/drawable/ic_palette.xml" value="0.39814814814814814" />
         <entry key="app/src/main/res/layout/fragment_canvas.xml" value="0.5" />
@@ -16,7 +18,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
